@@ -6,6 +6,7 @@ python:
 # command to install dependencies
 install:
   - pip install -r requirements.txt
+  - pip install codecov
 # command to run tests
 script: 
   - nosetests --verbosity=3 -x --with-coverage --cover-package=graph,osm,utils  --cover-html

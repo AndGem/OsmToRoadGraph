@@ -60,7 +60,7 @@ class Graph(object):
 
         # write node information
         for v in self.vertices:
-            f.write("{}\n".format(v))
+            f.write("{}\n".format(v.description))
 
         # write edge information
         for e in self.edges:

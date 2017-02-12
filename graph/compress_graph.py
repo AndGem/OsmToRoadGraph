@@ -5,13 +5,46 @@ import graphfactory
 
 
 def contract(graph):
+    all_new_edges = find_new_edges(graph)
+    filtered_edges = remove_duplicates(all_new_edges)
+    node_ids = gather_node_ids(filtered_edges)
+    nodes = get_nodes(graph, node_ids)
+    print("done")
+    print("creating graph...")
 
+    return graphfactory.build_graph_from_vertices_edges(nodes, filtered_edges)
+
+
+def get_nodes(graph, node_ids):
+    nodes = list(map(lambda node_id: graph.get_node(node_id), node_ids))
+    return nodes
+
+
+def gather_node_ids(edges):
+    print("gathering nodes...")
+    node_ids = set()
+    for e in edges:
+        node_ids.add(e.s)
+        node_ids.add(e.t)
+    return node_ids
+
+
+def remove_duplicates(edges):
+    print("removing duplicate edges...")
+    added_edges = set()
+    filtered_edges = []
+    for edge in edges:
+        if (edge.s, edge.t) not in added_edges and (edge.t, edge.s) not in added_edges:
+            added_edges.add((edge.s, edge.t))
+            filtered_edges.append(edge)
+
+    return filtered_edges
+
+
+def find_new_edges(graph):
     edge_by_s_t = edge_mapping(graph)
-
-    # find stuff
-    all_edges = []
+    all_new_edges = []
     for node_id in range(len(graph.vertices)):
-
         if is_important_node(graph, node_id):
             neighbors = graph.all_neighbors(node_id)
             for neighbor in neighbors:
@@ -19,28 +52,9 @@ def contract(graph):
                 edges = get_edges(node_list, edge_by_s_t)
                 new_edge = merge_edges(edges)
                 if new_edge:
-                    all_edges.append(new_edge)
+                    all_new_edges.append(new_edge)
 
-    # 
-    print("removing duplciate edges...")
-    added_edges = set()
-    filtered_edges = []
-    for edge in all_edges:
-        if (edge.s, edge.t) not in added_edges and (edge.t, edge.s) not in added_edges:
-            added_edges.add((edge.s, edge.t))
-            filtered_edges.append(edge)
-
-    print("gathering nodes...")
-    vertex_ids = set()
-    for e in all_edges:
-        vertex_ids.add(e.s)
-        vertex_ids.add(e.t)
-
-    nodes = list(map(lambda n: graph.vertices[n], vertex_ids))
-    print("done")
-    print("creating graph...")
-
-    return graphfactory.build_graph_from_vertices_edges(nodes, filtered_edges)
+    return all_new_edges
 
 
 def edge_mapping(graph):

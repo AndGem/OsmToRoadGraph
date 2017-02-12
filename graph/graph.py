@@ -25,6 +25,9 @@ class Graph(object):
         self.outneighbors.append(set())
         self.inneighbors.append(set())
 
+    def get_node(self, node_id):
+        return self.vertices[node_id]
+
     def edge_description(self, edge_id):
         return "{}".format(self.edges[edge_id].description)
 

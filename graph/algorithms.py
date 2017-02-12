@@ -4,19 +4,16 @@ import graphfactory
 
 
 def BFS(graph, s):
-    found_nodes = set([s])
-    current_nodes = deque([s])
+    seen_nodes = set([s])
+    unvisited_nodes = deque([s])
 
-    while len(current_nodes) > 0:
-        node_id = current_nodes.popleft()
+    while len(unvisited_nodes) > 0:
+        node_id = unvisited_nodes.popleft()
+        unseen_nodes = filter(lambda n: n not in seen_nodes, graph.all_neighbors(node_id))
+        seen_nodes.update(unseen_nodes)
+        unvisited_nodes.extend(unseen_nodes)
 
-        # add all unvisited nodes to current_nodes
-        for neighbor in graph.all_neighbors(node_id):
-            if neighbor not in found_nodes:
-                current_nodes.append(neighbor)
-                found_nodes.add(neighbor)
-
-    return found_nodes
+    return seen_nodes
 
 
 def computeLCC(graph):

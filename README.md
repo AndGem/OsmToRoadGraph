@@ -1,6 +1,6 @@
 # OsmToRoadGraph
 
-′′′
+```
 Usage: run.py [options]
 
 Options:
@@ -11,4 +11,4 @@ Options:
   -v, --verbose
   -l, --nolcc
   -c, --contract
-′′′
+```

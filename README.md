@@ -1,5 +1,8 @@
 # OsmToRoadGraph
 
+[![Build Status](https://travis-ci.org/AndGem/OsmToRoadGraph.svg?branch=master)](https://travis-ci.org/AndGem/OsmToRoadGraph)
+
+
 ```
 Usage: run.py [options]
 

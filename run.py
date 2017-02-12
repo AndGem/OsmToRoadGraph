@@ -8,7 +8,7 @@ from optparse import OptionParser
 
 import configuration as config
 from osm.xml_handler import NodeHandler, WayHandler, PercentageFile
-from graph.compress_graph import contract
+from graph.contract_graph import contract
 import graph.algorithms as algorithms
 import graph.graphfactory as graphfactory
 

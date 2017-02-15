@@ -7,8 +7,14 @@ import hashlib
 
 class IntegrationTest(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(self):
+    ClassIsSetup = False
+
+    def setUp(self):
+        if not self.ClassIsSetup:
+            self.bar()
+            self.__class__.ClassIsSetup = True
+
+    def bar(self):
         call(["python", "run.py", "-f", "data/karlsruhe_small.osm", "-n", "p", "-c"])
 
     def pedestrian_graph_ok_test(self):

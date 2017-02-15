@@ -2,6 +2,7 @@ from builtins import range
 from copy import deepcopy
 
 import graphfactory
+import graph_types
 
 
 def contract(graph):
@@ -88,7 +89,7 @@ def merge_edges(edges):
     if edges:
         s, t = edges[0].s, edges[-1].t
         if s != t:
-            return graphfactory.SimpleEdge(s, t, sum([e.length for e in edges]))
+            return graph_types.SimpleEdge(s, t, sum([e.length for e in edges]))
 
     return None
 

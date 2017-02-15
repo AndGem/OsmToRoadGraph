@@ -17,8 +17,10 @@ class IntegrationTest(unittest.TestCase):
     def pedestrian_graph_names_ok_test(self):
         self.assertEquals(hashlib.md5(open("data/karlsruhe_small.pypgr_names", 'rb').read()).hexdigest(), "2837fe0e24267d24a7b2e2335bcad687")
 
+    @unittest.skip("testing skipping")
     def pedestrian_graph_c_names_ok_test(self):
         self.assertEquals(hashlib.md5(open("data/karlsruhe_small.pypgrc_names", 'rb').read()).hexdigest(), "3eec807f0b21c25a535b31a4f09a0881")
 
+    @unittest.skip("testing skipping")
     def pedestrian_graph_c_ok_test(self):
         self.assertEquals(hashlib.md5(open("data/karlsruhe_small.pypgrc", 'rb').read()).hexdigest(), "bea4d974990b5e9f022e57903ae0baa5")

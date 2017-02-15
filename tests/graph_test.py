@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import unittest
 
 from graph.graph import Graph
-from graph.graphfactory import Edge, Vertex
+from graph.graph_types import Edge, Vertex
 
 
 class GraphTest(unittest.TestCase):

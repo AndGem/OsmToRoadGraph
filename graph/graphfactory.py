@@ -6,8 +6,10 @@ import copy
 import graph.graph as graph
 import graph.graph_types as graph_types
 import utils.geo_tools as geo_tools
+import utils.timer as timer
 
 
+@timer.timer(active=True)
 def build_graph_from_osm(nodes, ways):
 
     assert isinstance(nodes, dict)
@@ -33,9 +35,8 @@ def build_graph_from_osm(nodes, ways):
     return g
 
 
+@timer.timer(active=True)
 def build_graph_from_vertices_edges(vertices, edges):
-    print("constructing new graph...")
-
     g = graph.Graph()
 
     # 1. add all nodes and create mapping to 0 based index nodes
@@ -51,5 +52,4 @@ def build_graph_from_vertices_edges(vertices, edges):
         e.t = id_mapper[e.t]
         g.add_edge(e)
 
-    print("finished constructing new graph!")
     return g

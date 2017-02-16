@@ -1,6 +1,7 @@
 from collections import deque
 
 import graphfactory
+import utils.timer as timer
 
 
 def BFS(graph, s):
@@ -16,6 +17,7 @@ def BFS(graph, s):
     return seen_nodes
 
 
+@timer.timer(active=True)
 def computeLCC(graph):
 
     # repeatedly run BFS searches until all vertices have been reached
@@ -29,7 +31,7 @@ def computeLCC(graph):
     # determine largest connected components
     lcc = max(found_nodes, key=lambda component: len(component))
 
-    print("LCC contains {} nodes (removed {} nodes)".format(len(lcc), len(graph.vertices) - len(lcc)))
+    print("\t LCC contains {} nodes (removed {} nodes)".format(len(lcc), len(graph.vertices) - len(lcc)))
     return lcc
 
 

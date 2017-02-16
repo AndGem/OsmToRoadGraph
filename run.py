@@ -56,7 +56,7 @@ def generateGraph(filename, network_type, options):
     if options.contract:
         start_time = time.time()
         print("contracting graph...")
-        contracted_graph = contract(graph)
+        contracted_graph = contract.contract(graph)
         print("contracting finished")
         output.write_to_file(contracted_graph, out_file, "{}c".format(configuration.get_file_extension()))
         print_verbose()

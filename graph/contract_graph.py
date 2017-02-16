@@ -4,14 +4,15 @@ from copy import deepcopy
 import graphfactory
 import graph_types
 
+import utils.timer as timer
 
+
+@timer.timer(active=True)
 def contract(graph):
     all_new_edges = find_new_edges(graph)
     filtered_edges = remove_duplicates(all_new_edges)
     node_ids = gather_node_ids(filtered_edges)
     nodes = get_nodes(graph, node_ids)
-    print("done")
-    print("creating graph...")
 
     return graphfactory.build_graph_from_vertices_edges(nodes, filtered_edges)
 
@@ -22,7 +23,7 @@ def get_nodes(graph, node_ids):
 
 
 def gather_node_ids(edges):
-    print("gathering nodes...")
+    print("\t gathering nodes...")
     node_ids = set()
     for e in edges:
         node_ids.add(e.s)
@@ -31,7 +32,7 @@ def gather_node_ids(edges):
 
 
 def remove_duplicates(edges):
-    print("removing duplicate edges...")
+    print("\t removing duplicate edges...")
     added_edges = set()
     filtered_edges = []
     for edge in edges:
@@ -96,7 +97,7 @@ def merge_edges(edges):
 
 def nodes_to_next_important_node(graph, start_node, next_node):
     if start_node == next_node:
-        print("something is wrong here...")
+        print("\t something is wrong here...")
         return []
 
     nodes = [start_node, next_node]

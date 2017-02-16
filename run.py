@@ -1,10 +1,7 @@
 from __future__ import print_function
-import sys
-import time
 from optparse import OptionParser
 
 import configuration as config
-
 import graph.contract_graph as contract
 import graph.algorithms as algorithms
 import graph.graphfactory as graphfactory
@@ -14,11 +11,6 @@ import output.write_graph as output
 
 
 def generateGraph(filename, network_type, options):
-
-    def print_verbose():
-        if options.verbose:
-            print("done!")
-            print("{}s".format(time.time() - start_time))
 
     configuration = config.Configuration(network_type)
 
@@ -31,35 +23,18 @@ def generateGraph(filename, network_type, options):
 
     nodes, ways = osm.read_osm.read_file(filename, configuration)
 
-    print("\n sanitizing input...")
-    start_time = time.time()
     osm.sanitize_input.sanitize_input(ways, nodes)
 
-    print_verbose()
-    print("\n constructing graph...", end="")
-    sys.stdout.flush()
-
-    start_time = time.time()
     graph = graphfactory.build_graph_from_osm(nodes, ways)
 
     if not options.lcc:
-        print("\n computing (L)argest (C)onnected (C)omponent...", end="")
-        sys.stdout.flush()
         graph = algorithms.computeLCCGraph(graph)
-        print(" done!")
 
-    print("writing data...",)
     output.write_to_file(graph, out_file, configuration.get_file_extension())
 
-    print_verbose()
-
     if options.contract:
-        start_time = time.time()
-        print("contracting graph...")
         contracted_graph = contract.contract(graph)
-        print("contracting finished")
         output.write_to_file(contracted_graph, out_file, "{}c".format(configuration.get_file_extension()))
-        print_verbose()
 
 
 if __name__ == "__main__":

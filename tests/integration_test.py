@@ -24,7 +24,8 @@ class IntegrationTest(unittest.TestCase):
         self.assertEquals(nmb_edges, 1886)
 
     def execute_program(self):
-        call(["python", "run.py", "-f", "data/karlsruhe_small.osm", "-n", "p", "-c"])
+        returncode = call(["python", "run.py", "-f", "data/karlsruhe_small.osm", "-n", "p", "-c"])
+        self.assertEqual(0, returncode)
 
     def get_nmb_nodes_edges(self, path):
         f = open(path)

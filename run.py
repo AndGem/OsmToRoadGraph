@@ -11,6 +11,7 @@ from osm.xml_handler import NodeHandler, WayHandler, PercentageFile
 from graph.contract_graph import contract
 import graph.algorithms as algorithms
 import graph.graphfactory as graphfactory
+import output.write_graph as output
 
 
 def remove_adjacent_duplicates(nodes):
@@ -133,7 +134,7 @@ def generateGraph(filename, network_type, options):
         print(" done!")
 
     print("writing data...",)
-    graph.write_to_file(out_file, configuration.get_file_extension())
+    output.write_to_file(graph, out_file, configuration.get_file_extension())
 
     print_verbose()
 
@@ -142,7 +143,7 @@ def generateGraph(filename, network_type, options):
         print("contracting graph...")
         contracted_graph = contract(graph)
         print("contracting finished")
-        contracted_graph.write_to_file(out_file, "{}c".format(configuration.get_file_extension()))
+        output.write_to_file(contracted_graph, out_file, "{}c".format(configuration.get_file_extension()))
         print_verbose()
 
 

@@ -1,5 +1,4 @@
 import codecs
-import operator
 
 
 class Graph(object):
@@ -64,8 +63,7 @@ class Graph(object):
             f.write("{}\n".format(v.description))
 
         # write edge information
-        sorted_edges = sorted(self.edges, key=lambda x: (x.s, x.t))
-        for e in sorted_edges:
+        for e in self.edges:
             f.write("{}\n".format(e.description))
             f_names.write(e.name)
             f_names.write("\n")

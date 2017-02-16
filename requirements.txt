@@ -1,2 +1,3 @@
 future==0.16.0
 coverage==4.3.4
+sh==1.12.9

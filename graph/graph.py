@@ -1,5 +1,3 @@
-import codecs
-
 
 class Graph(object):
 
@@ -36,37 +34,3 @@ class Graph(object):
 
     def all_neighbors(self, node_id):
         return list(self.outneighbors[node_id].union(self.inneighbors[node_id]))
-
-    def write_to_file(self, filename_base, filename_ext):
-        filename = "{}.{}".format(filename_base, filename_ext)
-        print("writing {}".format(filename))
-
-        file_header = "# Road Graph File v.0.3"
-        header = """# number of nodes
-                    # number of edges
-                    # node_properties
-                    # ...
-                    # edge_properties
-                    # ..."""
-
-        f = open(filename, "w")
-        f_names = codecs.open("{}_names".format(filename), "w", "utf-8")
-
-        f.write("{}\n".format(file_header))
-        f.write("{}\n".format(header))
-
-        f.write("{}\n".format(len(self.vertices)))
-        f.write("{}\n".format(len(self.edges)))
-
-        # write node information
-        for v in self.vertices:
-            f.write("{}\n".format(v.description))
-
-        # write edge information
-        for e in self.edges:
-            f.write("{}\n".format(e.description))
-            f_names.write(e.name)
-            f_names.write("\n")
-
-        f.close()
-        f_names.close()

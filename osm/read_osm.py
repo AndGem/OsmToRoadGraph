@@ -7,7 +7,6 @@ import utils.timer as timer
 @timer.timer(active=True)
 def _read_ways(osm_file, configuration):
     parser = xml.sax.make_parser()
-
     w_handler = WayHandler(configuration)
 
     parser.setContentHandler(w_handler)

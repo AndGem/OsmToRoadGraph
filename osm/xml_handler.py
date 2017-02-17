@@ -12,9 +12,7 @@ class PercentageFile(object):
         self.size = os.stat(filename)[6]
         self.delivered = 0
         self.f = file(filename)
-        self.percentages = [1000] + [100 - 10 * x for x in range(0, 10)]
-        print("0%", end="")
-        sys.stdout.flush()
+        self.percentages = [1000] + [100 - 10 * x for x in range(0, 11)]
 
     def read(self, size=None):
         if size is None:
@@ -24,9 +22,12 @@ class PercentageFile(object):
         self.delivered += len(data)
 
         if self.percentage >= self.percentages[-1]:
-            print("..{}%".format(self.percentages[-1]), end="")
+            if self.percentages[-1] < 100:
+                print("{}%..".format(self.percentages[-1]), end="")
+                sys.stdout.flush()
+            else:
+                print("100%")
             self.percentages = self.percentages[:-1]
-            sys.stdout.flush()
         return data
 
     @property

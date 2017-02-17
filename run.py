@@ -10,7 +10,7 @@ import osm.sanitize_input
 import output.write_graph as output
 
 
-def generateGraph(filename, network_type, options):
+def generate_graph(filename, network_type, options):
 
     configuration = config.Configuration(network_type)
 
@@ -61,4 +61,4 @@ if __name__ == "__main__":
         print("network type improperly set")
         exit()
 
-    generateGraph(filename, network_type, options)
+    generate_graph(filename, network_type, options)

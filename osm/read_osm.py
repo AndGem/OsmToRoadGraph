@@ -11,7 +11,7 @@ def _read_ways(osm_file, configuration):
     w_handler = WayHandler(configuration)
 
     parser.setContentHandler(w_handler)
-    parser.parse(PercentageFile(osm_file))
+    parser.parse(osm_file)
 
     return w_handler.found_ways, w_handler.found_nodes
 

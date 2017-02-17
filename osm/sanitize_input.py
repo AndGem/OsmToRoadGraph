@@ -1,12 +1,8 @@
 from builtins import range
+import utils.timer as timer
 
 
-def remove_adjacent_duplicates(nodes):
-    for i in range(len(nodes) - 1, 0, -1):
-        if nodes[i] == nodes[i - 1]:
-            del nodes[i]
-
-
+@timer.timer(active=True)
 def sanitize_input(ways, nodes):
     """
     This function removes all
@@ -20,6 +16,11 @@ def sanitize_input(ways, nodes):
     """
     assert isinstance(ways, list)
     assert isinstance(nodes, dict)
+
+    def remove_adjacent_duplicates(nodes):
+        for i in range(len(nodes) - 1, 0, -1):
+            if nodes[i] == nodes[i - 1]:
+                del nodes[i]
 
     ways_to_remove = []
     nodes_to_remove = []

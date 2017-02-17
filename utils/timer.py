@@ -6,7 +6,6 @@ def timer(active):
         def wrapper(*args, **kwargs):
             if active:
                 start_time = time.time()
-                print("")
                 print("starting {}".format(function.__name__))
 
             result = function(*args, **kwargs)

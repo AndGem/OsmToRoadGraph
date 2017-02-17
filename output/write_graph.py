@@ -1,6 +1,8 @@
 import codecs
+import utils.timer as timer
 
 
+@timer.timer(active=True)
 def write_to_file(graph, filename_base, filename_ext):
     filename = "{}.{}".format(filename_base, filename_ext)
     print("writing {}".format(filename))

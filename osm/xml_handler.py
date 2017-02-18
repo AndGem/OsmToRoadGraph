@@ -52,7 +52,7 @@ class NodeHandler(xml.sax.ContentHandler):
 
 class WayHandler(xml.sax.ContentHandler):
 
-    def __init__(self, configuration):
+    def __init__(self, parser_helper):
         # stores all found ways
         self.found_ways = []
         self.found_nodes = set()
@@ -60,7 +60,7 @@ class WayHandler(xml.sax.ContentHandler):
         self.start_tag_found = False
         self.current_way = None
 
-        self.configuration = configuration
+        self.parser_helper = parser_helper
 
     def startElement(self, tag, attributes):
         if tag == "way":
@@ -99,14 +99,14 @@ class WayHandler(xml.sax.ContentHandler):
             self.start_tag_found = False
 
             # check if way is acceptable
-            if not self.configuration.accept_way(self.current_way):
+            if not self.parser_helper.accept_way(self.current_way):
                 self.current_way = None
                 return
 
             self.found_nodes.update(self.current_way.nodes)
 
-            self.configuration.parse_max_speed(self.current_way)
-            self.configuration.parse_direction(self.current_way)
+            self.parser_helper.parse_max_speed(self.current_way)
+            self.parser_helper.parse_direction(self.current_way)
 
             self.found_ways.append(self.current_way)
 

@@ -2,6 +2,16 @@ import xml.sax
 
 from osm.xml_handler import NodeHandler, WayHandler, PercentageFile
 import utils.timer as timer
+from osm.way_parser_helper import WayParserHelper
+
+
+@timer.timer(active=True)
+def read_file(osm_filename, configuration, verbose=True):
+    parserHelper = WayParserHelper(configuration)
+    ways, found_node_ids = _read_ways(PercentageFile(osm_filename), parserHelper)
+    nodes = _read_nodes(PercentageFile(osm_filename), found_node_ids)
+
+    return nodes, ways
 
 
 @timer.timer(active=True)
@@ -26,10 +36,3 @@ def _read_nodes(osm_file, found_nodes):
     return n_handler.nodes
 
 
-@timer.timer(active=True)
-def read_file(osm_filename, configuration, verbose=True):
-
-    ways, found_node_ids = _read_ways(PercentageFile(osm_filename), configuration)
-    nodes = _read_nodes(PercentageFile(osm_filename), found_node_ids)
-
-    return nodes, ways

@@ -1,6 +1,7 @@
+from __future__ import absolute_import
 from collections import deque
 
-import graphfactory
+import graph.graphfactory as graphfactory
 import utils.timer as timer
 
 
@@ -10,7 +11,7 @@ def BFS(graph, s):
 
     while len(unvisited_nodes) > 0:
         node_id = unvisited_nodes.popleft()
-        unseen_nodes = filter(lambda n: n not in seen_nodes, graph.all_neighbors(node_id))
+        unseen_nodes = list(filter(lambda n: n not in seen_nodes, graph.all_neighbors(node_id)))
         seen_nodes.update(unseen_nodes)
         unvisited_nodes.extend(unseen_nodes)
 

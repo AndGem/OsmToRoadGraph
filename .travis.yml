@@ -1,12 +1,14 @@
 language: python
 python:
-  - "2.7"
-  # PyPy versions
   - "pypy"
+  - "2.7"
+  - "3.6"
 # command to install dependencies
 install:
   - pip install -r requirements.txt
+  - pip install coverage
   - pip install codecov
+  - pip install future --upgrade
 # command to run tests
 script: 
   - nosetests --verbosity=3 -x --with-coverage --cover-package=graph,osm,utils,output  --cover-html

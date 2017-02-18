@@ -1,9 +1,10 @@
+from __future__ import absolute_import
 from __future__ import print_function
 import os
 import sys
 import xml.sax
 
-from osm_types import OSMWay, OSMNode
+from osm.osm_types import OSMWay, OSMNode
 
 
 class PercentageFile(object):
@@ -11,7 +12,7 @@ class PercentageFile(object):
     def __init__(self, filename):
         self.size = os.stat(filename)[6]
         self.delivered = 0
-        self.f = file(filename)
+        self.f = open(filename)
         self.percentages = [1000] + [100 - 10 * x for x in range(0, 11)]
 
     def read(self, size=None):
@@ -29,6 +30,9 @@ class PercentageFile(object):
                 print("100%")
             self.percentages = self.percentages[:-1]
         return data
+
+    def close(self):
+        self.f.close()
 
     @property
     def percentage(self):

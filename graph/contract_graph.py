@@ -1,9 +1,8 @@
-from builtins import range
+from __future__ import absolute_import
 from copy import deepcopy
 
-import graphfactory
-import graph_types
-
+import graph.graphfactory as graphfactory
+import graph.graph_types as graph_types
 import utils.timer as timer
 
 

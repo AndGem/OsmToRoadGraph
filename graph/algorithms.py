@@ -1,6 +1,7 @@
+from __future__ import absolute_import
 from collections import deque
 
-import graphfactory
+import graph.graphfactory as graphfactory
 import utils.timer as timer
 
 
@@ -29,6 +30,8 @@ def computeLCC(graph):
         total_nodes = total_nodes - f_nodes
 
     # determine largest connected components
+    for f in found_nodes:
+        print(f)
     lcc = max(found_nodes, key=lambda component: len(component))
 
     print("\t LCC contains {} nodes (removed {} nodes)".format(len(lcc), len(graph.vertices) - len(lcc)))

@@ -3,7 +3,6 @@ from copy import deepcopy
 
 import graph.graphfactory as graphfactory
 import graph.graph_types as graph_types
-
 import utils.timer as timer
 
 

@@ -20,8 +20,6 @@ class GraphTest(unittest.TestCase):
 
         self.assertEqual(len(g.edges), 1)
         self.assertEqual(g.edges[0], e)
-        print g.inneighbors
-        print g.outneighbors
 
     def add_edges_correct_in_out_neighbors_test(self):
         g = Graph()

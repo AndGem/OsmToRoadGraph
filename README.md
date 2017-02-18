@@ -5,7 +5,6 @@
 
 <!-- TOC -->
 
-- [OsmToRoadGraph v.0.1](#osmtoroadgraph-v01)
 - [Introduction](#introduction)
     - [Requirements](#requirements)
     - [Usage](#usage)
@@ -73,4 +72,5 @@ s t length street_type max_speed forward backward
 3222 1629 7.19105938956 residential 30 True False
 1629 1526 8.828179648 residential 30 True False
 2306 2319 37.3600477398 track 5 True True
+...
 ```

@@ -1,12 +1,13 @@
+codecov:
+  notify:
+    require_ci_to_pass: yes
+
 coverage:
+  precision: 2
+  round: down
+  range: "10...100"
+
   status:
-    project:
-      unit_integration:
-        target: 10%
-        threshold: 1%
-        flag: unitintegration
-    patch:
-      unit_integration:
-        target: 0%
-        threshold: 0%
-        flag: unitintegration%
+    project: yes
+    patch: yes
+    changes: no

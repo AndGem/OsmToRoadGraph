@@ -1,5 +1,4 @@
-from __future__ import absolute_import
-from future.builtins import range
+from __future__ import absolute_import, division, generators, unicode_literals, print_function, nested_scopes, with_statement
 from copy import deepcopy
 
 import graph.graphfactory as graphfactory

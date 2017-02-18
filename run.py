@@ -61,5 +61,4 @@ if __name__ == "__main__":
         print("network type improperly set")
         exit()
 
-    print(network_type)
     generate_graph(filename, network_type, options)

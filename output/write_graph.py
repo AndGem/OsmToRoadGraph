@@ -9,11 +9,11 @@ def write_to_file(graph, filename_base, filename_ext):
 
     file_header = "# Road Graph File v.0.3"
     header = """# number of nodes
-                # number of edges
-                # node_properties
-                # ...
-                # edge_properties
-                # ..."""
+# number of edges
+# node_properties
+# ...
+# edge_properties
+# ..."""
 
     f = open(filename, "w")
     f_names = codecs.open("{}_names".format(filename), "w", "utf-8")

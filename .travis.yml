@@ -7,6 +7,7 @@ python:
 install:
   - pip install -r requirements.txt
   - pip install codecov
+  - pip install future --upgrade
 # command to run tests
 script: 
   - nosetests --verbosity=3 -x --with-coverage --cover-package=graph,osm,utils,output  --cover-html

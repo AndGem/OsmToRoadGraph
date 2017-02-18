@@ -38,7 +38,6 @@ class IntegrationTest(unittest.TestCase):
     def _get_nmb_nodes_edges(self, path):
         f = open(path)
         line = f.readline()
-        print line
         while '#' in line:
             line = f.readline()
 

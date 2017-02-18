@@ -17,7 +17,7 @@
 
 # Introduction
 
-Converting [OpenStreetMap's](http://www.openstreetmap.org) OSM XML files to a simple graph format for further processing.
+This tools can convert [OpenStreetMap's](http://www.openstreetmap.org) OSM XML files to a simple graph format for further processing. It is compatible with Python 2 and 3. 
 
 ## Requirements
 * Python 2.7+/Python 3.6
@@ -48,9 +48,9 @@ The format looks like this
 # ...
 number of nodes
 number of edges
-node_properties
+id lat lon
 ...
-edge_properties
+s t length street_type max_speed forward backward
 ...
 ```
 
@@ -59,9 +59,9 @@ edge_properties
 # Road Graph File v.0.3
 # number of nodes
 # number of edges
-# node_id node_properties
+# node_properties
 # ...
-# s_id t_id edge_properties
+# edge_properties
 # ...
 4108
 4688

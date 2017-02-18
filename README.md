@@ -5,12 +5,14 @@
 
 <!-- TOC -->
 
+- [OsmToRoadGraph v.0.1](#osmtoroadgraph-v01)
 - [Introduction](#introduction)
     - [Requirements](#requirements)
     - [Usage](#usage)
             - [Example](#example)
     - [Output Format](#output-format)
             - [Example](#example-1)
+    - [Research](#research)
 
 <!-- /TOC -->
 
@@ -74,3 +76,7 @@ s t length street_type max_speed forward backward
 2306 2319 37.3600477398 track 5 True True
 ...
 ```
+
+## Research
+
+[Temporal Map Labeling: A New Unified Framework with Experiments](http://i11www.iti.uni-karlsruhe.de/temporallabeling/)

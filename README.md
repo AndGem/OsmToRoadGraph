@@ -19,7 +19,7 @@
 This tools can convert [OpenStreetMap's](http://www.openstreetmap.org) OSM XML files to a simple graph format for further processing. It is compatible with Python 2 and 3. 
 
 ## Requirements
-* Python 2.7+/Python 3.6
+* Python 2.7+/Python 3.6+/PyPy
 * `future` package
 * An OSM XML file
 

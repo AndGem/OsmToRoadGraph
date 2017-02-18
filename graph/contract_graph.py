@@ -1,5 +1,5 @@
 from __future__ import absolute_import
-from builtins import range
+from future.builtins import range
 from copy import deepcopy
 
 import graph.graphfactory as graphfactory

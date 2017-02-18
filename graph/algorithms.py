@@ -1,4 +1,4 @@
-from __future__ import absolute_import
+from __future__ import absolute_import, division, generators, unicode_literals, print_function, nested_scopes, with_statement
 from collections import deque
 
 import graph.graphfactory as graphfactory
@@ -11,7 +11,7 @@ def BFS(graph, s):
 
     while len(unvisited_nodes) > 0:
         node_id = unvisited_nodes.popleft()
-        unseen_nodes = filter(lambda n: n not in seen_nodes, graph.all_neighbors(node_id))
+        unseen_nodes = list(filter(lambda n: n not in seen_nodes, graph.all_neighbors(node_id)))
         seen_nodes.update(unseen_nodes)
         unvisited_nodes.extend(unseen_nodes)
 
@@ -30,8 +30,6 @@ def computeLCC(graph):
         total_nodes = total_nodes - f_nodes
 
     # determine largest connected components
-    for f in found_nodes:
-        print(f)
     lcc = max(found_nodes, key=lambda component: len(component))
 
     print("\t LCC contains {} nodes (removed {} nodes)".format(len(lcc), len(graph.vertices) - len(lcc)))

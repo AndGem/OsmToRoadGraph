@@ -19,8 +19,8 @@ class Configuration(object):
     extension = {"pedestrian":"pypgr", "car":"pycgr", "bicycle":"pybgr"}
     network_type = None
 
-    def __init__(self, nextwork_type="pedestrian"):
-        self.nextwork_type = nextwork_type
+    def __init__(self, network_type="pedestrian"):
+        self.network_type = network_type
 
     def get_file_extension(self):
-        return self.extension[self.nextwork_type]
+        return self.extension[self.network_type]

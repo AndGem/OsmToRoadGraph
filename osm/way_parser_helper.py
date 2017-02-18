@@ -8,7 +8,7 @@ class WayParserHelper:
         if way.area == 'yes':
             return False
 
-        if way.highway not in self.config.accepted_highways[self.config.nextwork_type]:
+        if way.highway not in self.config.accepted_highways[self.config.network_type]:
             return False
 
         return True

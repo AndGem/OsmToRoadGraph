@@ -22,7 +22,7 @@ This tools can convert [OpenStreetMap's](http://www.openstreetmap.org) OSM XML f
 
 ## Requirements
 * Python 2.7+/Python 3.6+/PyPy
-* `future` package
+* [future package](https://pypi.python.org/pypi/future) / run `pip install -r requirements.txt`
 * An OSM XML file
 
 ## Usage

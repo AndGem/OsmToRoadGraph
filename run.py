@@ -42,7 +42,7 @@ if __name__ == "__main__":
     parser.add_option("-f", "--file", dest="filename", action="store", type="string")
     parser.add_option("-n", "--networkType", dest="network_type", action="store", default="pedestrian", help="(p)edestrian, (b)icycle, (c)ar, [default: pedestrian]")
     parser.add_option("-v", "--verbose", dest="verbose", action="store_true")
-    parser.add_option("-l", "--nolcc", dest="lcc", action="store_false")
+    parser.add_option("-l", "--nolcc", dest="lcc", action="store_true", default=False)
     parser.add_option("-c", "--contract", dest="contract", action="store_true")
     (options, args) = parser.parse_args()
 

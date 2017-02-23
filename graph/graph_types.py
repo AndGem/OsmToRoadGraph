@@ -27,14 +27,20 @@ class Edge(object):
 
 
 class SimpleEdge(object):
-    __slots__ = ["s", "t", "length", "forward", "backward", "name"]
+    __slots__ = ["s", "t", "length", "name"]
 
     def __init__(self, s, t, length):
         self.s, self.t = s, t
         self.length = length
         self.name = ""
-        self.forward = True
-        self.backward = True
+
+    @property
+    def forward(self):
+        return True
+
+    @property
+    def backward(self):
+        return True
 
     @property
     def description(self):

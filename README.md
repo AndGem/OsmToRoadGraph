@@ -5,7 +5,6 @@
 
 <!-- TOC -->
 
-- [OsmToRoadGraph v.0.1](#osmtoroadgraph-v01)
 - [Introduction](#introduction)
     - [Requirements](#requirements)
     - [Usage](#usage)

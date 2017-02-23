@@ -14,43 +14,36 @@ class WayParserHelper:
         return True
 
     def parse_direction(self, way):
-        way.forward = True
-        way.backward = True
-
         if way.direction == 'oneway':
-            way.forward = True
-            way.backward = False
+            return True, False
 
-        if self.config.network_type == 'pedestrian':
-            way.forward = True
-            way.backward = True
+        return True, True
 
-    def parse_max_speed(self, way):
+    def parse_max_speed(self, maximum_speed, highway):
 
-        if way.max_speed is None:
-            way.max_speed = self.config.speed_limits[way.highway]
-            return
+        if maximum_speed is None:
+            return self.config.speed_limits[highway]
 
         try:
-            way.max_speed = int(way.max_speed)
+            max_speed = int(maximum_speed)
+            return max_speed
 
         except ValueError:
-
-            max_speed = way.max_speed
-            max_speed.lower()
+            max_speed = maximum_speed.lower()
 
             if 'walk' in max_speed:
-                way.max_speed = self.config.walking_speed
+                max_speed = self.config.walking_speed
             elif 'none' in max_speed:
-                way.max_speed = self.config.max_highway_speed
-            elif 'mph' in way.max_speed or 'mp/h' in way.max_speed:
+                max_speed = self.config.max_highway_speed
+            elif 'mph' in max_speed or 'mp/h' in max_speed:
                 max_speed = ''.join(c for c in max_speed if c.isdigit())
-                way.max_speed = int(float(max_speed) * 1.609344)
-            elif 'kmh' in way.max_speed or 'km/h' in way.max_speed or 'kph' in way.max_speed or 'kp/h' in way.max_speed:
+                max_speed = int(float(max_speed) * 1.609344)
+            elif 'kmh' in max_speed or 'km/h' in max_speed or 'kph' in max_speed or 'kp/h' in max_speed:
                 max_speed = ''.join(c for c in max_speed if c.isdigit())
-                way.max_speed = int(max_speed)
+                max_speed = int(max_speed)
             else:
-                print("error while parsing max speed! Did not recognize: {}".format(way.max_speed))
+                print("error while parsing max speed! Did not recognize: {}".format(max_speed))
                 print("fallback by setting it to default value")
 
-                way.max_speed = self.speed_limits[way.highway]
+                max_speed = self.speed_limits[highway]
+            return max_speed

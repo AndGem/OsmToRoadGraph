@@ -117,8 +117,8 @@ class WayHandler(xml.sax.ContentHandler):
 
             self.found_nodes.update(self.current_way.nodes)
 
-            self.parser_helper.parse_max_speed(self.current_way)
-            self.parser_helper.parse_direction(self.current_way)
+            self.current_way.max_speed = self.parser_helper.parse_max_speed(self.current_way.max_speed, self.current_way.highway)
+            self.current_way.forward, self.current_way.backward = self.parser_helper.parse_direction(self.current_way)
 
             self.found_ways.append(self.current_way)
 

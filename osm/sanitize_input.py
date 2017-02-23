@@ -2,7 +2,7 @@ from __future__ import absolute_import, division, generators, unicode_literals, 
 import utils.timer as timer
 
 
-@timer.timer(active=True)
+@timer.timer
 def sanitize_input(ways, nodes):
     """
     This function removes all

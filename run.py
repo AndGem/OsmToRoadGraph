@@ -8,9 +8,11 @@ import graph.graphfactory as graphfactory
 import osm.read_osm
 import osm.sanitize_input
 import output.write_graph as output
+import utils.timer as timer
 
 
-def generate_graph(filename, network_type, options):
+@timer.timer
+def convert_osm_to_roadgraph(filename, network_type, options):
 
     configuration = config.Configuration(network_type)
 
@@ -61,4 +63,4 @@ if __name__ == "__main__":
         print("network type improperly set")
         exit()
 
-    generate_graph(filename, network_type, options)
+    convert_osm_to_roadgraph(filename, network_type, options)

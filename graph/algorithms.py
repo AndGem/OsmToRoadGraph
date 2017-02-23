@@ -18,7 +18,7 @@ def BFS(graph, s):
     return seen_nodes
 
 
-@timer.timer(active=True)
+@timer.timer
 def computeLCC(graph):
 
     # repeatedly run BFS searches until all vertices have been reached

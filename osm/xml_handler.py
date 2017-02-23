@@ -6,6 +6,11 @@ import xml.sax
 
 from osm.osm_types import OSMWay, OSMNode
 
+try:
+    intern = sys.intern
+except AttributeError:
+    pass
+
 
 class PercentageFile(object):
 
@@ -90,7 +95,10 @@ class WayHandler(xml.sax.ContentHandler):
                         if attributes["v"] == "yes":
                             self.current_way.direction = "oneway"
                     elif attributes["k"] == "name":
-                        self.current_way.name = attributes["v"]
+                        try:
+                            self.current_way.name = intern(attributes["v"])
+                        except TypeError:
+                            self.current_way.name = attributes["v"]
                     elif attributes["k"] == "junction":
                         if attributes["v"] == "roundabout":
                             self.current_way.direction = "oneway"

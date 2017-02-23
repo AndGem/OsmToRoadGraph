@@ -6,7 +6,7 @@ import graph.graph_types as graph_types
 import utils.timer as timer
 
 
-@timer.timer(active=True)
+@timer.timer
 def contract(graph):
     all_new_edges = find_new_edges(graph)
     filtered_edges = remove_duplicates(all_new_edges)

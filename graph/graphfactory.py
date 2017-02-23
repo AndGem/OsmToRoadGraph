@@ -8,7 +8,7 @@ import utils.geo_tools as geo_tools
 import utils.timer as timer
 
 
-@timer.timer(active=True)
+@timer.timer
 def build_graph_from_osm(nodes, ways):
 
     assert isinstance(nodes, dict)
@@ -34,7 +34,7 @@ def build_graph_from_osm(nodes, ways):
     return g
 
 
-@timer.timer(active=True)
+@timer.timer
 def build_graph_from_vertices_edges(vertices, edges):
     g = graph.Graph()
 

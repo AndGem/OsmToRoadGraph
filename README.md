@@ -37,7 +37,17 @@ Options:
   -l, --nolcc
   -c, --contract
 ```
-#### Example
+### Usage - Explanation
+
+`-f` points to the input filename; the output files will be created in the same folder and using the name of the input file as prefix and adding information as suffix.
+
+`-n` sets the network type. This influences the maximum speed saved for the edges. If you care only about connectivity set it to pedestrian.
+
+`-l` if you set this option the graph will be output as a whole but _may_ contain unconnected compoonents. By default the largest connected component is determined and the rest is dropped.
+
+`-c` if you specify this option additional to the original graph, a second pair of filenames will be created containing the result of contracting all degree 2 nodes.
+
+# Example
 ```
 python run.py -f data/karlsruhe_small.osm -n p -v
 ```

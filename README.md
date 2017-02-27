@@ -18,7 +18,7 @@
 
 # Introduction
 
-This tools can convert [OpenStreetMap's](http://www.openstreetmap.org) OSM XML files to a simple graph format for further processing. It is compatible with Python 2 and 3. 
+This tools can convert [OpenStreetMap's](http://www.openstreetmap.org) OSM XML files to a simple graph format for further processing. It is compatible with Python 2 and 3. For the moment it can only read OSM XML files, but in the roadmap we plan to include reading OSM PBF files as well.
 
 ## Requirements
 * Python 2.7+/Python 3.6+/PyPy
@@ -39,10 +39,15 @@ Options:
 ```
 #### Example
 ```
-python run.py -f data/karlsruhe_small.osm -n p -c -v
+python run.py -f data/karlsruhe_small.osm -n p -v
 ```
 
-## Output Format
+## Output
+
+The output will consist of two plaintext files. One file ending in `.pypgr`, `pybgr`, or `pycgr` depending on the network type selected; the other file will have the same ending with a `_names` as additional suffix. The first file contains the graph structure as well as additional information about the edge (length, max speed according to highway type, if it is a one-way street or not). The file ending with `_names` includes the street names for the edges. 
+
+
+### Output Format
 The format looks like this
 ```
 # Road Graph File v.0.3"

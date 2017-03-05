@@ -14,7 +14,8 @@
 - [Example](#example)
     - [Output](#output)
         - [Output Format](#output-format)
-            - [Example](#example-1)
+            - [Example (pycgr)](#example-pycgr)
+            - [Example (pycgr_names)](#example-pycgr_names)
     - [Research](#research)
 
 <!-- /TOC -->
@@ -72,7 +73,7 @@ s t length street_type max_speed forward backward
 ...
 ```
 
-#### Example
+#### Example (pycgr)
 ```
 # Road Graph File v.0.3
 # number of nodes
@@ -93,6 +94,21 @@ s t length street_type max_speed forward backward
 2306 2319 37.3600477398 track 5 True True
 ...
 ```
+
+#### Example (pycgr_names)
+```
+Hölderlinstraße
+Hölderlinstraße
+Hölderlinstraße
+
+Kronenstraße
+Kronenstraße
+Kronenstraße
+
+Zähringerstraße
+Zähringerstraße
+```
+Each line consists of a street name. The number in which a line is corresponds to the edges index. In this example this means, that Hölderlinstraße is the street name of edges 0, 1, 2. The absence of a name in line 4 indicates that edge 3 has no street name. Edges 4, 5, 6 have street name Kronenstraße, and so on...
 
 ## Research
 

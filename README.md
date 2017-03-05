@@ -6,11 +6,14 @@
 
 <!-- TOC -->
 
+- [OsmToRoadGraph v.0.3](#osmtoroadgraph-v03)
 - [Introduction](#introduction)
     - [Requirements](#requirements)
     - [Usage](#usage)
-            - [Example](#example)
-    - [Output Format](#output-format)
+        - [Usage - Explanation](#usage---explanation)
+- [Example](#example)
+    - [Output](#output)
+        - [Output Format](#output-format)
             - [Example](#example-1)
     - [Research](#research)
 
@@ -18,7 +21,7 @@
 
 # Introduction
 
-This tools can convert [OpenStreetMap's](http://www.openstreetmap.org) OSM XML files to a simple graph format for further processing. It is compatible with Python 2 and 3. For the moment it can only read OSM XML files, but in the roadmap we plan to include reading OSM PBF files as well.
+This tools can convert [OpenStreetMap's](http://www.openstreetmap.org) OSM XML files to a simple graph format for further processing. It is compatible with Python 2 and 3. For the moment it can only read OSM XML files, but in the roadmap we plan to include reading OSM PBF files as well. Additional to having the edges in the graph, the output format also contains the maximum speed for each edge as well as street names.
 
 ## Requirements
 * Python 2.7+/Python 3.6+/PyPy

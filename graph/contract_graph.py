@@ -17,8 +17,7 @@ def contract(graph):
 
 
 def get_nodes(graph, node_ids):
-    nodes = list(map(lambda node_id: graph.get_node(node_id), node_ids))
-    return nodes
+    return list(map(lambda node_id: graph.get_node(node_id), node_ids))
 
 
 def gather_node_ids(edges):

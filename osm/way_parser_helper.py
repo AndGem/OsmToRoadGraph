@@ -3,7 +3,7 @@ class WayParserHelper:
     def __init__(self, config):
         self.config = config
 
-    def accept_way(self, way):
+    def is_way_acceptable(self, way):
         # reject: if the way marks the border of an area
         if way.area == 'yes':
             return False

@@ -8,21 +8,28 @@
 
 - [OsmToRoadGraph v.0.3](#osmtoroadgraph-v03)
 - [Introduction](#introduction)
+    - [Motivation](#motivation)
+    - [Description](#description)
     - [Requirements](#requirements)
     - [Usage](#usage)
         - [Usage - Explanation](#usage---explanation)
-- [Example](#example)
-    - [Output](#output)
-        - [Output Format](#output-format)
-            - [Example (pycgr)](#example-pycgr)
-            - [Example (pycgr_names)](#example-pycgr_names)
+        - [Example](#example)
+        - [Output](#output)
+            - [Output Format](#output-format)
+                - [Example Road Network (*.pycgr)](#example-road-network-pycgr)
+                - [Example Street Names (*.pycgr_names)](#example-street-names-pycgr_names)
     - [Research](#research)
 
 <!-- /TOC -->
 
 # Introduction
+OSMtoRoadGraph aims to provide a simple tool to allow extraction of the road network of (OpenStreetMap (OSM))[http://www.openstreetmap.org] files. It differentiates between three transportation networks: car, bicycle, and walking. The output data depends on the chosen parameters (which street highway types to consider, speed, ...).
 
-This tools can convert [OpenStreetMap's](http://www.openstreetmap.org) OSM XML files to a simple graph format for further processing. It is compatible with Python 2 and 3. For the moment it can only read OSM XML files, but in the roadmap we plan to include reading OSM PBF files as well. Additional to having the edges in the graph, the output format also contains the maximum speed for each edge as well as street names.
+## Motivation
+OpenStreetMap provides free cartographic data to anyone. Data can be added and edited by anyone. However, using the road network contained in the OSM files is not straightforward. This tool aims to reduce the overhead of writing a parser for OSM files.
+
+## Description
+With this tool the data is being converted into easily parsable plaintext files that can be used by any application for further processing. For each transportation network type two output files are generated. One file contains the nodes (with coordinates), and the network edges, with length, direction and maximum speed (according to chosen network type). The second file contains street names that could be extracted for all edges contained in the first file.
 
 ## Requirements
 * Python 2.7+/Python 3.6+/PyPy
@@ -50,30 +57,29 @@ Options:
 
 `-c` if you specify this option additional to the original graph, a second pair of filenames will be created containing the result of contracting all degree 2 nodes.
 
-# Example
+### Example
 ```
 python run.py -f data/karlsruhe_small.osm -n p -v
 ```
 
-## Output
+### Output
 
 The output will consist of two plaintext files. One file ending in `.pypgr`, `pybgr`, or `pycgr` depending on the network type selected; the other file will have the same ending with a `_names` as additional suffix. The first file contains the graph structure as well as additional information about the edge (length, max speed according to highway type, if it is a one-way street or not). The file ending with `_names` includes the street names for the edges. 
 
 
-### Output Format
-The format looks like this
+#### Output Format
+The format looks like this:
 ```
-# Road Graph File v.0.3"
-# ...
-number of nodes
-number of edges
-id lat lon
+<HEADER LINES STARTING WITH A DASH(#) CHARACTER>
+<number of nodes>
+<number of edges>
+<id> <lat> <lon>
 ...
-s t length street_type max_speed forward backward
+<s> <t> <length> <street_type> <max_speed> <forward> <backward>
 ...
 ```
 
-#### Example (pycgr)
+##### Example Road Network (*.pycgr)
 ```
 # Road Graph File v.0.3
 # number of nodes
@@ -95,7 +101,7 @@ s t length street_type max_speed forward backward
 ...
 ```
 
-#### Example (pycgr_names)
+##### Example Street Names (*.pycgr_names)
 ```
 Hölderlinstraße
 Hölderlinstraße

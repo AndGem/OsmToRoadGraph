@@ -23,7 +23,7 @@
 <!-- /TOC -->
 
 # Introduction
-OSMtoRoadGraph aims to provide a simple tool to allow extraction of the road network of (OpenStreetMap (OSM))[http://www.openstreetmap.org] files. It differentiates between three transportation networks: car, bicycle, and walking. The output data depends on the chosen parameters (which street highway types to consider, speed, ...).
+OSMtoRoadGraph aims to provide a simple tool to allow extraction of the road network of [OpenStreetMap](http://www.openstreetmap.org) files. It differentiates between three transportation networks: car, bicycle, and walking. The output data depends on the chosen parameters (which street highway types to consider, speed, ...).
 
 ## Motivation
 OpenStreetMap provides free cartographic data to anyone. Data can be added and edited by anyone. However, using the road network contained in the OSM files is not straightforward. This tool aims to reduce the overhead of writing a parser for OSM files.
@@ -33,7 +33,8 @@ With this tool the data is being converted into easily parsable plaintext files 
 
 ## Requirements
 * Python 2.7+/Python 3.6+/PyPy
-* [future package](https://pypi.python.org/pypi/future) / run `pip install -r requirements.txt`
+* [future package](https://pypi.python.org/pypi/future) 
+    * to install run `pip install -r requirements.txt`
 * An OSM XML file
 
 ## Usage
@@ -68,7 +69,7 @@ The output will consist of two plaintext files. One file ending in `.pypgr`, `py
 
 
 #### Output Format
-The format looks like this:
+The structure of the road network output file is the following:
 ```
 <HEADER LINES STARTING WITH A DASH(#) CHARACTER>
 <number of nodes>

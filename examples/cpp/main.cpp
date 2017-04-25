@@ -47,7 +47,9 @@ Graph build_graph(const NodeEdges& nodeEdges) {
 std::string line_string(double lat1, double lon1, double lat2, double lon2) {
     std::ostringstream out;
     out << std::setprecision(10);
-    out << "<Placemark><LineString><coordinates>" << std::endl;
+    out << "<Placemark>";
+    out << "<styleUrl>#linestyleExample</styleUrl>" << std::endl;
+    out << "<LineString><coordinates>" << std::endl;
     out << lon1 << ", " << lat1 << ", 0." << std::endl;
     out << lon2 << ", " << lat2 << ", 0." << std::endl;
     out << "</coordinates></LineString></Placemark>";
@@ -63,11 +65,24 @@ std::string point_marker(double lat, double lon) {
     return out.str();
 }
 
+static string hexColor(int val = 255, int min = 0, int max = 255) {
+    std::stringstream out;
+    out << "<Style id=\"linestyleExample\"><LineStyle>" << std::endl;
+    out << "<color>" << std::endl;
+    out << "f0000ff" << std::endl;
+    out << "</color>" << std::endl;
+    out << "<width>1</width>" << std::endl;
+    out << "</LineStyle></Style>" << std::endl;
+    return out.str();
+}
+
+
 void to_kml(const Graph& graph, const vertex_descriptor& start, const std::vector<vertex_descriptor>& parents, std::vector<int>& distances) {
     const std::string filename = "out.kml";
     std::ofstream f(filename);
     const std::string header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><kml xmlns=\"http://earth.google.com/kml/2.0\"><Document>";
     f << header << std::endl;
+
     f << point_marker(graph[start].lat, graph[start].lon);
     boost::graph_traits < Graph >::vertex_iterator vertexIterator, vend;
     for (boost::tie(vertexIterator, vend) = boost::vertices(graph); vertexIterator != vend; ++vertexIterator) {

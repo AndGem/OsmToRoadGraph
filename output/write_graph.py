@@ -6,7 +6,7 @@ def write_to_file(graph, filename_base, filename_ext):
     filename = "{}.{}".format(filename_base, filename_ext)
     print("writing {}".format(filename))
 
-    file_header = "# Road Graph File v.0.3"
+    file_header = "# Road Graph File v.0.4"
     header = """# number of nodes
 # number of edges
 # node_properties

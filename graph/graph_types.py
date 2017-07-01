@@ -23,7 +23,8 @@ class Edge(object):
 
     @property
     def description(self):
-        return "{} {} {} {} {} {} {}".format(self.s, self.t, self.length, self.highway, self.max_v, self.forward, self.backward)
+        both_directions = "1" if self.forward and self.backward else "0"
+        return "{} {} {} {} {} {}".format(self.s, self.t, self.length, self.highway, self.max_v, both_directions)
 
 
 class SimpleEdge(object):

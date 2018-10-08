@@ -11,6 +11,7 @@
     - [Motivation](#motivation)
     - [Description](#description)
     - [Requirements](#requirements)
+    - [Older Versions](#older-versions)
     - [Usage](#usage)
         - [Usage - Explanation](#usage---explanation)
         - [Example](#example)
@@ -36,6 +37,9 @@ With this tool the data is being converted into easily parsable plaintext files 
 * [future package](https://pypi.python.org/pypi/future) 
     * to install run `pip install -r requirements.txt`
 * An OSM XML file
+
+## Older Versions
+Recently, breaking changes have been applied. If you require older versions please see the (release page)[https://github.com/AndGem/OsmToRoadGraph/releases].
 
 ## Usage
 

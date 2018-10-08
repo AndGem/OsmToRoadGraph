@@ -1,4 +1,4 @@
-# OsmToRoadGraph v.0.3
+# OsmToRoadGraph v.0.4
 
 [![Build Status](https://travis-ci.org/AndGem/OsmToRoadGraph.svg?branch=master)](https://travis-ci.org/AndGem/OsmToRoadGraph)
 [![codecov](https://codecov.io/gh/AndGem/OsmToRoadGraph/branch/master/graph/badge.svg)](https://codecov.io/gh/AndGem/OsmToRoadGraph)
@@ -6,18 +6,19 @@
 
 <!-- TOC -->
 
-- [OsmToRoadGraph v.0.3](#osmtoroadgraph-v03)
+- [OsmToRoadGraph v.0.4](#osmtoroadgraph-v04)
 - [Introduction](#introduction)
     - [Motivation](#motivation)
     - [Description](#description)
     - [Requirements](#requirements)
+    - [Older Versions](#older-versions)
     - [Usage](#usage)
         - [Usage - Explanation](#usage---explanation)
         - [Example](#example)
         - [Output](#output)
             - [Output Format](#output-format)
                 - [Example Road Network (*.pycgr)](#example-road-network-pycgr)
-                - [Example Street Names (*.pycgr_names)](#example-street-names-pycgr_names)
+                - [Example Street Names (*.pycgr_names)](#example-street-names-pycgrnames)
     - [Research](#research)
 
 <!-- /TOC -->
@@ -37,7 +38,11 @@ With this tool the data is being converted into easily parsable plaintext files 
     * to install run `pip install -r requirements.txt`
 * An OSM XML file
 
+## Older Versions
+Recently, breaking changes have been applied. If you require older versions please see the (release page)[https://github.com/AndGem/OsmToRoadGraph/releases].
+
 ## Usage
+
 ```
 Usage: run.py [options]
 
@@ -48,6 +53,7 @@ Options:
   -l, --nolcc
   -c, --contract
 ```
+
 ### Usage - Explanation
 
 `-f` points to the input filename; the output files will be created in the same folder and using the name of the input file as prefix and adding information as suffix.
@@ -59,6 +65,7 @@ Options:
 `-c` if you specify this option additional to the original graph, a second pair of filenames will be created containing the result of contracting all degree 2 nodes.
 
 ### Example
+
 ```
 python run.py -f data/karlsruhe_small.osm -n p -v
 ```
@@ -67,22 +74,25 @@ python run.py -f data/karlsruhe_small.osm -n p -v
 
 The output will consist of two plaintext files. One file ending in `.pypgr`, `pybgr`, or `pycgr` depending on the network type selected; the other file will have the same ending with a `_names` as additional suffix. The first file contains the graph structure as well as additional information about the edge (length, max speed according to highway type, if it is a one-way street or not). The file ending with `_names` includes the street names for the edges. 
 
-
 #### Output Format
 The structure of the road network output file is the following:
+
 ```
 <HEADER LINES STARTING WITH A DASH(#) CHARACTER>
 <number of nodes>
 <number of edges>
 <id> <lat> <lon>
 ...
-<s> <t> <length> <street_type> <max_speed> <forward> <backward>
+<s> <t> <length> <street_type> <max_speed> <bidrectional>
 ...
 ```
 
+`bidrectional` value is `0` if it is a unidirectional road (from `s` to `t`), and otherwise it is `1`.
+
 ##### Example Road Network (*.pycgr)
+
 ```
-# Road Graph File v.0.3
+# Road Graph File v.0.4
 # number of nodes
 # number of edges
 # node_properties
@@ -95,14 +105,21 @@ The structure of the road network output file is the following:
 1 49.0157261 8.405539
 2 49.0160334 8.4050578
 ...
-1529 3222 102.344801043 residential 30 True False
-3222 1629 7.19105938956 residential 30 True False
-1629 1526 8.828179648 residential 30 True False
-2306 2319 37.3600477398 track 5 True True
+531 519 93.87198088764158 service 10 0
+524 528 71.98129087573543 service 10 1
+528 532 22.134814663337743 service 10 1
+532 530 12.012991347084839 service 10 1
+530 531 12.76035560927566 service 10 1
+531 529 14.981628728184265 service 10 1
+529 501 77.18577344768484 service 10 1
+501 502 10.882105497189313 service 10 1
+75 405 14.312976598760008 residential 30 1
+405 206 44.642284586584886 residential 30 1
 ...
 ```
 
 ##### Example Street Names (*.pycgr_names)
+
 ```
 Hölderlinstraße
 Hölderlinstraße
@@ -115,6 +132,7 @@ Kronenstraße
 Zähringerstraße
 Zähringerstraße
 ```
+
 Each line consists of a street name. The number in which a line is corresponds to the edges index. In this example this means, that Hölderlinstraße is the street name of edges 0, 1, 2. The absence of a name in line 4 indicates that edge 3 has no street name. Edges 4, 5, 6 have street name Kronenstraße, and so on...
 
 ## Research

@@ -48,6 +48,6 @@ class WayParserHelper:
                     max_speed = self.config.speed_limits[highway]
                 else:
                     max_speed = 30
-                    print("coulnd't find a speed limit for highway type {}! Setting it to {}".format(highway, max_speed))
+                    print("couldn't find a speed limit for highway type {}! Setting it to {}".format(highway, max_speed))
 
             return max_speed

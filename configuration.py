@@ -11,7 +11,9 @@ class Configuration(object):
                     "trunk_link"   : 60, "primary_link" : 60, "secondary_link": 60,
                     "tertiary_link": 35, "living_street":  5, "pedestrian"    :  5,
                     "track"        :  5, "road"         :  5, "footway"       :  5,
-                    "steps"        :  5, "path"         :  5, "cycleway"      :  5}
+                    "steps"        :  5, "path"         :  5, "cycleway"      :  5,
+                    "pedestrian_indoor": 5
+                    }
 
     walking_speed = 5
     max_highway_speed = 120

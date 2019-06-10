@@ -102,6 +102,12 @@ class WayHandler(xml.sax.ContentHandler):
                     elif attributes["k"] == "junction":
                         if attributes["v"] == "roundabout":
                             self.current_way.direction = "oneway"
+                    elif attributes["k"] == "indoor":
+                        # this is not an ideal solution since it sets the pedestrian flag irrespective of the real value in osm data
+                        # but aims to cover the simple indoor tagging approach: https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging
+                        # more info: https://help.openstreetmap.org/questions/61025/pragmatic-single-level-indoor-paths
+                        if attributes["v"] == "corridor":
+                            self.current_way.highway = "pedestrian_indoor"
             except:
                 e = sys.exc_info()[0]
                 print("Error while parsing: {}".format(e))

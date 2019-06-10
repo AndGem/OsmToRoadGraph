@@ -1,27 +1,25 @@
-# OsmToRoadGraph v.0.4
+# OsmToRoadGraph v.0.4.1
 
 [![Build Status](https://travis-ci.org/AndGem/OsmToRoadGraph.svg?branch=master)](https://travis-ci.org/AndGem/OsmToRoadGraph)
 [![codecov](https://codecov.io/gh/AndGem/OsmToRoadGraph/branch/master/graph/badge.svg)](https://codecov.io/gh/AndGem/OsmToRoadGraph)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-<!-- TOC -->
-
-- [OsmToRoadGraph v.0.4](#osmtoroadgraph-v04)
+- [OsmToRoadGraph v.0.4.1](#osmtoroadgraph-v041)
 - [Introduction](#introduction)
-    - [Motivation](#motivation)
-    - [Description](#description)
-    - [Requirements](#requirements)
-    - [Older Versions](#older-versions)
-    - [Usage](#usage)
-        - [Usage - Explanation](#usage---explanation)
-        - [Example](#example)
-        - [Output](#output)
-            - [Output Format](#output-format)
-                - [Example Road Network (*.pycgr)](#example-road-network-pycgr)
-                - [Example Street Names (*.pycgr_names)](#example-street-names-pycgrnames)
-    - [Research](#research)
-
-<!-- /TOC -->
+  - [Motivation](#motivation)
+  - [Description](#description)
+  - [Requirements](#requirements)
+  - [Older Versions](#older-versions)
+  - [Usage](#usage)
+    - [Usage - Explanation](#usage---explanation)
+    - [Example](#example)
+    - [Output](#output)
+      - [Output Format](#output-format)
+        - [Example Road Network (*.pycgr)](#example-road-network-pycgr)
+        - [Example Street Names (*.pycgr_names)](#example-street-names-pycgrnames)
+    - [Configuring the Accepted OSM Highway Types](#configuring-the-accepted-osm-highway-types)
+    - [Indoor Paths](#indoor-paths)
+  - [Research](#research)
 
 # Introduction
 OSMtoRoadGraph aims to provide a simple tool to allow extraction of the road network of [OpenStreetMap](http://www.openstreetmap.org) files. It differentiates between three transportation networks: car, bicycle, and walking. The output data depends on the chosen parameters (which street highway types to consider, speed, ...).
@@ -134,6 +132,25 @@ Zähringerstraße
 ```
 
 Each line consists of a street name. The number in which a line is corresponds to the edges index. In this example this means, that Hölderlinstraße is the street name of edges 0, 1, 2. The absence of a name in line 4 indicates that edge 3 has no street name. Edges 4, 5, 6 have street name Kronenstraße, and so on...
+
+### Configuring the Accepted OSM Highway Types
+
+The application comes with a set of standard configuration to parse `only` some OSM ways that have the tag `highway=x` where `x` is a [highway type](https://wiki.openstreetmap.org/wiki/Key:highway) [notable excepting is the `pedestrian_indoors`, see below for an explanation].
+You can change the behavior of this program by changing the values (removing unwanted, and adding missing values) in the `configuration.py`.
+In this file you can also modify the speed limit that will be written to the output file.
+
+### Indoor Paths
+
+By default elements tagged by the [Simple Indoor Tagging](https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging) approach are being ignored.
+To enable to also to extract these paths replace in `configuration.py` the line
+```python
+    accepted_highways['pedestrian'] =  set(["primary", "secondary", "tertiary", "unclassified", "residential", "service", "primary_link", "secondary_link", "tertiary_link", "living_street", "pedestrian", "track", "road", "footway", "steps", "path"])
+```
+with
+```python
+    accepted_highways['pedestrian'] =  set(["primary", "secondary", "tertiary", "unclassified", "residential", "service", "primary_link", "secondary_link", "tertiary_link", "living_street", "pedestrian", "track", "road", "footway", "steps", "path", "pedestrian_indoor"])
+```
+Note that the change is only the addition of `pedestrian_indoor` in this list.
 
 ## Research
 

@@ -22,26 +22,31 @@
   - [Research](#research)
 
 # Introduction
+
 OSMtoRoadGraph aims to provide a simple tool to allow extraction of the road network of [OpenStreetMap](http://www.openstreetmap.org) files. It differentiates between three transportation networks: car, bicycle, and walking. The output data depends on the chosen parameters (which street highway types to consider, speed, ...).
 
 ## Motivation
+
 OpenStreetMap provides free cartographic data to anyone. Data can be added and edited by anyone. However, using the road network contained in the OSM files is not straightforward. This tool aims to reduce the overhead of writing a parser for OSM files.
 
 ## Description
+
 With this tool the data is being converted into easily parsable plaintext files that can be used by any application for further processing. For each transportation network type two output files are generated. One file contains the nodes (with coordinates), and the network edges, with length, direction and maximum speed (according to chosen network type). The second file contains street names that could be extracted for all edges contained in the first file.
 
 ## Requirements
-* Python 2.7+/Python 3.6+/PyPy
-* [future package](https://pypi.python.org/pypi/future) 
-    * to install run `pip install -r requirements.txt`
-* An OSM XML file
+
+- Python 2.7+/Python 3.6+/PyPy
+- [future package](https://pypi.python.org/pypi/future)
+  - to install run `pip install -r requirements.txt`
+- An OSM XML file
 
 ## Older Versions
-Recently, breaking changes have been applied. If you require older versions please see the (release page)[https://github.com/AndGem/OsmToRoadGraph/releases].
+
+Recently, breaking changes have been applied. If you require older versions please see the [releases](https://github.com/AndGem/OsmToRoadGraph/releases).
 
 ## Usage
 
-```
+```bash
 Usage: run.py [options]
 
 Options:
@@ -58,13 +63,13 @@ Options:
 
 `-n` sets the network type. This influences the maximum speed saved for the edges. If you care only about connectivity set it to pedestrian.
 
-`-l` if you set this option the graph will be output as a whole but _may_ contain unconnected compoonents. By default the largest connected component is determined and the rest is dropped.
+`-l` if you set this option the graph will be output as a whole but _may_ contain unconnected components. By default the largest connected component is determined and the rest is dropped.
 
 `-c` if you specify this option additional to the original graph, a second pair of filenames will be created containing the result of contracting all degree 2 nodes.
 
 ### Example
 
-```
+```bash
 python run.py -f data/karlsruhe_small.osm -n p -v
 ```
 
@@ -73,6 +78,7 @@ python run.py -f data/karlsruhe_small.osm -n p -v
 The output will consist of two plaintext files. One file ending in `.pypgr`, `pybgr`, or `pycgr` depending on the network type selected; the other file will have the same ending with a `_names` as additional suffix. The first file contains the graph structure as well as additional information about the edge (length, max speed according to highway type, if it is a one-way street or not). The file ending with `_names` includes the street names for the edges. 
 
 #### Output Format
+
 The structure of the road network output file is the following:
 
 ```
@@ -81,11 +87,11 @@ The structure of the road network output file is the following:
 <number of edges>
 <id> <lat> <lon>
 ...
-<s> <t> <length> <street_type> <max_speed> <bidrectional>
+<s> <t> <length> <street_type> <max_speed> <bidirectional>
 ...
 ```
 
-`bidrectional` value is `0` if it is a unidirectional road (from `s` to `t`), and otherwise it is `1`.
+`bidirectional` value is `0` if it is a unidirectional road (from `s` to `t`), and otherwise it is `1`.
 
 ##### Example Road Network (*.pycgr)
 
@@ -143,13 +149,17 @@ In this file you can also modify the speed limit that will be written to the out
 
 By default elements tagged by the [Simple Indoor Tagging](https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging) approach are being ignored.
 To enable to also to extract these paths replace in `configuration.py` the line
+
 ```python
     accepted_highways['pedestrian'] =  set(["primary", "secondary", "tertiary", "unclassified", "residential", "service", "primary_link", "secondary_link", "tertiary_link", "living_street", "pedestrian", "track", "road", "footway", "steps", "path"])
 ```
+
 with
+
 ```python
     accepted_highways['pedestrian'] =  set(["primary", "secondary", "tertiary", "unclassified", "residential", "service", "primary_link", "secondary_link", "tertiary_link", "living_street", "pedestrian", "track", "road", "footway", "steps", "path", "pedestrian_indoor"])
 ```
+
 Note that the change is only the addition of `pedestrian_indoor` in this list.
 
 ## Research

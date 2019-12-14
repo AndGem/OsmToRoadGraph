@@ -1,10 +1,10 @@
-# OsmToRoadGraph v.0.4.1
+# OsmToRoadGraph v.0.4.2
 
 [![Build Status](https://travis-ci.org/AndGem/OsmToRoadGraph.svg?branch=master)](https://travis-ci.org/AndGem/OsmToRoadGraph)
 [![codecov](https://codecov.io/gh/AndGem/OsmToRoadGraph/branch/master/graph/badge.svg)](https://codecov.io/gh/AndGem/OsmToRoadGraph)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-- [OsmToRoadGraph v.0.4.1](#osmtoroadgraph-v041)
+- [OsmToRoadGraph v.0.4.2](#osmtoroadgraph-v042)
 - [Introduction](#introduction)
   - [Motivation](#motivation)
   - [Description](#description)
@@ -35,9 +35,7 @@ With this tool the data is being converted into easily parsable plaintext files 
 
 ## Requirements
 
-- Python 2.7+/Python 3.6+/PyPy
-- [future package](https://pypi.python.org/pypi/future)
-  - to install run `pip install -r requirements.txt`
+- Python 3.6+/PyPy
 - An OSM XML file
 
 ## Older Versions

@@ -5,7 +5,9 @@ import graph.graphfactory as graphfactory
 import utils.timer as timer
 
 
-def BFS(graph, s):
+from graph.graph import Graph
+from typing import Set
+def BFS(graph: Graph, s: int) -> Set[int]:
     seen_nodes = set([s])
     unvisited_nodes = deque([s])
 
@@ -36,7 +38,7 @@ def computeLCC(graph):
     return lcc
 
 
-def computeLCCGraph(graph):
+def computeLCCGraph(graph: Graph) -> Graph:
     lcc = computeLCC(graph)
     new_nodes = [graph.vertices[id] for id in lcc]
     return graphfactory.build_graph_from_vertices_edges(new_nodes, graph.edges)

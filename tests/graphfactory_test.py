@@ -6,12 +6,12 @@ from graph.graph_types import Vertex, SimpleEdge
 
 class GraphfactorTest(unittest.TestCase):
 
-    def empty_input_test(self):
+    def test_empty_input_test(self):
         g = gf.build_graph_from_vertices_edges([], [])
         self.assertTrue(len(g.vertices) == 0)
         self.assertTrue(len(g.edges) == 0)
 
-    def one_vertex_should_be_no_edge_test(self):
+    def test_one_vertex_should_be_no_edge_test(self):
         v = Vertex(23, 1, 2)
         g = gf.build_graph_from_vertices_edges([v], [])
         self.assertTrue(len(g.vertices) == 1)
@@ -19,16 +19,16 @@ class GraphfactorTest(unittest.TestCase):
         self.assertEqual(g.vertices[0].lon, v.lon)
         self.assertTrue(len(g.edges) == 0)
 
-    def two_vertex_should_be_one_edge_test(self):
+    def test_two_vertex_should_be_one_edge_test(self):
         v1 = Vertex(23, 1, 1)
         v2 = Vertex(24, 2, 1)
         e = SimpleEdge(23, 24, 123)
         g = gf.build_graph_from_vertices_edges([v1, v2], [e])
         self.assertTrue(len(g.vertices) == 2)
         self.assertTrue(len(g.edges) == 1)
-        self.assertEquals(g.edges[0].length, 123)
+        self.assertEqual(g.edges[0].length, 123)
 
-    def two_vertex_should_fail_test(self):
+    def test_two_vertex_should_fail_test(self):
         v1 = Vertex(23, 1, 1)
         v2 = Vertex(24, 2, 1)
         e = SimpleEdge(21, 24, 123)
@@ -36,7 +36,7 @@ class GraphfactorTest(unittest.TestCase):
         self.assertTrue(len(g.vertices) == 2)
         self.assertTrue(len(g.edges) == 0)
 
-    def three_vertex_should_three_edges_test(self):
+    def test_three_vertex_should_three_edges_test(self):
         v1 = Vertex(23, 1, 2)
         v2 = Vertex(24, 3, 4)
         v3 = Vertex(1, 5, 6)

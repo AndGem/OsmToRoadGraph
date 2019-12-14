@@ -5,7 +5,7 @@ import xml.sax
 from osm.osm_types import OSMWay, OSMNode
 
 from osm.way_parser_helper import WayParserHelper
-from typing import Set
+from typing import Optional, Set
 from xml.sax.xmlreader import AttributesImpl
 try:
     intern = sys.intern

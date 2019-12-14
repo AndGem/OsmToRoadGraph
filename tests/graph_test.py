@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 import unittest
 
 from graph.graph import Graph
@@ -8,10 +6,10 @@ from graph.graph_types import Edge, Vertex
 
 class GraphTest(unittest.TestCase):
 
-    def add_edge_adds_one_edge_test(self):
+    def test_add_edge_adds_one_edge_test(self):
         g = Graph()
 
-        v1, v2 = self.get_vertex(0), self.get_vertex(1)
+        v1, v2 = self._get_vertex(0), self._get_vertex(1)
         e = Edge(v1.id, v2.id, 1, " ", 100, True, True, "Test")
 
         g.add_node(v1)
@@ -21,10 +19,10 @@ class GraphTest(unittest.TestCase):
         self.assertEqual(len(g.edges), 1)
         self.assertEqual(g.edges[0], e)
 
-    def add_edges_correct_in_out_neighbors_test(self):
+    def test_add_edges_correct_in_out_neighbors_test(self):
         g = Graph()
 
-        v1, v2, v3, v4 = self.get_vertex(0), self.get_vertex(1), self.get_vertex(2), self.get_vertex(3)
+        v1, v2, v3, v4 = self._get_vertex(0), self._get_vertex(1), self._get_vertex(2), self._get_vertex(3)
         e_forward = Edge(v1.id, v2.id, 1, " ", 100, True, False, "Test")
         e_backward = Edge(v2.id, v3.id, 1, " ", 100, False, True, "Test")
         e_nothing = Edge(v3.id, v4.id, 1, " ", 100, False, False, "Test")
@@ -66,9 +64,9 @@ class GraphTest(unittest.TestCase):
         self.assertTrue(e_both.s in g.outneighbors[e_both.t])
         self.assertTrue(e_both.t in g.inneighbors[e_both.s])
 
-    def add_edges_correct_set_of_neighbors_test(self):
+    def test_add_edges_correct_set_of_neighbors_test(self):
         g = Graph()
-        v1, v2, v3 = self.get_vertex(0), self.get_vertex(1), self.get_vertex(2)
+        v1, v2, v3 = self._get_vertex(0), self._get_vertex(1), self._get_vertex(2)
         e_forward = Edge(v1.id, v2.id, 1, " ", 100, True, False, "Test")
         e_backward = Edge(v2.id, v3.id, 1, " ", 100, False, True, "Test")
         e_both = Edge(v3.id, v1.id, 1, " ", 100, True, True, "Test")
@@ -81,12 +79,12 @@ class GraphTest(unittest.TestCase):
         g.add_edge(e_backward)
         g.add_edge(e_both)
 
-        self.assertTrue(self.checkEqual([v2.id, v3.id], g.all_neighbors(v1.id)))
-        self.assertTrue(self.checkEqual([v1.id, v3.id], g.all_neighbors(v2.id)))
-        self.assertTrue(self.checkEqual([v1.id, v2.id], g.all_neighbors(v3.id)))
+        self.assertTrue(self._checkEqual([v2.id, v3.id], g.all_neighbors(v1.id)))
+        self.assertTrue(self._checkEqual([v1.id, v3.id], g.all_neighbors(v2.id)))
+        self.assertTrue(self._checkEqual([v1.id, v2.id], g.all_neighbors(v3.id)))
 
-    def checkEqual(self, L1, L2):
+    def _checkEqual(self, L1, L2):
         return len(L1) == len(L2) and sorted(L1) == sorted(L2)
 
-    def get_vertex(self, index=0):
+    def _get_vertex(self, index=0):
         return Vertex(index, 1.2, 2.3)

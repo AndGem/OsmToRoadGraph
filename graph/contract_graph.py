@@ -5,6 +5,9 @@ import graph.graph_types as graph_types
 import utils.timer as timer
 
 
+from graph.graph import Graph
+from graph.graph_types import Edge, SimpleEdge, Vertex
+from typing import Dict, List, Optional, Set, Tuple
 @timer.timer
 def contract(graph):
     all_new_edges = find_new_edges(graph)
@@ -15,11 +18,11 @@ def contract(graph):
     return graphfactory.build_graph_from_vertices_edges(nodes, filtered_edges)
 
 
-def get_nodes(graph, node_ids):
+def get_nodes(graph: Graph, node_ids: Set[int]) -> List[Vertex]:
     return list(map(lambda node_id: graph.get_node(node_id), node_ids))
 
 
-def gather_node_ids(edges):
+def gather_node_ids(edges: List[SimpleEdge]) -> Set[int]:
     print("\t gathering nodes...")
     node_ids = set()
     for e in edges:
@@ -28,7 +31,7 @@ def gather_node_ids(edges):
     return node_ids
 
 
-def remove_duplicates(edges):
+def remove_duplicates(edges: List[SimpleEdge]) -> List[SimpleEdge]:
     print("\t removing duplicate edges...")
     added_edges = set()
     filtered_edges = []
@@ -40,7 +43,7 @@ def remove_duplicates(edges):
     return filtered_edges
 
 
-def find_new_edges(graph):
+def find_new_edges(graph: Graph) -> List[SimpleEdge]:
     edge_by_s_t = edge_mapping(graph)
     all_new_edges = []
     for node_id in range(len(graph.vertices)):
@@ -56,7 +59,7 @@ def find_new_edges(graph):
     return all_new_edges
 
 
-def edge_mapping(graph):
+def edge_mapping(graph: Graph) -> Dict[Tuple[int, int], Edge]:
     edge_by_s_t = {}
     for edge in graph.edges:
         edge_by_s_t[(edge.s, edge.t)] = edge
@@ -69,11 +72,11 @@ def edge_mapping(graph):
     return edge_by_s_t
 
 
-def is_important_node(graph, node_id):
+def is_important_node(graph: Graph, node_id: int) -> bool:
     return len(graph.all_neighbors(node_id)) != 2
 
 
-def get_edges(nodes, edges_by_s_t):
+def get_edges(nodes: List[int], edges_by_s_t: Dict[Tuple[int, int], Edge]) -> List[Edge]:
     if nodes:
         edges = []
         for i in range(len(nodes) - 1):
@@ -83,7 +86,7 @@ def get_edges(nodes, edges_by_s_t):
     return []
 
 
-def merge_edges(edges):
+def merge_edges(edges: List[Edge]) -> Optional[SimpleEdge]:
     if edges:
         s, t = edges[0].s, edges[-1].t
         if s != t:
@@ -92,7 +95,7 @@ def merge_edges(edges):
     return None
 
 
-def nodes_to_next_important_node(graph, start_node, next_node):
+def nodes_to_next_important_node(graph: Graph, start_node: int, next_node: int) -> List[int]:
     if start_node == next_node:
         print("\t something is wrong here...")
         return []

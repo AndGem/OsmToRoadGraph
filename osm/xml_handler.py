@@ -6,6 +6,9 @@ import xml.sax
 
 from osm.osm_types import OSMWay, OSMNode
 
+from osm.way_parser_helper import WayParserHelper
+from typing import Set
+from xml.sax.xmlreader import AttributesImpl
 try:
     intern = sys.intern
 except AttributeError:
@@ -14,13 +17,13 @@ except AttributeError:
 
 class PercentageFile(object):
 
-    def __init__(self, filename):
+    def __init__(self, filename: str) -> None:
         self.size = os.stat(filename)[6]
         self.delivered = 0
         self.f = open(filename)
         self.percentages = [1000] + [100 - 10 * x for x in range(0, 11)]
 
-    def read(self, size=None):
+    def read(self, size: Optional[int] = None) -> str:
         if size is None:
             self.delivered = self.size
             return self.f.read()
@@ -36,21 +39,21 @@ class PercentageFile(object):
             self.percentages = self.percentages[:-1]
         return data
 
-    def close(self):
+    def close(self) -> None:
         self.f.close()
 
     @property
-    def percentage(self):
+    def percentage(self) -> float:
         return float(self.delivered) / self.size * 100.0
 
 
 class NodeHandler(xml.sax.ContentHandler):
 
-    def __init__(self, found_nodes):
+    def __init__(self, found_nodes: Set[int]) -> None:
         self.found_nodes = found_nodes
         self.nodes = {}
 
-    def startElement(self, tag, attributes):
+    def startElement(self, tag: str, attributes: AttributesImpl) -> None:
         if tag == "node":
             osm_id = int(attributes["id"])
             if osm_id not in self.found_nodes:
@@ -61,7 +64,7 @@ class NodeHandler(xml.sax.ContentHandler):
 
 class WayHandler(xml.sax.ContentHandler):
 
-    def __init__(self, parser_helper):
+    def __init__(self, parser_helper: WayParserHelper) -> None:
         # stores all found ways
         self.found_ways = []
         self.found_nodes = set()
@@ -71,7 +74,7 @@ class WayHandler(xml.sax.ContentHandler):
 
         self.parser_helper = parser_helper
 
-    def startElement(self, tag, attributes):
+    def startElement(self, tag: str, attributes: AttributesImpl) -> None:
         if tag == "way":
             self.start_tag_found = True
             self.current_way = OSMWay(int(attributes["id"]))
@@ -112,7 +115,7 @@ class WayHandler(xml.sax.ContentHandler):
                 e = sys.exc_info()[0]
                 print("Error while parsing: {}".format(e))
 
-    def endElement(self, tag):
+    def endElement(self, tag: str) -> None:
         if tag == "way":
             self.start_tag_found = False
 

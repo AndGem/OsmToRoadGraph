@@ -20,4 +20,4 @@ def distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     cos_val = min(1, cos_val)
     arc_val = acos(cos_val)
 
-    return arc_val * 6373000 # distance in meters
+    return arc_val * 6373000  # distance in meters

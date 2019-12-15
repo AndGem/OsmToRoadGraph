@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import Optional
 
+
 class OSMWay:
     __slots__ = ["osm_id", "nodes", "highway", "area", "max_speed", "direction", "forward", "backward", "name"]
 

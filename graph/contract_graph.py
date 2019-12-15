@@ -4,10 +4,11 @@ import graph.graphfactory as graphfactory
 import graph.graph_types as graph_types
 import utils.timer as timer
 
-
 from graph.graph import Graph
 from graph.graph_types import Edge, SimpleEdge, Vertex
 from typing import Dict, List, Optional, Set, Tuple
+
+
 @timer.timer
 def contract(graph):
     all_new_edges = find_new_edges(graph)

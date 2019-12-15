@@ -1,7 +1,8 @@
 import time
 
-
 from typing import Callable
+
+
 def timer(function: Callable) -> Callable:
     def wrapper(*args, **kwargs):
         start_time = time.time()

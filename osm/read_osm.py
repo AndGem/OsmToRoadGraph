@@ -34,5 +34,3 @@ def _read_nodes(osm_file, found_nodes):
     parser.parse(osm_file)
 
     return n_handler.nodes
-
-

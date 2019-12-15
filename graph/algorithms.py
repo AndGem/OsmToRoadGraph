@@ -3,9 +3,10 @@ from collections import deque
 import graph.graphfactory as graphfactory
 import utils.timer as timer
 
-
 from graph.graph import Graph
 from typing import Set
+
+
 def BFS(graph: Graph, s: int) -> Set[int]:
     seen_nodes = set([s])
     unvisited_nodes = deque([s])

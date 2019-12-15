@@ -117,7 +117,6 @@ class WayHandler(xml.sax.ContentHandler):
         if tag == "way":
             self.start_tag_found = False
 
-            # check if way is acceptable
             if not self.parser_helper.is_way_acceptable(self.current_way):
                 self.current_way = None
                 return

@@ -1,6 +1,7 @@
-
 from graph.graph_types import Edge, SimpleEdge, Vertex
 from typing import List, Union
+
+
 class Graph(object):
 
     def __init__(self) -> None:

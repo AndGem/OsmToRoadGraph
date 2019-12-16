@@ -61,7 +61,7 @@ class WayHandler(ContentHandler):
 
     def __init__(self, parser_helper: WayParserHelper) -> None:
         self.found_ways: List[OSMWay] = []
-        self.found_nodes: Set[OSMNode] = set()
+        self.found_nodes: Set[int] = set()
 
         self.current_way: Optional[OSMWay] = None
 

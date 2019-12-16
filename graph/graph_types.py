@@ -21,7 +21,7 @@ class Edge(object):
         self.t: int = t
         self.length: float = length
         self.highway: str = highway
-        self.max_v: str = max_v
+        self.max_v: int = max_v
         self.forward: bool = f
         self.backward: bool = b
         self.name: str = name

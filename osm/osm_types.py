@@ -1,4 +1,4 @@
-from typing import Optional, List
+from typing import List, Optional
 
 
 class OSMWay:
@@ -6,11 +6,11 @@ class OSMWay:
 
     def __init__(self, osm_id: int) -> None:
         self.osm_id = osm_id
-        self.nodes = []
-        self.highway = None
-        self.area = None
-        self.max_speed = None
-        self.direction = None
+        self.nodes: List[int] = []
+        self.highway: Optional[str] = None
+        self.area: Optional[str] = None
+        self.max_speed: Optional[str] = None
+        self.direction: Optional[str] = None
         self.forward = True
         self.backward = True
         self.name = ""

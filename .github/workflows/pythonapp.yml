@@ -28,7 +28,7 @@ jobs:
       run: |
         pip install mypy
         mypy .
-      - name: Test with pytest
+    - name: Test with pytest
       run: |
         pip install pytest
         pytest

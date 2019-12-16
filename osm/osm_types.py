@@ -4,6 +4,8 @@ from typing import Optional, List
 
 @dataclass
 class OSMWay:
+    __slots__ = ["osm_id", "nodes", "highway", "area", "max_speed", "direction", "forward", "backward", "name"]
+    
     osm_id: int
     name: str = ""
     highway: Optional[str] = None
@@ -20,6 +22,8 @@ class OSMWay:
 
 @dataclass
 class OSMNode(object):
+    __slots__ = ["lat", "lon", "osm_id"]
+    
     osm_id: int
     lat: float
     lon: float

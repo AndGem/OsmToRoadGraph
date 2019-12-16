@@ -4,6 +4,8 @@ from typing import Optional, Union
 
 @dataclass
 class Vertex:
+    __slots__ = ["id", "lat", "lon"]
+
     id: int
     lat: float
     lon: float
@@ -15,6 +17,7 @@ class Vertex:
 
 @dataclass
 class Edge:
+    __slots__ = ["s", "t", "length", "highway", "max_v", "forward", "backward", "name"]
     s: int
     t: int
     length: float
@@ -32,6 +35,7 @@ class Edge:
 
 @dataclass
 class SimpleEdge:
+    __slots__ = ["s", "t", "length", "name"]
     s: int
     t: int
     length: float

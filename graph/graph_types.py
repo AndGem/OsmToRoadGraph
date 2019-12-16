@@ -1,31 +1,30 @@
-from dataclasses import dataclass
-from typing import Optional, Union
+from typing import Union
 
 
-@dataclass
-class Vertex:
+class Vertex(object):
     __slots__ = ["id", "lat", "lon"]
 
-    id: int
-    lat: float
-    lon: float
+    def __init__(self, id: int, lat: float, lon: float) -> None:
+        self.id = id
+        self.lat, self.lon = lat, lon
 
     @property
     def description(self) -> str:
         return "{} {} {}".format(self.id, self.lat, self.lon)
 
 
-@dataclass
-class Edge:
+class Edge(object):
     __slots__ = ["s", "t", "length", "highway", "max_v", "forward", "backward", "name"]
-    s: int
-    t: int
-    length: float
-    highway: str
-    max_v: int
-    forward: bool
-    backward: bool
-    name: str
+
+    def __init__(self, s: int, t: int, length: float, highway: str, max_v: int, f: bool, b: bool, name: str) -> None:
+        self.s: int = s
+        self.t: int = t
+        self.length: float = length
+        self.highway: str = highway
+        self.max_v: str = max_v
+        self.forward: bool = f
+        self.backward: bool = b
+        self.name: str = name
 
     @property
     def description(self) -> str:
@@ -33,13 +32,14 @@ class Edge:
         return "{} {} {} {} {} {}".format(self.s, self.t, self.length, self.highway, self.max_v, both_directions)
 
 
-@dataclass
-class SimpleEdge:
+class SimpleEdge(object):
     __slots__ = ["s", "t", "length", "name"]
-    s: int
-    t: int
-    length: float
-    name: Optional[str] = ""
+
+    def __init__(self, s: int, t: int, length: float) -> None:
+        self.s: int = s
+        self.t: int = t
+        self.length: float = length
+        self.name: str = ""
 
     @property
     def forward(self) -> bool:

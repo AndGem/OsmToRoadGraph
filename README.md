@@ -35,7 +35,7 @@ With this tool the data is being converted into easily parsable plaintext files 
 
 ## Requirements
 
-- Python 3.7+/PyPy
+- Python 3.6+/PyPy
 - An OSM XML file
 
 ## Older Versions

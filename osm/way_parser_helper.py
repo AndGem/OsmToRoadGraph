@@ -1,9 +1,12 @@
+from osm.osm_types import OSMWay
+
+
 class WayParserHelper:
 
     def __init__(self, config):
         self.config = config
 
-    def is_way_acceptable(self, way):
+    def is_way_acceptable(self, way: OSMWay):
         # reject: if the way marks the border of an area
         if way.area == 'yes':
             return False

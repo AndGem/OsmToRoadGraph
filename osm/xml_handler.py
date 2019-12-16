@@ -63,9 +63,11 @@ class WayHandler(ContentHandler):
         self.found_ways: List[OSMWay] = []
         self.found_nodes: Set[OSMNode] = set()
 
-        self.current_way = Optional[OSMWay]
+        self.current_way: Optional[OSMWay] = None
 
         self.parser_helper = parser_helper
+        print(self.current_way)
+        print(self.current_way is not None)
 
     def startElement(self, name: str, attrs: AttributesImpl) -> None:
         if name == "way":
@@ -80,6 +82,8 @@ class WayHandler(ContentHandler):
 
                 elif name == "tag":
                     if attrs["k"] == "highway":
+                        print(self.current_way)
+                        print(attrs["v"])
                         self.current_way.highway = attrs["v"]
                     elif attrs["k"] == "area":
                         self.current_way.area = attrs["v"]
@@ -108,7 +112,7 @@ class WayHandler(ContentHandler):
 
     def endElement(self, name: str) -> None:
         if name == "way":
-            assert self.current_way
+            assert self.current_way is not None
 
             if not self.parser_helper.is_way_acceptable(self.current_way):
                 self.current_way = None

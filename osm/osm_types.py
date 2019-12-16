@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-from typing import Optional
+from typing import List, Optional
 
 
 class OSMWay:
@@ -7,11 +6,11 @@ class OSMWay:
 
     def __init__(self, osm_id: int) -> None:
         self.osm_id = osm_id
-        self.nodes = []
-        self.highway = None
-        self.area = None
-        self.max_speed = None
-        self.direction = None
+        self.nodes: List[int] = []
+        self.highway: Optional[str] = None
+        self.area: Optional[str] = None
+        self.max_speed: Optional[str] = None
+        self.direction: Optional[str] = None
         self.forward = True
         self.backward = True
         self.name = ""
@@ -23,6 +22,7 @@ class OSMWay:
 class OSMNode(object):
     __slots__ = ["lat", "lon", "osm_id"]
 
-    def __init__(self, osm_id: int, lat: Optional[float] = None, lon: Optional[float] = None) -> None:
-        self.osm_id = osm_id
-        self.lat, self.lon = lat, lon
+    def __init__(self, osm_id: int, lat: float, lon: float) -> None:
+        self.osm_id: int = osm_id
+        self.lat: float = lat
+        self.lon: float = lon

@@ -1,16 +1,13 @@
 import os
 import sys
-import xml.sax
+from typing import Optional, Set, List, Dict
+from xml.sax.xmlreader import AttributesImpl
+from xml.sax.handler import ContentHandler
 
 from osm.osm_types import OSMWay, OSMNode
-
 from osm.way_parser_helper import WayParserHelper
-from typing import Optional, Set
-from xml.sax.xmlreader import AttributesImpl
-try:
-    intern = sys.intern
-except AttributeError:
-    pass
+
+intern = sys.intern
 
 
 class PercentageFile(object):
@@ -45,77 +42,77 @@ class PercentageFile(object):
         return float(self.delivered) / self.size * 100.0
 
 
-class NodeHandler(xml.sax.ContentHandler):
+class NodeHandler(ContentHandler):
 
     def __init__(self, found_nodes: Set[int]) -> None:
-        self.found_nodes = found_nodes
-        self.nodes = {}
+        self.found_nodes: Set[int] = found_nodes
+        self.nodes: Dict[int, OSMNode] = {}
 
-    def startElement(self, tag: str, attributes: AttributesImpl) -> None:
-        if tag == "node":
-            osm_id = int(attributes["id"])
+    def startElement(self, name: str, attrs: AttributesImpl) -> None:
+        if name == "node":
+            osm_id = int(attrs["id"])
             if osm_id not in self.found_nodes:
                 return
 
-            self.nodes[osm_id] = OSMNode(osm_id, float(attributes["lat"]), float(attributes["lon"]))
+            self.nodes[osm_id] = OSMNode(osm_id, float(attrs["lat"]), float(attrs["lon"]))
 
 
-class WayHandler(xml.sax.ContentHandler):
+class WayHandler(ContentHandler):
 
     def __init__(self, parser_helper: WayParserHelper) -> None:
-        # stores all found ways
-        self.found_ways = []
-        self.found_nodes = set()
+        self.found_ways: List[OSMWay] = []
+        self.found_nodes: Set[int] = set()
 
-        self.start_tag_found = False
-        self.current_way = None
+        self.current_way: Optional[OSMWay] = None
 
         self.parser_helper = parser_helper
+        print(self.current_way)
+        print(self.current_way is not None)
 
-    def startElement(self, tag: str, attributes: AttributesImpl) -> None:
-        if tag == "way":
-            self.start_tag_found = True
-            self.current_way = OSMWay(int(attributes["id"]))
+    def startElement(self, name: str, attrs: AttributesImpl) -> None:
+        if name == "way":
+            self.current_way = OSMWay(osm_id=int(attrs["id"]))
             return
 
-        if self.start_tag_found:
+        if self.current_way is not None:
             try:
-                if tag == "nd":
-                    # gather nodes
-                    node_id = int(attributes["ref"])
+                if name == "nd":
+                    node_id = int(attrs["ref"])
                     self.current_way.add_node(node_id)
 
-                elif tag == "tag":
-                    if attributes["k"] == "highway":
-                        self.current_way.highway = attributes["v"]
-                    elif attributes["k"] == "area":
-                        self.current_way.area = attributes["v"]
-                    elif attributes["k"] == "maxspeed":
-                        self.current_way.max_speed = str(attributes["v"])
-                    elif attributes["k"] == "oneway":
-                        if attributes["v"] == "yes":
+                elif name == "tag":
+                    if attrs["k"] == "highway":
+                        print(self.current_way)
+                        print(attrs["v"])
+                        self.current_way.highway = attrs["v"]
+                    elif attrs["k"] == "area":
+                        self.current_way.area = attrs["v"]
+                    elif attrs["k"] == "maxspeed":
+                        self.current_way.max_speed = str(attrs["v"])
+                    elif attrs["k"] == "oneway":
+                        if attrs["v"] == "yes":
                             self.current_way.direction = "oneway"
-                    elif attributes["k"] == "name":
+                    elif attrs["k"] == "name":
                         try:
-                            self.current_way.name = intern(attributes["v"])
+                            self.current_way.name = intern(attrs["v"])
                         except TypeError:
-                            self.current_way.name = attributes["v"]
-                    elif attributes["k"] == "junction":
-                        if attributes["v"] == "roundabout":
+                            self.current_way.name = attrs["v"]
+                    elif attrs["k"] == "junction":
+                        if attrs["v"] == "roundabout":
                             self.current_way.direction = "oneway"
-                    elif attributes["k"] == "indoor":
+                    elif attrs["k"] == "indoor":
                         # this is not an ideal solution since it sets the pedestrian flag irrespective of the real value in osm data
                         # but aims to cover the simple indoor tagging approach: https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging
                         # more info: https://help.openstreetmap.org/questions/61025/pragmatic-single-level-indoor-paths
-                        if attributes["v"] == "corridor":
+                        if attrs["v"] == "corridor":
                             self.current_way.highway = "pedestrian_indoor"
             except:
                 e = sys.exc_info()[0]
                 print("Error while parsing: {}".format(e))
 
-    def endElement(self, tag: str) -> None:
-        if tag == "way":
-            self.start_tag_found = False
+    def endElement(self, name: str) -> None:
+        if name == "way":
+            assert self.current_way is not None
 
             if not self.parser_helper.is_way_acceptable(self.current_way):
                 self.current_way = None

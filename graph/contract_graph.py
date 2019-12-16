@@ -5,12 +5,12 @@ import graph.graph_types as graph_types
 import utils.timer as timer
 
 from graph.graph import Graph
-from graph.graph_types import Edge, SimpleEdge, Vertex
+from graph.graph_types import VertexType, EdgeType
 from typing import Dict, List, Optional, Set, Tuple
 
 
 @timer.timer
-def contract(graph):
+def contract(graph: Graph):
     all_new_edges = find_new_edges(graph)
     filtered_edges = remove_duplicates(all_new_edges)
     node_ids = gather_node_ids(filtered_edges)
@@ -19,11 +19,11 @@ def contract(graph):
     return graphfactory.build_graph_from_vertices_edges(nodes, filtered_edges)
 
 
-def get_nodes(graph: Graph, node_ids: Set[int]) -> List[Vertex]:
+def get_nodes(graph: Graph, node_ids: Set[int]) -> List[VertexType]:
     return list(map(lambda node_id: graph.get_node(node_id), node_ids))
 
 
-def gather_node_ids(edges: List[SimpleEdge]) -> Set[int]:
+def gather_node_ids(edges: List[EdgeType]) -> Set[int]:
     print("\t gathering nodes...")
     node_ids = set()
     for e in edges:
@@ -32,9 +32,9 @@ def gather_node_ids(edges: List[SimpleEdge]) -> Set[int]:
     return node_ids
 
 
-def remove_duplicates(edges: List[SimpleEdge]) -> List[SimpleEdge]:
+def remove_duplicates(edges: List[EdgeType]) -> List[EdgeType]:
     print("\t removing duplicate edges...")
-    added_edges = set()
+    added_edges: Set[Tuple[int, int]] = set()
     filtered_edges = []
     for edge in edges:
         if (edge.s, edge.t) not in added_edges and (edge.t, edge.s) not in added_edges:
@@ -44,7 +44,7 @@ def remove_duplicates(edges: List[SimpleEdge]) -> List[SimpleEdge]:
     return filtered_edges
 
 
-def find_new_edges(graph: Graph) -> List[SimpleEdge]:
+def find_new_edges(graph: Graph) -> List[EdgeType]:
     edge_by_s_t = edge_mapping(graph)
     all_new_edges = []
     for node_id in range(len(graph.vertices)):
@@ -60,7 +60,7 @@ def find_new_edges(graph: Graph) -> List[SimpleEdge]:
     return all_new_edges
 
 
-def edge_mapping(graph: Graph) -> Dict[Tuple[int, int], Edge]:
+def edge_mapping(graph: Graph) -> Dict[Tuple[int, int], EdgeType]:
     edge_by_s_t = {}
     for edge in graph.edges:
         edge_by_s_t[(edge.s, edge.t)] = edge
@@ -77,7 +77,7 @@ def is_important_node(graph: Graph, node_id: int) -> bool:
     return len(graph.all_neighbors(node_id)) != 2
 
 
-def get_edges(nodes: List[int], edges_by_s_t: Dict[Tuple[int, int], Edge]) -> List[Edge]:
+def get_edges(nodes: List[int], edges_by_s_t: Dict[Tuple[int, int], EdgeType]) -> List[EdgeType]:
     if nodes:
         edges = []
         for i in range(len(nodes) - 1):
@@ -87,7 +87,7 @@ def get_edges(nodes: List[int], edges_by_s_t: Dict[Tuple[int, int], Edge]) -> Li
     return []
 
 
-def merge_edges(edges: List[Edge]) -> Optional[SimpleEdge]:
+def merge_edges(edges: List[EdgeType]) -> Optional[EdgeType]:
     if edges:
         s, t = edges[0].s, edges[-1].t
         if s != t:

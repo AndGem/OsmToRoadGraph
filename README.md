@@ -1,10 +1,10 @@
-# OsmToRoadGraph v.0.4.2
+# OsmToRoadGraph v.0.4.3
 
 [![Build Status](https://travis-ci.org/AndGem/OsmToRoadGraph.svg?branch=master)](https://travis-ci.org/AndGem/OsmToRoadGraph)
 [![codecov](https://codecov.io/gh/AndGem/OsmToRoadGraph/branch/master/graph/badge.svg)](https://codecov.io/gh/AndGem/OsmToRoadGraph)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-- [OsmToRoadGraph v.0.4.2](#osmtoroadgraph-v042)
+- [OsmToRoadGraph v.0.4.3](#osmtoroadgraph-v043)
 - [Introduction](#introduction)
   - [Motivation](#motivation)
   - [Description](#description)
@@ -73,7 +73,7 @@ python run.py -f data/karlsruhe_small.osm -n p -v
 
 ### Output
 
-The output will consist of two plaintext files. One file ending in `.pypgr`, `pybgr`, or `pycgr` depending on the network type selected; the other file will have the same ending with a `_names` as additional suffix. The first file contains the graph structure as well as additional information about the edge (length, max speed according to highway type, if it is a one-way street or not). The file ending with `_names` includes the street names for the edges. 
+The output will consist of two plaintext files. One file ending in `.pypgr`, `pybgr`, or `pycgr` depending on the network type selected; the other file will have the same ending with a `_names` as additional suffix. The first file contains the graph structure as well as additional information about the edge (length, max speed according to highway type, if it is a one-way street or not). The file ending with `_names` includes the street names for the edges.
 
 #### Output Format
 

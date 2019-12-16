@@ -1,3 +1,6 @@
+from typing import Union
+
+
 class Vertex(object):
     __slots__ = ["id", "lat", "lon"]
 
@@ -14,12 +17,14 @@ class Edge(object):
     __slots__ = ["s", "t", "length", "highway", "max_v", "forward", "backward", "name"]
 
     def __init__(self, s: int, t: int, length: float, highway: str, max_v: int, f: bool, b: bool, name: str) -> None:
-        self.s, self.t = s, t
-        self.length = length
-        self.highway = highway
-        self.max_v = max_v
-        self.forward, self.backward = f, b
-        self.name = name
+        self.s: int = s
+        self.t: int = t
+        self.length: float = length
+        self.highway: str = highway
+        self.max_v: int = max_v
+        self.forward: bool = f
+        self.backward: bool = b
+        self.name: str = name
 
     @property
     def description(self) -> str:
@@ -31,9 +36,10 @@ class SimpleEdge(object):
     __slots__ = ["s", "t", "length", "name"]
 
     def __init__(self, s: int, t: int, length: float) -> None:
-        self.s, self.t = s, t
-        self.length = length
-        self.name = ""
+        self.s: int = s
+        self.t: int = t
+        self.length: float = length
+        self.name: str = ""
 
     @property
     def forward(self) -> bool:
@@ -46,3 +52,7 @@ class SimpleEdge(object):
     @property
     def description(self) -> str:
         return "{} {} {}".format(self.s, self.t, self.length)
+
+
+EdgeType = Union[Edge, SimpleEdge]
+VertexType = Union[Vertex]

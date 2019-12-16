@@ -1,4 +1,4 @@
-from graph.graph_types import EdgeType, Vertex
+from graph.graph_types import EdgeType, VertexType
 from typing import List, Set
 
 
@@ -6,7 +6,7 @@ class Graph(object):
 
     def __init__(self) -> None:
         self.edges: List[EdgeType] = []
-        self.vertices: List[Vertex] = []
+        self.vertices: List[VertexType] = []
         self.outneighbors: List[Set[int]] = []
         self.inneighbors: List[Set[int]] = []
 
@@ -21,12 +21,12 @@ class Graph(object):
             self.outneighbors[edge.t].add(edge.s)
             self.inneighbors[edge.s].add(edge.t)
 
-    def add_node(self, vertex: Vertex) -> None:
+    def add_node(self, vertex: VertexType) -> None:
         self.vertices.append(vertex)
         self.outneighbors.append(set())
         self.inneighbors.append(set())
 
-    def get_node(self, node_id: int) -> Vertex:
+    def get_node(self, node_id: int) -> VertexType:
         return self.vertices[node_id]
 
     def edge_description(self, edge_id):

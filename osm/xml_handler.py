@@ -1,13 +1,11 @@
 import os
 import sys
-import xml.sax
-
-from osm.osm_types import OSMWay, OSMNode
-
-from osm.way_parser_helper import WayParserHelper
 from typing import Optional, Set, List, Dict
 from xml.sax.xmlreader import AttributesImpl
 from xml.sax.handler import ContentHandler
+
+from osm.osm_types import OSMWay, OSMNode
+from osm.way_parser_helper import WayParserHelper
 
 intern = sys.intern
 

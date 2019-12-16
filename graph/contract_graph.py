@@ -5,7 +5,7 @@ import graph.graph_types as graph_types
 import utils.timer as timer
 
 from graph.graph import Graph
-from graph.graph_types import Vertex, EdgeType
+from graph.graph_types import VertexType, EdgeType
 from typing import Dict, List, Optional, Set, Tuple
 
 
@@ -19,7 +19,7 @@ def contract(graph: Graph):
     return graphfactory.build_graph_from_vertices_edges(nodes, filtered_edges)
 
 
-def get_nodes(graph: Graph, node_ids: Set[int]) -> List[Vertex]:
+def get_nodes(graph: Graph, node_ids: Set[int]) -> List[VertexType]:
     return list(map(lambda node_id: graph.get_node(node_id), node_ids))
 
 

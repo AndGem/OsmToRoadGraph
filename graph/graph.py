@@ -1,16 +1,16 @@
-from graph.graph_types import Edge, SimpleEdge, Vertex
-from typing import List, Union
+from graph.graph_types import EdgeType, Vertex
+from typing import List, Set
 
 
 class Graph(object):
 
     def __init__(self) -> None:
-        self.edges = []
-        self.vertices = []
-        self.outneighbors = []
-        self.inneighbors = []
+        self.edges: List[EdgeType] = []
+        self.vertices: List[Vertex] = []
+        self.outneighbors: List[Set[int]] = []
+        self.inneighbors: List[Set[int]] = []
 
-    def add_edge(self, edge: Union[SimpleEdge, Edge]) -> None:
+    def add_edge(self, edge: EdgeType) -> None:
         self.edges.append(edge)
 
         if edge.forward:

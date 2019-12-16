@@ -5,8 +5,9 @@ import xml.sax
 from osm.osm_types import OSMWay, OSMNode
 
 from osm.way_parser_helper import WayParserHelper
-from typing import Optional, Set, List
+from typing import Optional, Set, List, Dict
 from xml.sax.xmlreader import AttributesImpl
+from xml.sax.handler import ContentHandler
 
 intern = sys.intern
 
@@ -43,11 +44,11 @@ class PercentageFile(object):
         return float(self.delivered) / self.size * 100.0
 
 
-class NodeHandler(xml.sax.ContentHandler):
+class NodeHandler(ContentHandler):
 
     def __init__(self, found_nodes: Set[int]) -> None:
-        self.found_nodes = found_nodes
-        self.nodes = {}
+        self.found_nodes: Set[int] = found_nodes
+        self.nodes: Dict[int, OSMNode] = {}
 
     def startElement(self, name: str, attrs: AttributesImpl) -> None:
         if name == "node":
@@ -58,30 +59,24 @@ class NodeHandler(xml.sax.ContentHandler):
             self.nodes[osm_id] = OSMNode(osm_id, float(attrs["lat"]), float(attrs["lon"]))
 
 
-class WayHandler(xml.sax.ContentHandler):
-
-    found_ways: List[OSMWay]
-    found_nodes: Set[OSMNode]
-
-    current_way: Optional[OSMWay]
+class WayHandler(ContentHandler):
 
     def __init__(self, parser_helper: WayParserHelper) -> None:
-        self.found_ways = []
-        self.found_nodes = set()
+        self.found_ways: List[OSMWay] = []
+        self.found_nodes: Set[OSMNode] = set()
 
-        self.current_way = None
+        self.current_way = Optional[OSMWay]
 
         self.parser_helper = parser_helper
 
     def startElement(self, name: str, attrs: AttributesImpl) -> None:
         if name == "way":
-            self.current_way = OSMWay(int(attrs["id"]))
+            self.current_way = OSMWay(osm_id=int(attrs["id"]))
             return
 
         if self.current_way is not None:
             try:
                 if name == "nd":
-                    # gather nodes
                     node_id = int(attrs["ref"])
                     self.current_way.add_node(node_id)
 

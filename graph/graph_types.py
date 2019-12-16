@@ -1,3 +1,6 @@
+from typing import Union
+
+
 class Vertex(object):
     __slots__ = ["id", "lat", "lon"]
 
@@ -46,3 +49,6 @@ class SimpleEdge(object):
     @property
     def description(self) -> str:
         return "{} {} {}".format(self.s, self.t, self.length)
+
+
+EdgeType = Union[Edge, SimpleEdge]

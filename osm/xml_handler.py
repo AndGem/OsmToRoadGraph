@@ -15,7 +15,7 @@ class PercentageFile(object):
     def __init__(self, filename: str) -> None:
         self.size = os.stat(filename)[6]
         self.delivered = 0
-        self.f = open(filename)
+        self.f = open(filename, encoding="utf-8")
         self.percentages = [1000] + [100 - 10 * x for x in range(0, 11)]
 
     def read(self, size: Optional[int] = None) -> str:

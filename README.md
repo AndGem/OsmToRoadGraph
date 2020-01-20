@@ -85,11 +85,30 @@ The structure of the road network output file is the following:
 <number of edges>
 <id> <lat> <lon>
 ...
-<s> <t> <length> <street_type> <max_speed> <bidirectional>
+<source_node_id> <target_node_id> <length> <street_type> <max_speed> <bidirectional>
 ...
 ```
 
-`bidirectional` value is `0` if it is a unidirectional road (from `s` to `t`), and otherwise it is `1`.
+The file begins with a header (some lines with a # character).
+
+Then, two lines follow that contain the `number of nodes` and the `number of edges`.
+After this, two larger blocks follow. In the first block, the nodes are being described, and in the latter the edges are described.
+The first block consists of `<number of nodes>` many lines, and the second block consists of `<number of edges>` many lines.
+
+Nodes of the graph are described by the following three parameters. Each nodes data is stored in one line, and the parameters are separated by a space:
+
+- `<id>`: the node id (used later in the part where edges are to describe which nodes are connected by an edge)
+- `<lat>`: latitude of the node
+- `<lat>`: longitude of the node
+
+Edges of the graph are described by 6 parameters. Each edge is stored in one line, and the parameters are separated by a space:
+
+- `<source_node_id>`: the node id (see above) from which the edge originates
+- `<target_node_id>`: the node id (see above) to which the edge leads to
+- `<length>`: the length of the edge in meters (approximated)
+- `<street_type>`: one of the OSM highway types (see: https://wiki.openstreetmap.org/wiki/Key:highway)
+- `<max_speed>`: maximum allowed speed (if exists) in km/h [note: if no max speed is found a default value will be used]
+- `<bidirectional>` indicates if an edge is bidirection. The value is `0` if it is a unidirectional road (from `source_node_id` to `target_node_id`), and otherwise it is `1`.
 
 ##### Example Road Network (*.pycgr)
 

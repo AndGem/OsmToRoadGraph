@@ -2,8 +2,8 @@
 
 This project is a simple example that illustrates how to generate a PNG image file that shows the road network of any osm file.
 
-This is an example of how this can look like:
-![Bremen](bremen.png)
+This is an example of how this can look like (the darker the higher the maximum allowed speed is on the street):
+![Bremen](./bremen.png)
 
 ## How to prepare (create a pycgr file)
 

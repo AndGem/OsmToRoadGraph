@@ -30,6 +30,13 @@ OSMtoRoadGraph aims to provide a simple tool to allow extraction of the road net
 
 OpenStreetMap provides free cartographic data to anyone. Data can be added and edited by anyone. However, using the road network contained in the OSM files is not straightforward. This tool aims to reduce the overhead of writing a parser for OSM files.
 
+Below is an example of a visualization of the road network of the city of Bremen, Germany. The darker the shade of the street, the higher the maximum allowed speed.
+
+<img src="https://raw.githubusercontent.com/AndGem/OsmToRoadGraph/master/examples/pycgr-to-png/bremen.png" width="350">
+
+For details on how image was generated take a look into the [examples folder](https://github.com/AndGem/OsmToRoadGraph/tree/master/examples/pycgr-to-png). 
+
+
 ## Description
 
 With this tool the data is being converted into easily parsable plaintext files that can be used by any application for further processing. For each transportation network type two output files are generated. One file contains the nodes (with coordinates), and the network edges, with length, direction and maximum speed (according to chosen network type). The second file contains street names that could be extracted for all edges contained in the first file.

@@ -7,8 +7,7 @@ class VertexData(object):
     def __init__(self, lat: float, lon: float) -> None:
         self.lat, self.lon = lat, lon
 
-    @property
-    def description(self) -> str:
+    def __repr__(self) -> str:
         return "{} {}".format(self.lat, self.lon)
 
 
@@ -33,8 +32,7 @@ class EdgeData(object):
         self.max_v: int = max_v
         self.name: str = name
 
-    @property
-    def description(self) -> str:
+    def __repr__(self) -> str:
         return "{} {} {}".format(self.length, self.highway, self.max_v)
 
 

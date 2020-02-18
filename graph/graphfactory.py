@@ -21,6 +21,7 @@ def build_graph_from_osm(nodes, ways):
         g.add_node(Vertex(id_mapper[n.osm_id], data=VertexData(n.lat, n.lon)))
 
     # 2. go through all ways and add edges accordingly
+    bidirectional_edges = dict()
     for w in ways:
         for i in range(len(w.nodes) - 1):
             s_id, t_id = id_mapper[w.nodes[i]], id_mapper[w.nodes[i + 1]]
@@ -28,6 +29,14 @@ def build_graph_from_osm(nodes, ways):
             length = geo_tools.distance(s.data.lat, s.data.lon, t.data.lat, t.data.lon)
             data = EdgeData(length=length, highway=w.highway, max_v=w.max_speed, name=w.name)
             edge = Edge(s_id, t_id, w.forward, w.backward, data=data)
+            if w.forward and w.backward:
+                smaller = s_id if s_id < t_id else t_id
+                bigger = s_id if s_id > t_id else t_id
+                if (smaller, bigger) in bidirectional_edges:
+                    print(f"found duplicated bidirectional edge {(smaller, bigger)}.. (osm ids {w.osm_id} and {bidirectional_edges[(smaller, bigger)]})... skipping one")
+                    continue
+                bidirectional_edges[(smaller, bigger)] = w.osm_id
+
             g.add_edge(edge)
 
     return g

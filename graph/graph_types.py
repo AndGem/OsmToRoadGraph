@@ -50,30 +50,3 @@ class Edge(object):
     def description(self) -> str:
         both_directions = "1" if self.forward and self.backward else "0"
         return "{} {} {} {}".format(self.s, self.t, self.data, both_directions)
-
-
-
-class SimpleEdge(object):
-    __slots__ = ["s", "t", "length", "name"]
-
-    def __init__(self, s: int, t: int, length: float) -> None:
-        self.s: int = s
-        self.t: int = t
-        self.length: float = length
-        self.name: str = ""
-
-    @property
-    def forward(self) -> bool:
-        return True
-
-    @property
-    def backward(self) -> bool:
-        return True
-
-    @property
-    def description(self) -> str:
-        return "{} {} {}".format(self.s, self.t, self.length)
-
-
-EdgeType = Union[Edge, SimpleEdge]
-VertexType = Union[Vertex]

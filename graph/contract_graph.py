@@ -5,7 +5,7 @@ import graph.graphfactory as graphfactory
 import utils.timer as timer
 
 from graph.graph import Graph
-from graph.graph_types import VertexType, EdgeType, Edge
+from graph.graph_types import Vertex, Edge
 from typing import List, Set
 
 
@@ -14,6 +14,8 @@ def contract(graph: Graph):
     all_new_edges = _find_new_edges(graph)
     node_ids = _gather_node_ids(all_new_edges)
     nodes = _get_nodes(graph, node_ids)
+
+    print(f"finished contracting: {len(all_new_edges)}/{len(graph.edges)} edges and {len(nodes)}/{len(graph.vertices)} vertices.")
 
     return graphfactory.build_graph_from_vertices_edges(nodes, all_new_edges)
 
@@ -88,7 +90,7 @@ def _find_new_edges(graph: Graph):
     return new_edges
 
 
-def _is_not_same_edge(e1: EdgeType, e2: EdgeType):
+def _is_not_same_edge(e1: Edge, e2: Edge):
     return e1.data.highway != e2.data.highway or e1.data.max_v != e2.data.max_v or e1.data.name != e2.data.name or e1.backward != e2.backward
 
 
@@ -107,11 +109,11 @@ def _find_all_intersections(graph: Graph):
     return deque(filter(lambda node_id: _is_intersection(node_id, graph), node_ids))
 
 
-def _get_nodes(graph: Graph, node_ids: Set[int]) -> List[VertexType]:
+def _get_nodes(graph: Graph, node_ids: Set[int]) -> List[Vertex]:
     return list(map(lambda node_id: graph.get_node(node_id), node_ids))
 
 
-def _gather_node_ids(edges: List[EdgeType]) -> Set[int]:
+def _gather_node_ids(edges: List[Edge]) -> Set[int]:
     print("\t gathering nodes...")
     node_ids = set()
     for e in edges:

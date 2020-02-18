@@ -29,7 +29,7 @@ def write_to_file(graph, filename_base, filename_ext):
     # write edge information
     for e in graph.edges:
         f.write("{}\n".format(e.description))
-        f_names.write(e.name)
+        f_names.write(e.data.name)
         f_names.write("\n")
 
     f.close()

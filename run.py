@@ -1,4 +1,4 @@
-from optparse import OptionParser
+import argparse
 
 import configuration as config
 import graph.contract_graph as contract
@@ -31,7 +31,11 @@ def convert_osm_to_roadgraph(filename, network_type, options):
     if not options.lcc:
         graph = algorithms.computeLCCGraph(graph)
 
-    output.write_to_file(graph, out_file, configuration.get_file_extension())
+    if options.output_format == "py*gr":
+        output.write_to_file(graph, out_file, configuration.get_file_extension())
+    elif options.output_format == "networkx":
+        print("writing network x file!")
+        print("NOT IMPLEMENTED YET!")
 
     if options.contract:
         contracted_graph = contract.contract(graph)
@@ -39,13 +43,14 @@ def convert_osm_to_roadgraph(filename, network_type, options):
 
 
 if __name__ == "__main__":
-    parser = OptionParser()
-    parser.add_option("-f", "--file", dest="filename", action="store", type="string")
-    parser.add_option("-n", "--networkType", dest="network_type", action="store", default="pedestrian",
-                      help="(p)edestrian, (b)icycle, (c)ar, [default: pedestrian]")
-    parser.add_option("-l", "--nolcc", dest="lcc", action="store_true", default=False)
-    parser.add_option("-c", "--contract", dest="contract", action="store_true")
-    (options, args) = parser.parse_args()
+    parser = argparse.ArgumentParser(description='OSMtoRoadGraph')
+    parser.add_argument("-f", "--file", action="store", type=str, dest="filename")
+    parser.add_argument("-n", "--networkType", dest="network_type", action="store", default="p", choices=["p", "b", "c"], help="(p)edestrian, (b)icycle, (c)ar, [default: p]")
+    parser.add_argument("-l", "--nolcc", dest="lcc", action="store_true", default=False)
+    parser.add_argument("-c", "--contract", dest="contract", action="store_true")
+    parser.add_argument("-o", "--output-format", dest="output_format", action="store", help="specify output format [default: py*gr]; either it's own output format py*gr, or the JSON output of networkx [note networkx needs to be installed for this to work].", choices=["py*gr", "networkx"], default="py*gr")
+
+    options = parser.parse_args()
 
     filename = options.filename
 
@@ -61,5 +66,8 @@ if __name__ == "__main__":
     else:
         print("network type improperly set")
         exit()
+
+    if options.output_format == "networkx":
+        import networkx  # dummy import to see if it is installed
 
     convert_osm_to_roadgraph(filename, network_type, options)

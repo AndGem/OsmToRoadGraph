@@ -1,7 +1,7 @@
 import copy
 
 import graph.graph as graph
-from graph.graph_types import Vertex, Edge
+from graph.graph_types import Vertex, Edge, VertexData, EdgeData
 import utils.geo_tools as geo_tools
 import utils.timer as timer
 
@@ -18,15 +18,16 @@ def build_graph_from_osm(nodes, ways):
     node_ids = nodes.keys()
     id_mapper = dict(zip(node_ids, range(len(node_ids))))
     for n in nodes.values():
-        g.add_node(Vertex(id_mapper[n.osm_id], n.lat, n.lon))
+        g.add_node(Vertex(id_mapper[n.osm_id], data=VertexData(n.lat, n.lon)))
 
     # 2. go through all ways and add edges accordingly
     for w in ways:
         for i in range(len(w.nodes) - 1):
             s_id, t_id = id_mapper[w.nodes[i]], id_mapper[w.nodes[i + 1]]
             s, t = g.vertices[s_id], g.vertices[t_id]
-            length = geo_tools.distance(s.lat, s.lon, t.lat, t.lon)
-            edge = Edge(s_id, t_id, length, w.highway, w.max_speed, w.forward, w.backward, w.name)
+            length = geo_tools.distance(s.data.lat, s.data.lon, t.data.lat, t.data.lon)
+            data = EdgeData(length=length, highway=w.highway, max_v=w.max_speed, name=w.name)
+            edge = Edge(s_id, t_id, w.forward, w.backward, data=data)
             g.add_edge(edge)
 
     return g
@@ -40,7 +41,7 @@ def build_graph_from_vertices_edges(vertices, edges):
     vertex_ids = set([v.id for v in vertices])
     id_mapper = dict(zip(vertex_ids, range(len(vertex_ids))))
     for v in vertices:
-        g.add_node(Vertex(id_mapper[v.id], v.lat, v.lon))
+        g.add_node(Vertex(id_mapper[v.id], v.data))
 
     # 2. add all edges that are valid
     new_edges = [copy.deepcopy(e) for e in edges if e.s in vertex_ids and e.t in vertex_ids]

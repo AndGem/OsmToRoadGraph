@@ -46,7 +46,7 @@ class ContractGraph(object):
             for first_out_edge in out_edges:
                 start_node_id = node_id
 
-                edges_to_merge, final_node_id = self.walk_to_next_important_node(start_node_id, first_out_edge)
+                edges_to_merge, final_node_id = self._find_edges_to_merge(start_node_id, first_out_edge)
 
                 if len(edges_to_merge) == 0:
                     continue
@@ -68,7 +68,7 @@ class ContractGraph(object):
                 new_edges.add(merged_edge)
         return new_edges
 
-    def walk_to_next_important_node(self, start_node_id, first_out_edge):
+    def _find_edges_to_merge(self, start_node_id, first_out_edge):
         # walk from start_node along first_out_edge until:
         #  i) another intersection node is found
         #  ii) an edge is encountered on the way that is different (different name, max_speed, ...)

@@ -1,7 +1,7 @@
 import argparse
 
 import configuration as config
-import graph.contract_graph as contract
+import graph.contract_graph as contract_graph
 import graph.algorithms as algorithms
 import graph.graphfactory as graphfactory
 import osm.read_osm
@@ -38,7 +38,7 @@ def convert_osm_to_roadgraph(filename, network_type, options):
         print("NOT IMPLEMENTED YET!")
 
     if options.contract:
-        contracted_graph = contract.contract(graph)
+        contracted_graph = contract_graph.ContractGraph(graph).contract()
         output.write_to_file(contracted_graph, out_file, "{}c".format(configuration.get_file_extension()))
 
 

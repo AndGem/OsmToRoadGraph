@@ -32,6 +32,7 @@ def _find_new_edges(graph: Graph):
     start_nodes = _find_all_intersections(graph)
     seen_start_nodes = set(start_nodes)
     new_edges = set()
+    bidirectional_edges = set()
 
     out_edges_per_node = _get_out_edges(graph)
     while len(start_nodes) > 0:
@@ -66,11 +67,14 @@ def _find_new_edges(graph: Graph):
                     next_out_edge = next_out_edges[0]
                     if _is_not_same_edge(out_edge, next_out_edge):
                         if next_node_id not in seen_start_nodes:
+                            #  found a new possible start node
                             seen_start_nodes.add(next_node_id)
                             start_nodes.append(next_node_id)
-                            break
-                    out_edge = next_out_edge
-                    current_node_id = next_node_id
+                        #  break out since we need to stop here
+                        break
+                    else:
+                        out_edge = next_out_edge
+                        current_node_id = next_node_id
             final_node_id = next_node_id
 
             if len(used_edges) == 0:
@@ -83,6 +87,10 @@ def _find_new_edges(graph: Graph):
                 #  removed between intersections, 2 new edges would be created
                 smaller_node_id = start_node_id if start_node_id < final_node_id else final_node_id
                 bigger_node_id = start_node_id if start_node_id > final_node_id else final_node_id
+                if (smaller_node_id, bigger_node_id) in bidirectional_edges:
+                    # already added this edge skip it
+                    continue
+                bidirectional_edges.add((smaller_node_id, bigger_node_id))
                 merged_edge = Edge(smaller_node_id, bigger_node_id, True, used_edges[0].backward, data)
             else:
                 merged_edge = Edge(start_node_id, final_node_id, True, used_edges[0].backward, data)

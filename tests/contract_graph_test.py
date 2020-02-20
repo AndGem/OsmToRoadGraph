@@ -2,10 +2,10 @@ import unittest
 
 from graph.graph import Graph
 from graph.graph_types import Edge, Vertex, EdgeData, VertexData
-from graph.contract_graph import contract
+from graph.contract_graph import ContractGraph
 
 
-class ContractGraph(unittest.TestCase):
+class ContractGraphTest(unittest.TestCase):
 
     def test_contract_a_path_to_two_nodes_and_one_edge(self):
         g = self.create_graph(number_nodes=3)
@@ -13,7 +13,7 @@ class ContractGraph(unittest.TestCase):
         g.add_edge(Edge(s=0, t=1, f=True, b=True, data=self.edge_data()))
         g.add_edge(Edge(s=1, t=2, f=True, b=True, data=self.edge_data()))
 
-        contracted_graph = contract(g)
+        contracted_graph = ContractGraph(g).contract()
 
         self.assertEqual(len(contracted_graph.vertices), 2)
         self.assertEqual(len(contracted_graph.edges), 1)
@@ -25,7 +25,7 @@ class ContractGraph(unittest.TestCase):
         g.add_edge(Edge(s=1, t=2, f=True, b=True, data=self.edge_data()))
         g.add_edge(Edge(s=2, t=0, f=True, b=True, data=self.edge_data()))
 
-        contracted_graph = contract(g)
+        contracted_graph = ContractGraph(g).contract()
 
         self.assertEqual(len(contracted_graph.vertices), 0)
         self.assertEqual(len(contracted_graph.edges), 0)
@@ -45,7 +45,7 @@ class ContractGraph(unittest.TestCase):
         # input: 0-1-2-3-4-5-6-7-8-9
         # expected outcome: 0-2-4-6-7-9
 
-        contracted_graph = contract(g)
+        contracted_graph = ContractGraph(g).contract()
 
         self.assertEqual(len(contracted_graph.vertices), 6)
         self.assertEqual(len(contracted_graph.edges), 5)
@@ -73,8 +73,9 @@ class ContractGraph(unittest.TestCase):
         g.add_edge(Edge(s=2, t=5, f=True, b=True, data=self.edge_data()))
         g.add_edge(Edge(s=5, t=6, f=True, b=True, data=self.edge_data()))
 
-        contracted_graph = contract(g)
         # expected outcome: 4 nodes remain, and 3 edges, one deg 3 node, all others are deg 1 nodes
+
+        contracted_graph = ContractGraph(g).contract()
 
         self.assertEqual(len(contracted_graph.vertices), 4)
         self.assertEqual(len(contracted_graph.edges), 3)
@@ -91,7 +92,7 @@ class ContractGraph(unittest.TestCase):
         g.add_edge(Edge(s=3, t=4, f=True, b=True, data=self.edge_data(name="a", highway="b")))
         g.add_edge(Edge(s=4, t=5, f=True, b=True, data=self.edge_data(name="a", highway="b", max_v=123)))
 
-        contracted_graph = contract(g)
+        contracted_graph = ContractGraph(g).contract()
 
         self.assertEqual(len(contracted_graph.vertices), 6)
         self.assertEqual(len(contracted_graph.edges), 5)

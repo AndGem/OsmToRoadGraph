@@ -1,6 +1,6 @@
 # Road Network Visualization
 
-This project is a simple example that illustrates how to generate a PNG image file that shows the road network of any osm file.
+This project is a simple example that illustrates how to **generate a PNG image** file that shows the **road network** of any osm file.
 
 This is an example of how this can look like (the darker the higher the maximum allowed speed is on the street):
 ![Bremen](./bremen.png)
@@ -16,11 +16,9 @@ If you already have a `*.pycgr` file you can move to `How to run`.
 
 ## How to run
 
-Make sure you have a `*.pycgr` file (if not, see the section above).
-
-Install the dependencies: `pip3 install -r requirements.txt`
-
-Invoke this script as follows:
+1. Make sure you have a `*.pycgr` file (if not, see the section above)
+1. Install the dependencies: `pip3 install -r requirements.txt`
+1. Invoke this script as follows:
 
 ```bash
 python3 pycgr-to-png.py -f <INPUT_FILENAME> -o <OUTPUT_FILENAME>
@@ -31,7 +29,7 @@ For example:
 python3 pycgr-to-png.py -f data/bremen-latest.pycgr -o bremen.png
 ```
 
-This should create an output picture of the road network of the input OSM file.
+**That's it**: This should an output picture of the road network of the input OSM file.
 
 ### Further Customizations
 

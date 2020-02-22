@@ -46,7 +46,7 @@ class WayParserHelper:
             elif 'kmh' in max_speed_str or 'km/h' in max_speed_str or 'kph' in max_speed_str or 'kp/h' in max_speed_str:
                 max_speed = int(''.join(c for c in max_speed_str if c.isdigit()))
             else:
-                print("error while parsing max speed! Did not recognize: {}".format(max_speed))
+                print("error while parsing max speed! Did not recognize: {}".format(max_speed_str))
                 print("fallback by setting it to default value")
                 if highway in self.config.speed_limits:
                     max_speed = self.config.speed_limits[highway]

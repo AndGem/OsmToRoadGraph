@@ -19,7 +19,7 @@ class IntegrationTest(unittest.TestCase):
         nmb_nodes, nmb_edges = self._get_nmb_nodes_edges("data/karlsruhe_small.pypgrc")
 
         self.assertEqual(nmb_nodes, 1469)
-        self.assertEqual(nmb_edges, 2041)
+        self.assertEqual(nmb_edges, 2039)
 
     def _execute_program(self):
         returncode = call(["python3", "run.py", "-f", "data/karlsruhe_small.osm", "-n", "p", "-c"])

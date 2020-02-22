@@ -1,7 +1,5 @@
 from osm.osm_types import OSMWay
 
-from typing import Optional
-
 
 class WayParserHelper:
 
@@ -24,7 +22,9 @@ class WayParserHelper:
 
         return True, True
 
-    def parse_max_speed(self, maximum_speed: Optional[str], highway: str) -> int:
+    def parse_max_speed(self, osm_way: OSMWay) -> int:
+        maximum_speed = osm_way.max_speed_str
+        highway = osm_way.highway
 
         if maximum_speed is None:
             return self.config.speed_limits[highway]
@@ -46,8 +46,14 @@ class WayParserHelper:
             elif 'kmh' in max_speed_str or 'km/h' in max_speed_str or 'kph' in max_speed_str or 'kp/h' in max_speed_str:
                 max_speed = int(''.join(c for c in max_speed_str if c.isdigit()))
             else:
-                print("error while parsing max speed! Did not recognize: {}".format(max_speed_str))
-                print("fallback by setting it to default value")
+                if 'signals' in max_speed_str:
+                    #  according to https://wiki.openstreetmap.org/wiki/Key:maxspeed 'signals' indicates 
+                    #  that the max speed is shown by some sort of signalling. Here, we fallback to the default of the highway type.
+                    pass
+                else:
+                    print("error while parsing max speed of osm way {}! Did not recognize: {}".format(osm_way.osm_id, max_speed_str))
+                    print("fallback by setting it to default value")
+        
                 if highway in self.config.speed_limits:
                     max_speed = self.config.speed_limits[highway]
                 else:

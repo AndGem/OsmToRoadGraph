@@ -9,8 +9,8 @@ class OSMWay:
         self.nodes: List[int] = []
         self.highway: str = ""
         self.area: Optional[str] = None
-        self.max_speed_str: str = ""
-        self.max_speed_int: int = 0
+        self.max_speed_str: Optional[str] = None
+        self.max_speed_int: int
         self.direction: str = ""
         self.forward = True
         self.backward = True

@@ -1,5 +1,7 @@
 from osm.osm_types import OSMWay
 
+from typing import Optional
+
 
 class WayParserHelper:
 
@@ -22,7 +24,7 @@ class WayParserHelper:
 
         return True, True
 
-    def parse_max_speed(self, maximum_speed, highway):
+    def parse_max_speed(self, maximum_speed: Optional[str], highway: str) -> int:
 
         if maximum_speed is None:
             return self.config.speed_limits[highway]
@@ -32,18 +34,17 @@ class WayParserHelper:
             return max_speed
 
         except ValueError:
-            max_speed = maximum_speed.lower()
+            max_speed_str = maximum_speed.lower()
 
-            if 'walk' in max_speed:
+            if 'walk' in max_speed_str:
                 max_speed = self.config.walking_speed
-            elif 'none' in max_speed:
+            elif 'none' in max_speed_str:
                 max_speed = self.config.max_highway_speed
-            elif 'mph' in max_speed or 'mp/h' in max_speed:
-                max_speed = ''.join(c for c in max_speed if c.isdigit())
-                max_speed = int(float(max_speed) * 1.609344)
-            elif 'kmh' in max_speed or 'km/h' in max_speed or 'kph' in max_speed or 'kp/h' in max_speed:
-                max_speed = ''.join(c for c in max_speed if c.isdigit())
-                max_speed = int(max_speed)
+            elif 'mph' in max_speed_str or 'mp/h' in max_speed_str:
+                max_speed_kmh_str = ''.join(c for c in max_speed_str if c.isdigit())
+                max_speed = int(float(max_speed_kmh_str) * 1.609344)
+            elif 'kmh' in max_speed_str or 'km/h' in max_speed_str or 'kph' in max_speed_str or 'kp/h' in max_speed_str:
+                max_speed = int(''.join(c for c in max_speed_str if c.isdigit()))
             else:
                 print("error while parsing max speed! Did not recognize: {}".format(max_speed))
                 print("fallback by setting it to default value")

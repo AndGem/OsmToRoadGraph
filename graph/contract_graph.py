@@ -1,17 +1,17 @@
 from copy import deepcopy
 from collections import deque, defaultdict
+from typing import DefaultDict, List, Set, Tuple, Tuple
 
 import graph.graphfactory as graphfactory
 import utils.timer as timer
 
 from graph.graph import Graph
 from graph.graph_types import Vertex, Edge
-from typing import List, Set
 
 
 class ContractGraph(object):
 
-    def __init__(self, graph):
+    def __init__(self, graph: Graph) -> None:
         self.graph = graph
 
     @timer.timer
@@ -25,7 +25,7 @@ class ContractGraph(object):
 
         return graphfactory.build_graph_from_vertices_edges(nodes, all_new_edges)
 
-    def _find_new_edges(self):
+    def _find_new_edges(self) -> Set[Edge]:
         #  maintain a list L of nodes from which we want to start searches to find new contracted edges
         #  initialize L with all intersection nodes (i.e., all nodes with degree != 2)
         #   for each node n in L
@@ -36,7 +36,7 @@ class ContractGraph(object):
         self.start_nodes = self._find_all_intersections()
         self.seen_start_nodes = set(self.start_nodes)
         new_edges = set()
-        bidirectional_edges = set()
+        bidirectional_edges: Set[Tuple[int, int]] = set()
 
         out_edges_per_node = self._get_out_edges()
         while len(self.start_nodes) > 0:
@@ -68,7 +68,7 @@ class ContractGraph(object):
                 new_edges.add(merged_edge)
         return new_edges
 
-    def _find_edges_to_merge(self, start_node_id, first_out_edge):
+    def _find_edges_to_merge(self, start_node_id: int, first_out_edge: Edge) -> Tuple[List[Edge], int]:
         # walk from start_node along first_out_edge until:
         #  i) another intersection node is found
         #  ii) an edge is encountered on the way that is different (different name, max_speed, ...)
@@ -109,11 +109,11 @@ class ContractGraph(object):
         final_node_id = next_node_id
         return used_edges, final_node_id
 
-    def _is_not_same_edge(self, e1: Edge, e2: Edge):
+    def _is_not_same_edge(self, e1: Edge, e2: Edge) -> bool:
         return e1.data.highway != e2.data.highway or e1.data.max_v != e2.data.max_v or e1.data.name != e2.data.name or e1.backward != e2.backward
 
-    def _get_out_edges(self):
-        result = defaultdict(list)
+    def _get_out_edges(self) -> DefaultDict[int, List[Edge]]:
+        result: DefaultDict[int, List[Edge]] = defaultdict(list)
         for e in self.graph.edges:
             if e.forward:
                 result[e.s].append(e)
@@ -121,7 +121,7 @@ class ContractGraph(object):
                 result[e.t].append(e)
         return result
 
-    def _find_all_intersections(self):
+    def _find_all_intersections(self) -> deque:
         node_ids = range(0, len(self.graph.vertices))
         return deque(filter(lambda node_id: self._is_intersection(node_id), node_ids))
 

@@ -34,6 +34,7 @@ def convert_osm_to_roadgraph(filename, network_type, options):
     if options.output_format == "py*gr":
         output.write_to_file(graph, out_file, configuration.get_file_extension())
     elif options.output_format == "networkx":
+        # TODO: implement output
         print("writing network x file!")
         print("NOT IMPLEMENTED YET!")
 

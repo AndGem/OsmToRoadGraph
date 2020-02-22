@@ -7,10 +7,11 @@ class OSMWay:
     def __init__(self, osm_id: int) -> None:
         self.osm_id = osm_id
         self.nodes: List[int] = []
-        self.highway: Optional[str] = None
+        self.highway: str = ""
         self.area: Optional[str] = None
-        self.max_speed: Optional[str] = None
-        self.direction: Optional[str] = None
+        self.max_speed_str: str = ""
+        self.max_speed: int = 0
+        self.direction: str = ""
         self.forward = True
         self.backward = True
         self.name = ""

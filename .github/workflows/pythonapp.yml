@@ -27,7 +27,7 @@ jobs:
     - name: Typechecking with mypy
       run: |
         pip install mypy
-        mypy .
+        mypy . --ignore-missing-imports
     - name: Test with pytest
       run: |
         pip install pytest

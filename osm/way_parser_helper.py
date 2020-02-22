@@ -53,7 +53,7 @@ class WayParserHelper:
                 else:
                     print("error while parsing max speed of osm way {}! Did not recognize: {}".format(osm_way.osm_id, max_speed_str))
                     print("fallback by setting it to default value")
-        
+
                 if highway in self.config.speed_limits:
                     max_speed = self.config.speed_limits[highway]
                 else:

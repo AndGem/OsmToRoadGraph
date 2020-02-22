@@ -1,6 +1,6 @@
 from copy import deepcopy
 from collections import deque, defaultdict
-from typing import DefaultDict, List, Set, Tuple, Tuple
+from typing import DefaultDict, List, Set, Tuple
 
 import graph.graphfactory as graphfactory
 import utils.timer as timer
@@ -79,11 +79,13 @@ class ContractGraph(object):
         while True:
             used_edges.append(out_edge)
             next_node_id = out_edge.t if out_edge.s == current_node_id else out_edge.s
-            if self._is_intersection(next_node_id):
-                break
+
             if next_node_id == start_node_id:
                 # detected a loop => remove it
                 used_edges = []
+                break
+
+            if self._is_intersection(next_node_id):
                 break
 
             next_out_edges = list(filter(lambda e: (e.s != current_node_id) and (e.t != current_node_id), self.out_edges_per_node[next_node_id]))

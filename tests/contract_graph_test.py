@@ -19,16 +19,20 @@ class ContractGraphTest(unittest.TestCase):
         self.assertEqual(len(contracted_graph.edges), 1)
 
     def test_contract_loop_to_nothing(self):
-        g = self.create_graph(number_nodes=3)
+        g = self.create_graph(number_nodes=4)
 
+        # loop
         g.add_edge(Edge(s=0, t=1, f=True, b=True, data=self.edge_data()))
         g.add_edge(Edge(s=1, t=2, f=True, b=True, data=self.edge_data()))
         g.add_edge(Edge(s=2, t=0, f=True, b=True, data=self.edge_data()))
 
+        # connection (otherwise no intersections will be found)
+        g.add_edge(Edge(s=0, t=3, f=True, b=True, data=self.edge_data()))
+
         contracted_graph = ContractGraph(g).contract()
 
-        self.assertEqual(len(contracted_graph.vertices), 0)
-        self.assertEqual(len(contracted_graph.edges), 0)
+        self.assertEqual(len(contracted_graph.vertices), 2)
+        self.assertEqual(len(contracted_graph.edges), 1)
 
     def test_contracting_stops_if_edge_is_different(self):
         g = self.create_graph(number_nodes=10)

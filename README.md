@@ -1,11 +1,13 @@
-# OsmToRoadGraph v.0.4.3
+# OsmToRoadGraph v.0.5.0
+
+** Added new output option to write NetworkX compatible files **
 
 [![Build Status](https://travis-ci.org/AndGem/OsmToRoadGraph.svg?branch=master)](https://travis-ci.org/AndGem/OsmToRoadGraph)
 ![Python application](https://github.com/AndGem/OsmToRoadGraph/workflows/Python%20application/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/AndGem/OsmToRoadGraph/branch/master/graph/badge.svg)](https://codecov.io/gh/AndGem/OsmToRoadGraph)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-- [OsmToRoadGraph v.0.4.3](#osmtoroadgraph-v043)
+- [OsmToRoadGraph v.0.5.0](#osmtoroadgraph-v050)
 - [Introduction](#introduction)
   - [Motivation](#motivation)
   - [Description](#description)
@@ -34,8 +36,7 @@ Below is an example of a visualization of the road network of the city of Bremen
 
 <img src="https://raw.githubusercontent.com/AndGem/OsmToRoadGraph/master/examples/pycgr-to-png/bremen.png" width="350">
 
-For details on how image was generated take a look into the [examples folder](https://github.com/AndGem/OsmToRoadGraph/tree/master/examples/pycgr-to-png). 
-
+For details on how image was generated take a look into the [examples folder](https://github.com/AndGem/OsmToRoadGraph/tree/master/examples/pycgr-to-png).
 
 ## Description
 
@@ -45,6 +46,7 @@ With this tool the data is being converted into easily parsable plaintext files 
 
 - Python 3.6+/PyPy
 - An OSM XML file
+- [Optional: networkx as dependency: `pip3 install networkx`]
 
 ## Older Versions
 
@@ -53,14 +55,18 @@ Recently, breaking changes have been applied. If you require older versions plea
 ## Usage
 
 ```bash
-Usage: run.py [options]
+usage: run.py [-h] [-f FILENAME] [-n {p,b,c}] [-l] [-c] [--networkx]
 
-Options:
+optional arguments:
   -h, --help            show this help message and exit
-  -f FILENAME, --file=FILENAME
-  -n NETWORK_TYPE, --networkType=NETWORK_TYPE    (p)edestrian, (b)icycle, (c)ar, [default: pedestrian]
+  -f FILENAME, --file FILENAME
+  -n {p,b,c}, --networkType {p,b,c}
+                        (p)edestrian, (b)icycle, (c)ar, [default: p]
   -l, --nolcc
   -c, --contract
+  --networkx            enable additional output of JSON format of networkx
+                        [note networkx needs to be installed for this to
+                        work].
 ```
 
 ### Usage - Explanation
@@ -71,7 +77,9 @@ Options:
 
 `-l` if you set this option the graph will be output as a whole but _may_ contain unconnected components. By default the largest connected component is determined and the rest is dropped.
 
-`-c` if you specify this option additional to the original graph, a second pair of filenames will be created containing the result of contracting all degree 2 nodes.
+`-c` if you specify this flag additional to the original graph, a second pair of filenames will be created containing the result of contracting all degree 2 nodes.
+
+`--networkx` if you specify this flag, an additional output file will be generated using networkx's [networkx.readwrite.json_graph.adjacency_data](https://networkx.github.io/documentation/stable/reference/readwrite/generated/networkx.readwrite.json_graph.adjacency_data.html#networkx.readwrite.json_graph.adjacency_data). This also works with the flag `-c`. Then, a non-contracted and contracted output file compatible to networkx will be generated.
 
 ### Example
 

@@ -40,6 +40,9 @@ def convert_osm_to_roadgraph(filename, network_type, options):
     if options.contract:
         contracted_graph = contract_graph.ContractGraph(graph).contract()
         output.write_to_file(contracted_graph, out_file, "{}c".format(configuration.get_file_extension()))
+        if options.networkx_output:
+            nx_graph = convert_graph.convert_to_networkx(contracted_graph)
+            output.write_nx_to_file(nx_graph, f"{out_file}_contracted.json")
 
 
 if __name__ == "__main__":

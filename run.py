@@ -2,6 +2,7 @@ import argparse
 
 import configuration as config
 import graph.contract_graph as contract_graph
+import graph.convert_graph as convert_graph
 import graph.algorithms as algorithms
 import graph.graphfactory as graphfactory
 import osm.read_osm
@@ -31,12 +32,10 @@ def convert_osm_to_roadgraph(filename, network_type, options):
     if not options.lcc:
         graph = algorithms.computeLCCGraph(graph)
 
-    if options.output_format == "py*gr":
-        output.write_to_file(graph, out_file, configuration.get_file_extension())
-    elif options.output_format == "networkx":
-        # TODO: implement output
-        print("writing network x file!")
-        print("NOT IMPLEMENTED YET!")
+    output.write_to_file(graph, out_file, configuration.get_file_extension())
+    if options.networkx_output:
+        nx_graph = convert_graph.convert_to_networkx(graph)
+        output.write_nx_to_file(nx_graph, f"{out_file}.json")
 
     if options.contract:
         contracted_graph = contract_graph.ContractGraph(graph).contract()
@@ -49,7 +48,7 @@ if __name__ == "__main__":
     parser.add_argument("-n", "--networkType", dest="network_type", action="store", default="p", choices=["p", "b", "c"], help="(p)edestrian, (b)icycle, (c)ar, [default: p]")
     parser.add_argument("-l", "--nolcc", dest="lcc", action="store_true", default=False)
     parser.add_argument("-c", "--contract", dest="contract", action="store_true")
-    parser.add_argument("-o", "--output-format", dest="output_format", action="store", help="specify output format [default: py*gr]; either it's own output format py*gr, or the JSON output of networkx [note networkx needs to be installed for this to work].", choices=["py*gr", "networkx"], default="py*gr")
+    parser.add_argument("--networkx", dest="networkx_output", action="store_true", help="enable additional output of JSON format of networkx [note networkx needs to be installed for this to work].", default=False)
 
     options = parser.parse_args()
 
@@ -68,7 +67,11 @@ if __name__ == "__main__":
         print("network type improperly set")
         exit()
 
-    if options.output_format == "networkx":
-        import networkx  # dummy import to see if it is installed
+    if options.networkx_output:
+        try:
+            import networkx as nx  # dummy import to see if it is installed
+        except ImportError:
+            print("Error: networkx Library not found. Please install networkx if you want to use the --networkx option.")
+            exit(-1)
 
     convert_osm_to_roadgraph(filename, network_type, options)

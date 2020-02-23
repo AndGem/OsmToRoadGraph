@@ -1,9 +1,10 @@
 import codecs
+import json
 
 
 def write_to_file(graph, filename_base, filename_ext):
     filename = "{}.{}".format(filename_base, filename_ext)
-    print("writing {}".format(filename))
+    print("writing output file: {}".format(filename))
 
     file_header = "# Road Graph File v.0.4"
     header = """# number of nodes
@@ -34,3 +35,13 @@ def write_to_file(graph, filename_base, filename_ext):
 
     f.close()
     f_names.close()
+
+
+def write_nx_to_file(nx_graph, filename):
+    import networkx as nx
+    print("writing networkx output file: {}".format(filename))
+    json_out = nx.adjacency_data(nx_graph)
+
+    f = open(filename, "w")
+    json.dump(json_out, f)
+    f.close()

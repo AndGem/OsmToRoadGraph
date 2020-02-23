@@ -22,7 +22,7 @@ class IntegrationTest(unittest.TestCase):
         self.assertEqual(nmb_edges, 2039)
 
     def _execute_program(self):
-        returncode = call(["python3", "run.py", "-f", "data/karlsruhe_small.osm", "-n", "p", "-c"])
+        returncode = call(["python3", "run.py", "-f", "data/karlsruhe_small.osm", "-n", "p", "-c", "--networkx"])
         self.assertEqual(0, returncode)
 
     def _get_nmb_nodes_edges(self, path):

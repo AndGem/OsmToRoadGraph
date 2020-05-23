@@ -25,7 +25,7 @@
 
 ## Updates
 
-**Changelog v.0.4.3 -> gv.0.5.0:**
+**Changelog v.0.4.3 -> v.0.5.0:**
 
 - [x] Added new output option to write NetworkX compatible files
 - [x] Fixed bugs in the contraction logic

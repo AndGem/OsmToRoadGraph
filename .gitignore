@@ -94,3 +94,7 @@ ENV/
 
 data/
 cover/
+
+.mypy_cache/
+.pyre/
+.vscode/

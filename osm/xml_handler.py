@@ -84,7 +84,7 @@ class WayHandler(ContentHandler):
                     elif attrs["k"] == "area":
                         self.current_way.area = attrs["v"]
                     elif attrs["k"] == "maxspeed":
-                        self.current_way.max_speed = str(attrs["v"])
+                        self.current_way.max_speed_str = str(attrs["v"])
                     elif attrs["k"] == "oneway":
                         if attrs["v"] == "yes":
                             self.current_way.direction = "oneway"
@@ -116,7 +116,7 @@ class WayHandler(ContentHandler):
 
             self.found_nodes.update(self.current_way.nodes)
 
-            self.current_way.max_speed = self.parser_helper.parse_max_speed(self.current_way.max_speed, self.current_way.highway)
+            self.current_way.max_speed_int = self.parser_helper.parse_max_speed(self.current_way)
             self.current_way.forward, self.current_way.backward = self.parser_helper.parse_direction(self.current_way)
 
             self.found_ways.append(self.current_way)

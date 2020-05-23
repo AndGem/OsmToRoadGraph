@@ -1,7 +1,8 @@
-from optparse import OptionParser
+import argparse
 
 import configuration as config
-import graph.contract_graph as contract
+import graph.contract_graph as contract_graph
+import graph.convert_graph as convert_graph
 import graph.algorithms as algorithms
 import graph.graphfactory as graphfactory
 import osm.read_osm
@@ -32,20 +33,27 @@ def convert_osm_to_roadgraph(filename, network_type, options):
         graph = algorithms.computeLCCGraph(graph)
 
     output.write_to_file(graph, out_file, configuration.get_file_extension())
+    if options.networkx_output:
+        nx_graph = convert_graph.convert_to_networkx(graph)
+        output.write_nx_to_file(nx_graph, f"{out_file}.json")
 
     if options.contract:
-        contracted_graph = contract.contract(graph)
+        contracted_graph = contract_graph.ContractGraph(graph).contract()
         output.write_to_file(contracted_graph, out_file, "{}c".format(configuration.get_file_extension()))
+        if options.networkx_output:
+            nx_graph = convert_graph.convert_to_networkx(contracted_graph)
+            output.write_nx_to_file(nx_graph, f"{out_file}_contracted.json")
 
 
 if __name__ == "__main__":
-    parser = OptionParser()
-    parser.add_option("-f", "--file", dest="filename", action="store", type="string")
-    parser.add_option("-n", "--networkType", dest="network_type", action="store", default="pedestrian",
-                      help="(p)edestrian, (b)icycle, (c)ar, [default: pedestrian]")
-    parser.add_option("-l", "--nolcc", dest="lcc", action="store_true", default=False)
-    parser.add_option("-c", "--contract", dest="contract", action="store_true")
-    (options, args) = parser.parse_args()
+    parser = argparse.ArgumentParser(description='OSMtoRoadGraph')
+    parser.add_argument("-f", "--file", action="store", type=str, dest="filename")
+    parser.add_argument("-n", "--networkType", dest="network_type", action="store", default="p", choices=["p", "b", "c"], help="(p)edestrian, (b)icycle, (c)ar, [default: p]")
+    parser.add_argument("-l", "--nolcc", dest="lcc", action="store_true", default=False)
+    parser.add_argument("-c", "--contract", dest="contract", action="store_true")
+    parser.add_argument("--networkx", dest="networkx_output", action="store_true", help="enable additional output of JSON format of networkx [note networkx needs to be installed for this to work].", default=False)
+
+    options = parser.parse_args()
 
     filename = options.filename
 
@@ -61,5 +69,12 @@ if __name__ == "__main__":
     else:
         print("network type improperly set")
         exit()
+
+    if options.networkx_output:
+        try:
+            import networkx as nx  # dummy import to see if it is installed
+        except ImportError:
+            print("Error: networkx Library not found. Please install networkx if you want to use the --networkx option.")
+            exit(-1)
 
     convert_osm_to_roadgraph(filename, network_type, options)

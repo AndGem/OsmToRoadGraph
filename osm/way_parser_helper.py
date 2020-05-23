@@ -22,7 +22,9 @@ class WayParserHelper:
 
         return True, True
 
-    def parse_max_speed(self, maximum_speed, highway):
+    def parse_max_speed(self, osm_way: OSMWay) -> int:
+        maximum_speed = osm_way.max_speed_str
+        highway = osm_way.highway
 
         if maximum_speed is None:
             return self.config.speed_limits[highway]
@@ -32,21 +34,26 @@ class WayParserHelper:
             return max_speed
 
         except ValueError:
-            max_speed = maximum_speed.lower()
+            max_speed_str = maximum_speed.lower()
 
-            if 'walk' in max_speed:
+            if 'walk' in max_speed_str:
                 max_speed = self.config.walking_speed
-            elif 'none' in max_speed:
+            elif 'none' in max_speed_str:
                 max_speed = self.config.max_highway_speed
-            elif 'mph' in max_speed or 'mp/h' in max_speed:
-                max_speed = ''.join(c for c in max_speed if c.isdigit())
-                max_speed = int(float(max_speed) * 1.609344)
-            elif 'kmh' in max_speed or 'km/h' in max_speed or 'kph' in max_speed or 'kp/h' in max_speed:
-                max_speed = ''.join(c for c in max_speed if c.isdigit())
-                max_speed = int(max_speed)
+            elif 'mph' in max_speed_str or 'mp/h' in max_speed_str:
+                max_speed_kmh_str = ''.join(c for c in max_speed_str if c.isdigit())
+                max_speed = int(float(max_speed_kmh_str) * 1.609344)
+            elif 'kmh' in max_speed_str or 'km/h' in max_speed_str or 'kph' in max_speed_str or 'kp/h' in max_speed_str:
+                max_speed = int(''.join(c for c in max_speed_str if c.isdigit()))
             else:
-                print("error while parsing max speed! Did not recognize: {}".format(max_speed))
-                print("fallback by setting it to default value")
+                if 'signals' in max_speed_str:
+                    #  according to https://wiki.openstreetmap.org/wiki/Key:maxspeed 'signals' indicates 
+                    #  that the max speed is shown by some sort of signalling. Here, we fallback to the default of the highway type.
+                    pass
+                else:
+                    print("error while parsing max speed of osm way {}! Did not recognize: {}".format(osm_way.osm_id, max_speed_str))
+                    print("fallback by setting it to default value")
+
                 if highway in self.config.speed_limits:
                     max_speed = self.config.speed_limits[highway]
                 else:

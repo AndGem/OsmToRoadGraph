@@ -1,32 +1,40 @@
-# OsmToRoadGraph v.0.4.3
+# OsmToRoadGraph v.0.5.0
 
 [![Build Status](https://travis-ci.org/AndGem/OsmToRoadGraph.svg?branch=master)](https://travis-ci.org/AndGem/OsmToRoadGraph)
 ![Python application](https://github.com/AndGem/OsmToRoadGraph/workflows/Python%20application/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/AndGem/OsmToRoadGraph/branch/master/graph/badge.svg)](https://codecov.io/gh/AndGem/OsmToRoadGraph)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-- [OsmToRoadGraph v.0.4.3](#osmtoroadgraph-v043)
-- [Introduction](#introduction)
-  - [Motivation](#motivation)
-  - [Description](#description)
-  - [Requirements](#requirements)
-  - [Older Versions](#older-versions)
-  - [Usage](#usage)
-    - [Usage - Explanation](#usage---explanation)
-    - [Example](#example)
-    - [Output](#output)
-      - [Output Format](#output-format)
-        - [Example Road Network (*.pycgr)](#example-road-network-pycgr)
-        - [Example Street Names (*.pycgr_names)](#example-street-names-pycgrnames)
-    - [Configuring the Accepted OSM Highway Types](#configuring-the-accepted-osm-highway-types)
-    - [Indoor Paths](#indoor-paths)
-  - [Research](#research)
+- [OsmToRoadGraph v.0.5.0](#osmtoroadgraph-v050)
+  - [Updates](#updates)
+  - [Introduction](#introduction)
+    - [Motivation](#motivation)
+    - [Description](#description)
+    - [Requirements](#requirements)
+    - [Older Versions](#older-versions)
+    - [Usage](#usage)
+      - [Usage - Explanation](#usage---explanation)
+      - [Examples](#examples)
+      - [Output](#output)
+        - [Output Format](#output-format)
+          - [Example Road Network (*.pycgr)](#example-road-network-pycgr)
+          - [Example Street Names (*.pycgr_names)](#example-street-names-pycgrnames)
+      - [Configuring the Accepted OSM Highway Types](#configuring-the-accepted-osm-highway-types)
+      - [Indoor Paths](#indoor-paths)
+    - [Research](#research)
 
-# Introduction
+## Updates
+
+**Changelog v.0.4.3 -> v.0.5.0:**
+
+- [x] Added new output option to write NetworkX compatible files
+- [x] Fixed bugs in the contraction logic
+
+## Introduction
 
 OSMtoRoadGraph aims to provide a simple tool to allow extraction of the road network of [OpenStreetMap](http://www.openstreetmap.org) files. It differentiates between three transportation networks: car, bicycle, and walking. The output data depends on the chosen parameters (which street highway types to consider, speed, ...).
 
-## Motivation
+### Motivation
 
 OpenStreetMap provides free cartographic data to anyone. Data can be added and edited by anyone. However, using the road network contained in the OSM files is not straightforward. This tool aims to reduce the overhead of writing a parser for OSM files.
 
@@ -34,36 +42,42 @@ Below is an example of a visualization of the road network of the city of Bremen
 
 <img src="https://raw.githubusercontent.com/AndGem/OsmToRoadGraph/master/examples/pycgr-to-png/bremen.png" width="350">
 
-For details on how image was generated take a look into the [examples folder](https://github.com/AndGem/OsmToRoadGraph/tree/master/examples/pycgr-to-png). 
+For details on how image was generated take a look into the [examples folder](https://github.com/AndGem/OsmToRoadGraph/tree/master/examples/pycgr-to-png).
 
-
-## Description
+### Description
 
 With this tool the data is being converted into easily parsable plaintext files that can be used by any application for further processing. For each transportation network type two output files are generated. One file contains the nodes (with coordinates), and the network edges, with length, direction and maximum speed (according to chosen network type). The second file contains street names that could be extracted for all edges contained in the first file.
 
-## Requirements
+As additional feature, and to make interaction easier, it is now supported to output networkx json to directly work with the output graph in networkx (or a library that supports the file format).
+
+### Requirements
 
 - Python 3.6+/PyPy
 - An OSM XML file
+- [Optional: [networkx](https://networkx.github.io/) as dependency: `pip3 install networkx`]
 
-## Older Versions
+### Older Versions
 
 Recently, breaking changes have been applied. If you require older versions please see the [releases](https://github.com/AndGem/OsmToRoadGraph/releases).
 
-## Usage
+### Usage
 
 ```bash
-Usage: run.py [options]
+usage: run.py [-h] [-f FILENAME] [-n {p,b,c}] [-l] [-c] [--networkx]
 
-Options:
+optional arguments:
   -h, --help            show this help message and exit
-  -f FILENAME, --file=FILENAME
-  -n NETWORK_TYPE, --networkType=NETWORK_TYPE    (p)edestrian, (b)icycle, (c)ar, [default: pedestrian]
+  -f FILENAME, --file FILENAME
+  -n {p,b,c}, --networkType {p,b,c}
+                        (p)edestrian, (b)icycle, (c)ar, [default: p]
   -l, --nolcc
   -c, --contract
+  --networkx            enable additional output of JSON format of networkx
+                        [note networkx needs to be installed for this to
+                        work].
 ```
 
-### Usage - Explanation
+#### Usage - Explanation
 
 `-f` points to the input filename; the output files will be created in the same folder and using the name of the input file as prefix and adding information as suffix.
 
@@ -71,19 +85,28 @@ Options:
 
 `-l` if you set this option the graph will be output as a whole but _may_ contain unconnected components. By default the largest connected component is determined and the rest is dropped.
 
-`-c` if you specify this option additional to the original graph, a second pair of filenames will be created containing the result of contracting all degree 2 nodes.
+`-c` if you specify this flag additional to the original graph, a second pair of filenames will be created containing the result of contracting all degree 2 nodes.
 
-### Example
+`--networkx` if you specify this flag, an additional output file will be generated using networkx's [networkx.readwrite.json_graph.adjacency_data](https://networkx.github.io/documentation/stable/reference/readwrite/generated/networkx.readwrite.json_graph.adjacency_data.html#networkx.readwrite.json_graph.adjacency_data). This also works with the flag `-c`. Then, a non-contracted and contracted output file compatible to networkx will be generated.
+
+Example execution:
 
 ```bash
 python run.py -f data/karlsruhe_small.osm -n p -v
 ```
 
-### Output
+#### Examples
+
+To see what you can do with the output please have a look here:
+
+- [pycgr to png](https://github.com/AndGem/OsmToRoadGraph/tree/master/examples/pycgr-to-png): small python script that loads the output of this program and generates a drawing of a road network
+- [shortest distances drawing](https://github.com/AndGem/OsmToRoadGraph/tree/master/examples/shortest-distances-drawing): another python script that loads the **networkx** output of this program and generates a drawing of the road network and uses colors to encode distances.
+
+#### Output
 
 The output will consist of two plaintext files. One file ending in `.pypgr`, `pybgr`, or `pycgr` depending on the network type selected; the other file will have the same ending with a `_names` as additional suffix. The first file contains the graph structure as well as additional information about the edge (length, max speed according to highway type, if it is a one-way street or not). The file ending with `_names` includes the street names for the edges.
 
-#### Output Format
+##### Output Format
 
 The structure of the road network output file is the following:
 
@@ -118,7 +141,7 @@ Edges of the graph are described by 6 parameters. Each edge is stored in one lin
 - `<max_speed>`: maximum allowed speed (if exists) in km/h [note: if no max speed is found a default value will be used]
 - `<bidirectional>` indicates if an edge is bidirection. The value is `0` if it is a unidirectional road (from `source_node_id` to `target_node_id`), and otherwise it is `1`.
 
-##### Example Road Network (*.pycgr)
+###### Example Road Network (*.pycgr)
 
 ```
 # Road Graph File v.0.4
@@ -147,7 +170,7 @@ Edges of the graph are described by 6 parameters. Each edge is stored in one lin
 ...
 ```
 
-##### Example Street Names (*.pycgr_names)
+###### Example Street Names (*.pycgr_names)
 
 ```
 Hölderlinstraße
@@ -164,13 +187,13 @@ Zähringerstraße
 
 Each line consists of a street name. The number in which a line is corresponds to the edges index. In this example this means, that Hölderlinstraße is the street name of edges 0, 1, 2. The absence of a name in line 4 indicates that edge 3 has no street name. Edges 4, 5, 6 have street name Kronenstraße, and so on...
 
-### Configuring the Accepted OSM Highway Types
+#### Configuring the Accepted OSM Highway Types
 
 The application comes with a set of standard configuration to parse `only` some OSM ways that have the tag `highway=x` where `x` is a [highway type](https://wiki.openstreetmap.org/wiki/Key:highway) [notable excepting is the `pedestrian_indoors`, see below for an explanation].
 You can change the behavior of this program by changing the values (removing unwanted, and adding missing values) in the `configuration.py`.
 In this file you can also modify the speed limit that will be written to the output file.
 
-### Indoor Paths
+#### Indoor Paths
 
 By default elements tagged by the [Simple Indoor Tagging](https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging) approach are being ignored.
 To enable to also to extract these paths replace in `configuration.py` the line
@@ -187,6 +210,6 @@ with
 
 Note that the change is only the addition of `pedestrian_indoor` in this list.
 
-## Research
+### Research
 
 [Temporal Map Labeling: A New Unified Framework with Experiments](http://i11www.iti.uni-karlsruhe.de/temporallabeling/)

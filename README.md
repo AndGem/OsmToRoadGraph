@@ -27,8 +27,8 @@
 
 **Changelog since v.0.4.3:**
 
-- [x] Added new output option to write NetworkX compatible files**
-- [x] Fixed bugs in the contraction logic**
+- [x] Added new output option to write NetworkX compatible files
+- [x] Fixed bugs in the contraction logic
 
 ## Introduction
 

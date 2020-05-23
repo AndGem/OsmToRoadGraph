@@ -1,4 +1,4 @@
-# Shortest Path Visualization
+# Shortest Distances Drawing
 
 This project is a simple example that illustrates how to **generate a PNG image** file that shows the **shortest distances** from a random/central node of a road network to all other nodes.
 Below you see an example of how this can look like. The darker the color, the closer it is to the starting node of the shortest path tree:
@@ -22,35 +22,33 @@ If you already have a `*.json` file you can move to `How to run`.
 1. Invoke this script as follows:
 
 ```bash
-python3 shortest-path-drawing.py -f <INPUT_FILENAME> -o <OUTPUT_FILENAME>
+python3 shortest-distances-drawing.py -f <INPUT_FILENAME> -o <OUTPUT_FILENAME>
 ```
 
 For example:
 
 ```bash
-python3 shortest-path-drawing.py -f data/bremen-latest.json -o bremen.png
+python3 shortest-distances-drawing.py -f data/bremen-latest.json -o bremen.png
 ```
 
-**That's it**: This should an output picture of the shortest path tree of road network of the input OSM file.
+**That's it**: This should an output picture of the shortest distances of road network of the input OSM file.
 
 ### Further Customizations
 
 This little script offers some more customization options:
 
 ```bash
-Usage: shortest-path-drawing.py [options]
-
 Options:
   -h, --help            show this help message and exit
   -f IN_FILENAME, --file=IN_FILENAME
                         input networkx JSON file
   -o OUT_FILENAME, --out=OUT_FILENAME
                         output png file
-  -c, --center          set this option to compute the shortest path tree from
+  -c, --center          set this option to compute the shortest distances from
                         an approximate center node [default: random node]
   -m METRIC, --metric=METRIC
-                        metric for the shortest paths. Either  'length' or
-                        'travel-time' [default: travel-time]
+                        metric for the shortest path algorithm. Either
+                        'length' or 'travel-time' [default: travel-time]
   --width=WIDTH         image width in px [default=1600]
   --height=HEIGHT       image height in px [default=1200]
-  ```
+```

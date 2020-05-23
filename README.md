@@ -1,6 +1,7 @@
 # OsmToRoadGraph v.0.5.0
 
 ** Added new output option to write NetworkX compatible files **
+** Fixed bugs in the contraction logic **
 
 [![Build Status](https://travis-ci.org/AndGem/OsmToRoadGraph.svg?branch=master)](https://travis-ci.org/AndGem/OsmToRoadGraph)
 ![Python application](https://github.com/AndGem/OsmToRoadGraph/workflows/Python%20application/badge.svg?branch=master)
@@ -41,6 +42,8 @@ For details on how image was generated take a look into the [examples folder](ht
 ## Description
 
 With this tool the data is being converted into easily parsable plaintext files that can be used by any application for further processing. For each transportation network type two output files are generated. One file contains the nodes (with coordinates), and the network edges, with length, direction and maximum speed (according to chosen network type). The second file contains street names that could be extracted for all edges contained in the first file.
+
+As additional feature, and to make interaction easier, it is now supported to output networkx json to directly work with the output graph in networkx (or a library that supports the file format).
 
 ## Requirements
 

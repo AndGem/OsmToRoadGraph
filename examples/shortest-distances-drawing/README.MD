@@ -2,9 +2,9 @@
 
 This project is a simple example that illustrates how to **generate a PNG image** file that shows the **shortest distances** from a random/central node of a road network to all other nodes.
 Below you see an example of how this can look like. The darker the color, the closer it is to the starting node of the shortest path tree:
-![Bremen](./bremen.png)
+![Berlin](./berlin.png)
 
-This example also shows how to use the networkx output of `OSMtoRoadGraph`.
+This example also shows how to use the networkx output of [OsmToRoadGraph](../../../).
 
 ## How to prepare (create a networkx json file)
 
@@ -28,7 +28,7 @@ python3 shortest-distances-drawing.py -f <INPUT_FILENAME> -o <OUTPUT_FILENAME>
 For example:
 
 ```bash
-python3 shortest-distances-drawing.py -f data/bremen-latest.json -o bremen.png
+python3 shortest-distances-drawing.py -f data/berlin-latest.json -o berlin.png
 ```
 
 **That's it**: This should an output picture of the shortest distances of road network of the input OSM file.
@@ -52,3 +52,12 @@ Options:
   --width=WIDTH         image width in px [default=1600]
   --height=HEIGHT       image height in px [default=1200]
 ```
+
+## Make it faster
+
+If you want to run the code faster you can also use `pypy3`:
+
+1. Get pypy3 https://www.pypy.org/index.html
+2. Bootstrap pip `pypy3 -m ensurepip`
+3. Install dependencies: `pypy3 -m pip install -r requirements.txt`
+4. Run it `pypy3 shortest-distances-drawing.py -f <INPUT_FILENAME> -o <OUTPUT_FILENAME>`

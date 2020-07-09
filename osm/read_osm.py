@@ -47,7 +47,7 @@ def _read_ways(osm_file, configuration) -> Tuple[List[OSMWay], Set[int]]:
     if type(osm_file) == PercentageFile:
         parser.parse(osm_file)
     else:
-        parser.parseString(osm_file)
+        xml.sax.parseString(osm_file, w_handler)
 
     return w_handler.found_ways, w_handler.found_nodes
 
@@ -61,6 +61,6 @@ def _read_nodes(osm_file, found_nodes) -> Dict[int, OSMNode]:
     if type(osm_file) == PercentageFile:
         parser.parse(osm_file)
     else:
-        parser.parseString(osm_file)
+        xml.sax.parseString(osm_file, n_handler)
 
     return n_handler.nodes

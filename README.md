@@ -18,7 +18,7 @@
       - [Output](#output)
         - [Output Format](#output-format)
           - [Example Road Network (*.pycgr)](#example-road-network-pycgr)
-          - [Example Street Names (*.pycgr_names)](#example-street-names-pycgrnames)
+          - [Example Street Names (*.pycgr_names)](#example-street-names-pycgr_names)
       - [Configuring the Accepted OSM Highway Types](#configuring-the-accepted-osm-highway-types)
       - [Indoor Paths](#indoor-paths)
     - [Research](#research)

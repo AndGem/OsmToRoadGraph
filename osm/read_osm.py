@@ -6,7 +6,7 @@ from osm.xml_handler import NodeHandler, WayHandler, PercentageFile
 import utils.timer as timer
 
 from typing import Dict, List, Set, Tuple
-from zipfile import ZipFile
+from zipfile import ZipFile, BadZipFile
 
 
 @timer.timer
@@ -34,7 +34,7 @@ def read_zipfile(osm_filename):
                 break
         return zipfile.read(name=osm_file_in_zip)
 
-    except zipfile.BadZipFile:
+    except BadZipFile:
         return None
 
 

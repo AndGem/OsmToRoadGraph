@@ -34,7 +34,7 @@ def read_zipfile(osm_filename):
                 break
         return zipfile.read(name=osm_file_in_zip)
 
-    except zipfile.BadZipFile
+    except zipfile.BadZipFile:
         return None
 
 

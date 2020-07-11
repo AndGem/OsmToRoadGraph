@@ -31,6 +31,9 @@ def computeLCC(graph):
         found_nodes.append(f_nodes)
         total_nodes = total_nodes - f_nodes
 
+    if len(found_nodes) == 0:
+        return []
+
     # determine largest connected components
     lcc = max(found_nodes, key=lambda component: len(component))
 

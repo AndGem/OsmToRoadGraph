@@ -1,4 +1,5 @@
 import argparse
+import os
 
 import configuration as config
 import graph.contract_graph as contract_graph
@@ -59,6 +60,10 @@ if __name__ == "__main__":
 
     if filename is None:
         parser.print_help()
+        exit()
+
+    if not os.path.isfile(filename):
+        print("ERROR: provided filename {} does not point to a file!".format(filename))
         exit()
 
     long_network_type = {"p": "pedestrian", "c": "car", "b": "bicycle"}

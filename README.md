@@ -1,11 +1,11 @@
-# OsmToRoadGraph v.0.5.0
+# OsmToRoadGraph v.0.6.0
 
 [![Build Status](https://travis-ci.org/AndGem/OsmToRoadGraph.svg?branch=master)](https://travis-ci.org/AndGem/OsmToRoadGraph)
 ![Python application](https://github.com/AndGem/OsmToRoadGraph/workflows/Python%20application/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/AndGem/OsmToRoadGraph/branch/master/graph/badge.svg)](https://codecov.io/gh/AndGem/OsmToRoadGraph)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-- [OsmToRoadGraph v.0.5.0](#osmtoroadgraph-v050)
+- [OsmToRoadGraph v.0.6.0](#osmtoroadgraph-v060)
   - [Updates](#updates)
   - [Introduction](#introduction)
     - [Motivation](#motivation)
@@ -18,17 +18,16 @@
       - [Output](#output)
         - [Output Format](#output-format)
           - [Example Road Network (*.pycgr)](#example-road-network-pycgr)
-          - [Example Street Names (*.pycgr_names)](#example-street-names-pycgrnames)
+          - [Example Street Names (*.pycgr_names)](#example-street-names-pycgr_names)
       - [Configuring the Accepted OSM Highway Types](#configuring-the-accepted-osm-highway-types)
       - [Indoor Paths](#indoor-paths)
     - [Research](#research)
 
 ## Updates
 
-**Changelog v.0.4.3 -> v.0.5.0:**
+**Changelog v.0.5.0 -> v.0.6.0:**
 
-- [x] Added new output option to write NetworkX compatible files
-- [x] Fixed bugs in the contraction logic
+- [x] Added bz2 support for input files
 
 ## Introduction
 
@@ -80,6 +79,8 @@ optional arguments:
 #### Usage - Explanation
 
 `-f` points to the input filename; the output files will be created in the same folder and using the name of the input file as prefix and adding information as suffix.
+This filename must be either an OSM XML file (usually has the file extension `.osm`), or such a file compressed by bz2.
+If it is a bz2 file, the content will be decompressed in memory.
 
 `-n` sets the network type. This influences the maximum speed saved for the edges. If you care only about connectivity set it to pedestrian.
 

@@ -41,13 +41,13 @@ Below is an example of a visualization of the road network of the city of Bremen
 
 <img src="https://raw.githubusercontent.com/AndGem/OsmToRoadGraph/master/examples/pycgr-to-png/bremen.png" width="350">
 
-For details on how image was generated take a look into the [examples folder](https://github.com/AndGem/OsmToRoadGraph/tree/master/examples/pycgr-to-png).
+For details on how the image was generated take a look into the [examples folder](https://github.com/AndGem/OsmToRoadGraph/tree/master/examples/pycgr-to-png).
 
 ### Description
 
-With this tool the data is being converted into easily parsable plaintext files that can be used by any application for further processing. For each transportation network type two output files are generated. One file contains the nodes (with coordinates), and the network edges, with length, direction and maximum speed (according to chosen network type). The second file contains street names that could be extracted for all edges contained in the first file.
+With this tool, osm data can be converted into easily parsable plaintext files that can be used by any application for further processing. The program generates with default input parameters two output files. One file contains the nodes (with coordinates), and the network edges with length, direction, and maximum speed (according to chosen network type). The second file contains street names for all edges for which the data is available.
 
-As additional feature, and to make interaction easier, it is now supported to output networkx json to directly work with the output graph in networkx (or a library that supports the file format).
+As an additional feature, and to make interaction easier, since version 0.5 OsmToRoadGraph supports to produce output in a [networkx json](https://networkx.github.io/documentation/stable/reference/readwrite/json_graph.html?highlight=json#module-networkx.readwrite.json_graph).
 
 ### Requirements
 
@@ -78,13 +78,13 @@ optional arguments:
 
 #### Usage - Explanation
 
-`-f` points to the input filename; the output files will be created in the same folder and using the name of the input file as prefix and adding information as suffix.
-This filename must be either an OSM XML file (usually has the file extension `.osm`), or such a file compressed by bz2.
+`-f` points to the input filename; the output files will be created in the same folder and using the name of the input file as prefix and suffixes depending on the network type.
+This filename must be either an OSM XML file (usually has the file extension `.osm`) or such a file compressed by bz2 (usually has the file extension `.bz2`).
 If it is a bz2 file, the content will be decompressed in memory.
 
-`-n` sets the network type. This influences the maximum speed saved for the edges. If you care only about connectivity set it to pedestrian.
+`-n` sets the network type. This influences which edges are selected, their maximum speed, and if direction is important (it is assumed pedestrians can always traverse every edge in both directions, and their maximum speed is 5kmh). If you want to fine-tune this for your needs, see [Configuring the Accepted OSM Highway Types](#configuring-the-accepted-osm-highway-types).
 
-`-l` if you set this option the graph will be output as a whole but _may_ contain unconnected components. By default the largest connected component is determined and the rest is dropped.
+`-l` if you set this option the graph will be output as a whole but _may_ contain unconnected components. By default, the largest connected component is determined and the rest is dropped.
 
 `-c` if you specify this flag additional to the original graph, a second pair of filenames will be created containing the result of contracting all degree 2 nodes.
 
@@ -105,7 +105,9 @@ To see what you can do with the output please have a look here:
 
 #### Output
 
-The output will consist of two plaintext files. One file ending in `.pypgr`, `pybgr`, or `pycgr` depending on the network type selected; the other file will have the same ending with a `_names` as additional suffix. The first file contains the graph structure as well as additional information about the edge (length, max speed according to highway type, if it is a one-way street or not). The file ending with `_names` includes the street names for the edges.
+The output will consist of two plaintext files. One file ending in `.pypgr`, `pybgr`, or `pycgr` depending on the network type selected; the other file will have the same ending with the additional suffix `_names`. The first file contains the graph structure as well as additional information about the edge (length, max speed according to highway type, if it is a one-way street or not). The file ending with `_names` includes the street names for the edges.
+
+If the option `--networkx` is specified, there will be an additional output file with the file extension `.json`. See [networkx.readwrite.json_graph.adjacency_data](https://networkx.github.io/documentation/stable/reference/readwrite/generated/networkx.readwrite.json_graph.adjacency_data.html#networkx.readwrite.json_graph.adjacency_data) for more details.
 
 ##### Output Format
 
@@ -127,7 +129,7 @@ Then, two lines follow that contain the `number of nodes` and the `number of edg
 After this, two larger blocks follow. In the first block, the nodes are being described, and in the latter the edges are described.
 The first block consists of `<number of nodes>` many lines, and the second block consists of `<number of edges>` many lines.
 
-Nodes of the graph are described by the following three parameters. Each nodes data is stored in one line, and the parameters are separated by a space:
+The nodes of the graph are described by the following three parameters. Each node's data is stored in one line, and the parameters are separated by a space:
 
 - `<id>`: the node id (used later in the part where edges are to describe which nodes are connected by an edge)
 - `<lat>`: latitude of the node
@@ -140,7 +142,7 @@ Edges of the graph are described by 6 parameters. Each edge is stored in one lin
 - `<length>`: the length of the edge in meters (approximated)
 - `<street_type>`: one of the OSM highway types (see: https://wiki.openstreetmap.org/wiki/Key:highway)
 - `<max_speed>`: maximum allowed speed (if exists) in km/h [note: if no max speed is found a default value will be used]
-- `<bidirectional>` indicates if an edge is bidirection. The value is `0` if it is a unidirectional road (from `source_node_id` to `target_node_id`), and otherwise it is `1`.
+- `<bidirectional>` indicates if an edge is bidirectional. The value is `0` if it is a unidirectional road (from `source_node_id` to `target_node_id`), and otherwise it is `1`.
 
 ###### Example Road Network (*.pycgr)
 
@@ -186,13 +188,13 @@ Zähringerstraße
 Zähringerstraße
 ```
 
-Each line consists of a street name. The number in which a line is corresponds to the edges index. In this example this means, that Hölderlinstraße is the street name of edges 0, 1, 2. The absence of a name in line 4 indicates that edge 3 has no street name. Edges 4, 5, 6 have street name Kronenstraße, and so on...
+Each line consists of a street name. The number in which a line is corresponds to the edge's index. In this example. this means, that Hölderlinstraße is the street name of edges 0, 1, 2. The absence of a name in line 4 indicates that edge 3 has no street name. Edges 4, 5, 6 have street name Kronenstraße, and so on...
 
 #### Configuring the Accepted OSM Highway Types
 
 The application comes with a set of standard configuration to parse `only` some OSM ways that have the tag `highway=x` where `x` is a [highway type](https://wiki.openstreetmap.org/wiki/Key:highway) [notable excepting is the `pedestrian_indoors`, see below for an explanation].
 You can change the behavior of this program by changing the values (removing unwanted, and adding missing values) in the `configuration.py`.
-In this file you can also modify the speed limit that will be written to the output file.
+In this file, you can also modify the speed limit that will be written to the output file.
 
 #### Indoor Paths
 

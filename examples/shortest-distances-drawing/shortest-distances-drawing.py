@@ -64,18 +64,18 @@ def draw_graph_on_map(G, lengths, output_filename, width=1600, height=1200):
     denominator = max((max_x - min_x)/picture_width, (max_y - min_y)/picture_height)
     im = Image.new("RGB", (picture_width, picture_height), "#FFF")
     draw = ImageDraw.Draw(im)
-    for l in tqdm(lines):
+    for line_data in tqdm(lines):
         # prepare coordinates to draw
-        sx = (l[0][0] - min_x) / denominator
-        tx = (l[1][0] - min_x) / denominator
+        sx = (line_data[0][0] - min_x) / denominator
+        tx = (line_data[1][0] - min_x) / denominator
 
-        sy = (l[0][1] - min_y) / denominator
-        ty = (l[1][1] - min_y) / denominator
+        sy = (line_data[0][1] - min_y) / denominator
+        ty = (line_data[1][1] - min_y) / denominator
 
         line = ((sx, sy), (tx, ty))
 
         # determine color
-        distance = l[2]
+        distance = line_data[2]
         if distance < float("inf"):
             luminosity = float(distance) / float(max_distance) * 100.0
         else:
@@ -90,7 +90,7 @@ def draw_graph_on_map(G, lengths, output_filename, width=1600, height=1200):
     im.save(output_filename, "PNG")
 
 
-def travel_time(u, v, data):
+def travel_time(data):
     if not data["length"] or data["length"] == 0:
         return float("inf")
     return data["max_v"] / data["length"]

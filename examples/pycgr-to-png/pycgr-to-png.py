@@ -53,18 +53,18 @@ def draw_graph(nodes, edges, width, height, text, out_filename):
     denominator = max((max_x - min_x)/picture_width, (max_y - min_y)/picture_height)
     im = Image.new("RGB", (picture_width, picture_height), "#FFF")
     draw = ImageDraw.Draw(im)
-    for l in lines:
+    for line_data in lines:
         # prepare coordinates to draw
-        sx = (l[0][0] - min_x) / denominator
-        tx = (l[1][0] - min_x) / denominator
+        sx = (line_data[0][0] - min_x) / denominator
+        tx = (line_data[1][0] - min_x) / denominator
 
-        sy = (l[0][1] - min_y) / denominator
-        ty = (l[1][1] - min_y) / denominator
+        sy = (line_data[0][1] - min_y) / denominator
+        ty = (line_data[1][1] - min_y) / denominator
 
         line = ((sx, sy), (tx, ty))
 
         # determine color
-        max_speed = l[2]
+        max_speed = line_data[2]
         luminosity = max(-8.0/5.0 * max_speed + 70.0, 0)
         color = ImageColor.getrgb(f"hsl(233, 74%, {luminosity}%)")
 
@@ -103,7 +103,7 @@ def read_file(filename):
                 if len(nodes) == nmb_nodes:
                     state = InputState.EDGES
             elif state == InputState.EDGES:
-                source_id, target_id, length, street_type, max_speed, bidirectional = line.split(" ")
+                source_id, target_id, _, street_type, max_speed, bidirectional = line.split(" ")
                 edges.append(Edge(int(source_id), int(target_id), int(max_speed)))
 
     print(f"#nodes:{nmb_nodes}, #edges:{nmb_edges}")
@@ -121,7 +121,7 @@ if __name__ == "__main__":
 
     if (options.in_filename is None) or (options.out_filename is None):
         parser.print_help()
-        exit()
+        sys.exit()
 
     nodes, edges = read_file(options.in_filename)
     draw_graph(nodes, edges, options.width, options.height, options.text, options.out_filename)

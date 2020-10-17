@@ -50,7 +50,7 @@ def build_graph_from_vertices_edges(vertices: List[Vertex], edges: List[Edge]) -
     g = Graph()
 
     # 1. add all nodes and create mapping to 0 based index nodes
-    vertex_ids = set([v.id for v in vertices])
+    vertex_ids = set(v.id for v in vertices)
     id_mapper = dict(zip(vertex_ids, range(len(vertex_ids))))
     for v in vertices:
         g.add_node(Vertex(id_mapper[v.id], v.data))

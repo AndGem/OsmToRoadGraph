@@ -1,7 +1,5 @@
-from typing import Union
 
-
-class VertexData(object):
+class VertexData:
     __slots__ = ["lat", "lon"]
 
     def __init__(self, lat: float, lon: float) -> None:
@@ -11,7 +9,7 @@ class VertexData(object):
         return "{} {}".format(self.lat, self.lon)
 
 
-class Vertex(object):
+class Vertex:
     __slots__ = ["id", "data"]
 
     def __init__(self, id: int, data: VertexData) -> None:
@@ -23,7 +21,7 @@ class Vertex(object):
         return "{} {}".format(self.id, self.data)
 
 
-class EdgeData(object):
+class EdgeData:
     __slots__ = ["length", "highway", "max_v", "name"]
 
     def __init__(self, length: float, highway: str, max_v: int, name: str) -> None:
@@ -44,7 +42,7 @@ class EdgeData(object):
         return "{} {} {}".format(self.length, self.highway, self.max_v)
 
 
-class Edge(object):
+class Edge:
     __slots__ = ["s", "t", "forward", "backward", "data"]
 
     def __init__(self, s: int, t: int, f: bool, b: bool, data: EdgeData) -> None:

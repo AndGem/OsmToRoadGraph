@@ -10,7 +10,7 @@ from osm.way_parser_helper import WayParserHelper
 intern = sys.intern
 
 
-class PercentageFile(object):
+class PercentageFile:
 
     def __init__(self, filename: str) -> None:
         self.size = os.stat(filename)[6]

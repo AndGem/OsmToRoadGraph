@@ -1,5 +1,6 @@
 import argparse
 import os
+import sys
 
 import configuration as config
 import graph.contract_graph as contract_graph
@@ -64,7 +65,7 @@ if __name__ == "__main__":
 
     if not os.path.isfile(filename):
         print("ERROR: provided filename {} does not point to a file!".format(filename))
-        exit()
+        sys.exit()
 
     long_network_type = {"p": "pedestrian", "c": "car", "b": "bicycle"}
     if options.network_type in long_network_type.keys():
@@ -73,13 +74,13 @@ if __name__ == "__main__":
         network_type = options.network_type
     else:
         print("network type improperly set")
-        exit()
+        sys.exit()
 
     if options.networkx_output:
         try:
             import networkx as nx  # dummy import to see if it is installed
         except ImportError:
             print("Error: networkx Library not found. Please install networkx if you want to use the --networkx option.")
-            exit(-1)
+            sys.exit(-1)
 
     convert_osm_to_roadgraph(filename, network_type, options)

@@ -2,7 +2,7 @@ from graph.graph_types import Edge, Vertex
 from typing import List, Set
 
 
-class Graph(object):
+class Graph:
 
     def __init__(self) -> None:
         self.edges: List[Edge] = []

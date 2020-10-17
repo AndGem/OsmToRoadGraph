@@ -20,7 +20,7 @@ class OSMWay:
         self.nodes.append(osm_id)
 
 
-class OSMNode(object):
+class OSMNode:
     __slots__ = ["lat", "lon", "osm_id"]
 
     def __init__(self, osm_id: int, lat: float, lon: float) -> None:

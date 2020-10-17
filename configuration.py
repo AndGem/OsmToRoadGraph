@@ -1,4 +1,4 @@
-class Configuration(object):
+class Configuration:
 
     accepted_highways = dict()
     accepted_highways['pedestrian'] = set(["primary", "secondary", "tertiary", "unclassified", "residential", "service", "primary_link",

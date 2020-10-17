@@ -35,7 +35,7 @@ def computeLCC(graph):
         return []
 
     # determine largest connected components
-    lcc = max(found_nodes, key=lambda component: len(component))
+    lcc = max(found_nodes, key=len)
 
     print("\t LCC contains {} nodes (removed {} nodes)".format(len(lcc), len(graph.vertices) - len(lcc)))
     return lcc

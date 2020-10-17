@@ -37,8 +37,8 @@ def decompress_content(osm_filename):
         print("done!")
         return content
 
-        print("no compression recognized!")
-        return None
+    print("no compression recognized!")
+    return None
 
 
 @timer.timer

@@ -9,7 +9,7 @@ from graph.graph import Graph
 from graph.graph_types import Vertex, Edge
 
 
-class ContractGraph(object):
+class ContractGraph:
 
     def __init__(self, graph: Graph) -> None:
         self.graph = graph
@@ -88,7 +88,7 @@ class ContractGraph(object):
             if self._is_intersection(next_node_id):
                 break
 
-            next_out_edges = list(filter(lambda e: (e.s != current_node_id) and (e.t != current_node_id), self.out_edges_per_node[next_node_id]))
+            next_out_edges = list(filter(lambda e: current_node_id not in (e.s, e.t), self.out_edges_per_node[next_node_id]))
 
             if len(next_out_edges) == 0:
                 # detected a dead end => stop
@@ -125,10 +125,10 @@ class ContractGraph(object):
 
     def _find_all_intersections(self) -> deque:
         node_ids = range(0, len(self.graph.vertices))
-        return deque(filter(lambda node_id: self._is_intersection(node_id), node_ids))
+        return deque(filter(self._is_intersection, node_ids))
 
     def _get_nodes(self, node_ids: Set[int]) -> List[Vertex]:
-        return list(map(lambda node_id: self.graph.get_node(node_id), node_ids))
+        return list(map(self.graph.get_node, node_ids))
 
     def _gather_node_ids(self, edges: List[Edge]) -> Set[int]:
         print("\t gathering nodes...")

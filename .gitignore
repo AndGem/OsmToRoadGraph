@@ -98,3 +98,7 @@ cover/
 .mypy_cache/
 .pyre/
 .vscode/
+
+# OsmToRoadGraph
+*.pypgr*
+*.bz2

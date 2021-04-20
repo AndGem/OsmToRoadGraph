@@ -11,7 +11,7 @@ import utm
 
 
 def load_graph(filename):
-    json_data = json.load(open(filename, 'r'))
+    json_data = json.load(open(filename, "r"))
     G = nx.adjacency_graph(json_data)
     return G
 
@@ -27,7 +27,11 @@ def find_approximate_central_node(G):
         node_distances += lengths
 
     central_node = min(node_distances, key=node_distances.get)
-    print("taking node with id {} as central node, with summed distance: {}".format(central_node, node_distances[central_node]))
+    print(
+        "taking node with id {} as central node, with summed distance: {}".format(
+            central_node, node_distances[central_node]
+        )
+    )
     return central_node
 
 
@@ -36,13 +40,16 @@ def get_lat_lon(lat, lon):
     x, y, _, _ = utm.from_latlon(lat, lon)
     return x, y
 
+
 @lru_cache(maxsize=None)
 def get_color_str(luminosity):
     return f"hsl(233, 74%, {luminosity}%)"
 
+
 @lru_cache(maxsize=None)
 def get_color(luminosity):
     return ImageColor.getrgb(get_color_str(luminosity))
+
 
 def draw_graph_on_map(G, lengths, output_filename, width=1600, height=1200):
     print("preparing to draw graph...")
@@ -79,7 +86,7 @@ def draw_graph_on_map(G, lengths, output_filename, width=1600, height=1200):
     print("drawing...")
     picture_width = width
     picture_height = height
-    denominator = max((max_x - min_x)/picture_width, (max_y - min_y)/picture_height)
+    denominator = max((max_x - min_x) / picture_width, (max_y - min_y) / picture_height)
     im = Image.new("RGB", (picture_width, picture_height), "#FFF")
     draw = ImageDraw.Draw(im)
     for line_data in tqdm(lines):
@@ -113,18 +120,61 @@ def travel_time(u, v, data):
         return float("inf")
     return data["max_v"] / data["length"]
 
+
 def edge_length(u, v, data):
     return data["length"] or float("inf")
 
 
 if __name__ == "__main__":
     parser = OptionParser()
-    parser.add_option("-f", "--file", dest="in_filename", action="store", type="string", help="input networkx JSON file")
-    parser.add_option("-o", "--out", dest="out_filename", action="store", type="string", help="output png file")
-    parser.add_option("-c", "--center", dest="center", action="store_true", help="set this option to compute the shortest distances from an approximate center node [default: random node]")
-    parser.add_option("-m", "--metric", dest="metric", action="store", type="string", default="travel-time", help="metric for the shortest path algorithm. Either  'length' or 'travel-time' [default: travel-time]")
-    parser.add_option("--width", dest="width", action="store", type="int", default=1600, help="image width in px [default=1600]")
-    parser.add_option("--height", dest="height", action="store", type="int", default=1200, help="image height in px [default=1200]")
+    parser.add_option(
+        "-f",
+        "--file",
+        dest="in_filename",
+        action="store",
+        type="string",
+        help="input networkx JSON file",
+    )
+    parser.add_option(
+        "-o",
+        "--out",
+        dest="out_filename",
+        action="store",
+        type="string",
+        help="output png file",
+    )
+    parser.add_option(
+        "-c",
+        "--center",
+        dest="center",
+        action="store_true",
+        help="set this option to compute the shortest distances from an approximate center node [default: random node]",
+    )
+    parser.add_option(
+        "-m",
+        "--metric",
+        dest="metric",
+        action="store",
+        type="string",
+        default="travel-time",
+        help="metric for the shortest path algorithm. Either  'length' or 'travel-time' [default: travel-time]",
+    )
+    parser.add_option(
+        "--width",
+        dest="width",
+        action="store",
+        type="int",
+        default=1600,
+        help="image width in px [default=1600]",
+    )
+    parser.add_option(
+        "--height",
+        dest="height",
+        action="store",
+        type="int",
+        default=1200,
+        help="image height in px [default=1200]",
+    )
     (options, args) = parser.parse_args()
 
     if (options.in_filename is None) or (options.out_filename is None):
@@ -143,7 +193,13 @@ if __name__ == "__main__":
     elif options.metric == "length":
         metric = edge_length
     else:
-        print("Did not recognize --metric/-m option. Provided {}. Must either be 'travel-time' or 'length'".format(options.metric))
+        print(
+            "Did not recognize --metric/-m option. Provided {}. Must either be 'travel-time' or 'length'".format(
+                options.metric
+            )
+        )
 
-    lengths = nx.single_source_dijkstra_path_length(G, start_node, cutoff=None, weight=metric)
+    lengths = nx.single_source_dijkstra_path_length(
+        G, start_node, cutoff=None, weight=metric
+    )
     draw_graph_on_map(G, lengths, output_filename=options.out_filename)

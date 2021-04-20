@@ -10,7 +10,6 @@ from graph.graph_types import Vertex, Edge
 
 
 class ContractGraph:
-
     def __init__(self, graph: Graph) -> None:
         self.graph = graph
 
@@ -21,7 +20,9 @@ class ContractGraph:
         node_ids = self._gather_node_ids(all_new_edges)
         nodes = self._get_nodes(node_ids)
 
-        print(f"finished contracting: {len(all_new_edges)}/{len(self.graph.edges)} edges and {len(nodes)}/{len(self.graph.vertices)} vertices.")
+        print(
+            f"finished contracting: {len(all_new_edges)}/{len(self.graph.edges)} edges and {len(nodes)}/{len(self.graph.vertices)} vertices."
+        )
 
         return graphfactory.build_graph_from_vertices_edges(nodes, all_new_edges)
 
@@ -46,7 +47,9 @@ class ContractGraph:
             for first_out_edge in out_edges:
                 start_node_id = node_id
 
-                edges_to_merge, final_node_id = self._find_edges_to_merge(start_node_id, first_out_edge)
+                edges_to_merge, final_node_id = self._find_edges_to_merge(
+                    start_node_id, first_out_edge
+                )
 
                 if len(edges_to_merge) == 0:
                     continue
@@ -56,19 +59,41 @@ class ContractGraph:
                 if edges_to_merge[0].backward:
                     #  deduplication measure; if not for this for bidirectional edges, that are
                     #  removed between intersections, 2 new edges would be created
-                    smaller_node_id = start_node_id if start_node_id < final_node_id else final_node_id
-                    bigger_node_id = start_node_id if start_node_id > final_node_id else final_node_id
+                    smaller_node_id = (
+                        start_node_id
+                        if start_node_id < final_node_id
+                        else final_node_id
+                    )
+                    bigger_node_id = (
+                        start_node_id
+                        if start_node_id > final_node_id
+                        else final_node_id
+                    )
                     if (smaller_node_id, bigger_node_id) in bidirectional_edges:
                         # already added this edge skip it
                         continue
                     bidirectional_edges.add((smaller_node_id, bigger_node_id))
-                    merged_edge = Edge(smaller_node_id, bigger_node_id, True, edges_to_merge[0].backward, data)
+                    merged_edge = Edge(
+                        smaller_node_id,
+                        bigger_node_id,
+                        True,
+                        edges_to_merge[0].backward,
+                        data,
+                    )
                 else:
-                    merged_edge = Edge(start_node_id, final_node_id, True, edges_to_merge[0].backward, data)
+                    merged_edge = Edge(
+                        start_node_id,
+                        final_node_id,
+                        True,
+                        edges_to_merge[0].backward,
+                        data,
+                    )
                 new_edges.add(merged_edge)
         return new_edges
 
-    def _find_edges_to_merge(self, start_node_id: int, first_out_edge: Edge) -> Tuple[List[Edge], int]:
+    def _find_edges_to_merge(
+        self, start_node_id: int, first_out_edge: Edge
+    ) -> Tuple[List[Edge], int]:
         # walk from start_node along first_out_edge until:
         #  i) another intersection node is found
         #  ii) an edge is encountered on the way that is different (different name, max_speed, ...)
@@ -88,7 +113,12 @@ class ContractGraph:
             if self._is_intersection(next_node_id):
                 break
 
-            next_out_edges = list(filter(lambda e: current_node_id not in (e.s, e.t), self.out_edges_per_node[next_node_id]))
+            next_out_edges = list(
+                filter(
+                    lambda e: current_node_id not in (e.s, e.t),
+                    self.out_edges_per_node[next_node_id],
+                )
+            )
 
             if len(next_out_edges) == 0:
                 # detected a dead end => stop
@@ -112,7 +142,12 @@ class ContractGraph:
         return used_edges, final_node_id
 
     def _is_not_same_edge(self, e1: Edge, e2: Edge) -> bool:
-        return e1.data.highway != e2.data.highway or e1.data.max_v != e2.data.max_v or e1.data.name != e2.data.name or e1.backward != e2.backward
+        return (
+            e1.data.highway != e2.data.highway
+            or e1.data.max_v != e2.data.max_v
+            or e1.data.name != e2.data.name
+            or e1.backward != e2.backward
+        )
 
     def _get_out_edges(self) -> DefaultDict[int, List[Edge]]:
         result: DefaultDict[int, List[Edge]] = defaultdict(list)

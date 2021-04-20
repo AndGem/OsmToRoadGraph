@@ -11,7 +11,6 @@ intern = sys.intern
 
 
 class PercentageFile:
-
     def __init__(self, filename: str) -> None:
         self.size = os.stat(filename)[6]
         self.delivered = 0
@@ -43,7 +42,6 @@ class PercentageFile:
 
 
 class NodeHandler(ContentHandler):
-
     def __init__(self, found_nodes: Set[int]) -> None:
         self.found_nodes: Set[int] = found_nodes
         self.nodes: Dict[int, OSMNode] = {}
@@ -54,11 +52,12 @@ class NodeHandler(ContentHandler):
             if osm_id not in self.found_nodes:
                 return
 
-            self.nodes[osm_id] = OSMNode(osm_id, float(attrs["lat"]), float(attrs["lon"]))
+            self.nodes[osm_id] = OSMNode(
+                osm_id, float(attrs["lat"]), float(attrs["lon"])
+            )
 
 
 class WayHandler(ContentHandler):
-
     def __init__(self, parser_helper: WayParserHelper) -> None:
         self.found_ways: List[OSMWay] = []
         self.found_nodes: Set[int] = set()
@@ -116,8 +115,13 @@ class WayHandler(ContentHandler):
 
             self.found_nodes.update(self.current_way.nodes)
 
-            self.current_way.max_speed_int = self.parser_helper.parse_max_speed(self.current_way)
-            self.current_way.forward, self.current_way.backward = self.parser_helper.parse_direction(self.current_way)
+            self.current_way.max_speed_int = self.parser_helper.parse_max_speed(
+                self.current_way
+            )
+            (
+                self.current_way.forward,
+                self.current_way.backward,
+            ) = self.parser_helper.parse_direction(self.current_way)
 
             self.found_ways.append(self.current_way)
 

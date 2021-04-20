@@ -8,7 +8,7 @@ from graph.convert_graph import convert_to_networkx
 
 
 def random_string(length=8):
-    return ''.join(random.choice(string.ascii_lowercase) for i in range(length))
+    return "".join(random.choice(string.ascii_lowercase) for i in range(length))
 
 
 def random_uint(max=1000):
@@ -16,7 +16,6 @@ def random_uint(max=1000):
 
 
 class TestConvertGraphTest(unittest.TestCase):
-
     def test_converting_K4_graph(self):
         g = self.create_graph(number_nodes=4)
 
@@ -47,8 +46,24 @@ class TestConvertGraphTest(unittest.TestCase):
         nx_edges = nx_graph.edges(data=True)
         e0, e1 = nx_edges
         self.assertCountEqual([(e0[0], e0[1]), (e1[0], e1[1])], [(0, 1), (1, 0)])
-        self.assertDictEqual(e0[2], {"highway": edge_data.highway, "length": edge_data.length, "max_v": edge_data.max_v, "name": edge_data.name})
-        self.assertDictEqual(e1[2], {"highway": edge_data.highway, "length": edge_data.length, "max_v": edge_data.max_v, "name": edge_data.name})
+        self.assertDictEqual(
+            e0[2],
+            {
+                "highway": edge_data.highway,
+                "length": edge_data.length,
+                "max_v": edge_data.max_v,
+                "name": edge_data.name,
+            },
+        )
+        self.assertDictEqual(
+            e1[2],
+            {
+                "highway": edge_data.highway,
+                "length": edge_data.length,
+                "max_v": edge_data.max_v,
+                "name": edge_data.name,
+            },
+        )
 
     def create_graph(self, number_nodes):
         g = Graph()
@@ -66,4 +81,3 @@ class TestConvertGraphTest(unittest.TestCase):
 
     def vertex(self, index):
         return Vertex(index, VertexData(0, 0))
-

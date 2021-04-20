@@ -50,7 +50,7 @@ def draw_graph(nodes, edges, width, height, text, out_filename):
     print("drawing...")
     picture_width = width
     picture_height = height
-    denominator = max((max_x - min_x)/picture_width, (max_y - min_y)/picture_height)
+    denominator = max((max_x - min_x) / picture_width, (max_y - min_y) / picture_height)
     im = Image.new("RGB", (picture_width, picture_height), "#FFF")
     draw = ImageDraw.Draw(im)
     for line_data in lines:
@@ -65,14 +65,18 @@ def draw_graph(nodes, edges, width, height, text, out_filename):
 
         # determine color
         max_speed = line_data[2]
-        luminosity = max(-8.0/5.0 * max_speed + 70.0, 0)
+        luminosity = max(-8.0 / 5.0 * max_speed + 70.0, 0)
         color = ImageColor.getrgb(f"hsl(233, 74%, {luminosity}%)")
 
         # draw line
         draw.line(line, fill=color)
 
     draw.text((10, picture_height - 50), text, fill="#FF0000")
-    draw.text((10, picture_height - 30), "Map data © OpenStreetMap contributors", fill="#FF0000")
+    draw.text(
+        (10, picture_height - 30),
+        "Map data © OpenStreetMap contributors",
+        fill="#FF0000",
+    )
     del draw
 
     im.save(out_filename, "PNG")
@@ -86,7 +90,7 @@ def read_file(filename):
     edges = []
     nmb_nodes = None
     nmb_edges = None
-    with open(filename, 'r', encoding='utf-8') as input_file:
+    with open(filename, "r", encoding="utf-8") as input_file:
         for line in input_file:
             if line.startswith("#"):
                 continue
@@ -103,7 +107,14 @@ def read_file(filename):
                 if len(nodes) == nmb_nodes:
                     state = InputState.EDGES
             elif state == InputState.EDGES:
-                source_id, target_id, _, street_type, max_speed, bidirectional = line.split(" ")
+                (
+                    source_id,
+                    target_id,
+                    _,
+                    street_type,
+                    max_speed,
+                    bidirectional,
+                ) = line.split(" ")
                 edges.append(Edge(int(source_id), int(target_id), int(max_speed)))
 
     print(f"#nodes:{nmb_nodes}, #edges:{nmb_edges}")
@@ -114,9 +125,31 @@ if __name__ == "__main__":
     parser = OptionParser()
     parser.add_option("-f", "--file", dest="in_filename", action="store", type="string")
     parser.add_option("-o", "--out", dest="out_filename", action="store", type="string")
-    parser.add_option("-t", "--text", dest="text", action="store", type="string", default="", help="text drawn in lower left corner")
-    parser.add_option("--width", dest="width", action="store", type="int", default=1600, help="image width in px [default=1600]")
-    parser.add_option("--height", dest="height", action="store", type="int", default=1200, help="image height in px [default=1200]")
+    parser.add_option(
+        "-t",
+        "--text",
+        dest="text",
+        action="store",
+        type="string",
+        default="",
+        help="text drawn in lower left corner",
+    )
+    parser.add_option(
+        "--width",
+        dest="width",
+        action="store",
+        type="int",
+        default=1600,
+        help="image width in px [default=1600]",
+    )
+    parser.add_option(
+        "--height",
+        dest="height",
+        action="store",
+        type="int",
+        default=1200,
+        help="image height in px [default=1200]",
+    )
     (options, args) = parser.parse_args()
 
     if (options.in_filename is None) or (options.out_filename is None):
@@ -124,4 +157,6 @@ if __name__ == "__main__":
         sys.exit()
 
     nodes, edges = read_file(options.in_filename)
-    draw_graph(nodes, edges, options.width, options.height, options.text, options.out_filename)
+    draw_graph(
+        nodes, edges, options.width, options.height, options.text, options.out_filename
+    )

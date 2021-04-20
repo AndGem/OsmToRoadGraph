@@ -1,12 +1,62 @@
 class Configuration:
 
     accepted_highways = dict()
-    accepted_highways['pedestrian'] = set(["primary", "secondary", "tertiary", "unclassified", "residential", "service", "primary_link",
-                                           "secondary_link", "tertiary_link", "living_street", "pedestrian", "track", "road", "footway", "steps", "path"])
-    accepted_highways['bicycle'] = set(["primary", "secondary", "tertiary", "unclassified", "residential", "service",
-                                        "primary_link", "secondary_link", "tertiary_link", "living_street", "track", "road", "path", "cycleway"])
-    accepted_highways['car'] = set(["motorway", "trunk", "primary", "secondary", "tertiary", "unclassified", "residential",
-                                    "service", "motorway_link", "trunk_link", "primary_link", "secondary_link", "tertiary_link", "living_street"])
+    accepted_highways["pedestrian"] = set(
+        [
+            "primary",
+            "secondary",
+            "tertiary",
+            "unclassified",
+            "residential",
+            "service",
+            "primary_link",
+            "secondary_link",
+            "tertiary_link",
+            "living_street",
+            "pedestrian",
+            "track",
+            "road",
+            "footway",
+            "steps",
+            "path",
+        ]
+    )
+    accepted_highways["bicycle"] = set(
+        [
+            "primary",
+            "secondary",
+            "tertiary",
+            "unclassified",
+            "residential",
+            "service",
+            "primary_link",
+            "secondary_link",
+            "tertiary_link",
+            "living_street",
+            "track",
+            "road",
+            "path",
+            "cycleway",
+        ]
+    )
+    accepted_highways["car"] = set(
+        [
+            "motorway",
+            "trunk",
+            "primary",
+            "secondary",
+            "tertiary",
+            "unclassified",
+            "residential",
+            "service",
+            "motorway_link",
+            "trunk_link",
+            "primary_link",
+            "secondary_link",
+            "tertiary_link",
+            "living_street",
+        ]
+    )
 
     speed_limits = {
         "motorway": 120,
@@ -22,15 +72,15 @@ class Configuration:
         "tertiary_link": 35,
         "residential": 30,
         "service": 10,
-        "living_street":  5,
-        "pedestrian":  5,
-        "track":  5,
-        "road":  5,
-        "footway":  5,
-        "steps":  5,
-        "path":  5,
-        "cycleway":  5,
-        "pedestrian_indoor": 5
+        "living_street": 5,
+        "pedestrian": 5,
+        "track": 5,
+        "road": 5,
+        "footway": 5,
+        "steps": 5,
+        "path": 5,
+        "cycleway": 5,
+        "pedestrian_indoor": 5,
     }
 
     walking_speed = 5

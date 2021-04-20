@@ -16,7 +16,7 @@ def distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
     theta1 = lon1 * degrees_to_radians
     theta2 = lon2 * degrees_to_radians
 
-    cos_val = (sin(phi1) * sin(phi2) * cos(theta1 - theta2) + cos(phi1) * cos(phi2))
+    cos_val = sin(phi1) * sin(phi2) * cos(theta1 - theta2) + cos(phi1) * cos(phi2)
     cos_val = min(1, cos_val)
     arc_val = acos(cos_val)
 

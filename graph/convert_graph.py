@@ -1,6 +1,6 @@
-
 def convert_to_networkx(graph):
     import networkx as nx
+
     out_graph = nx.DiGraph()
 
     for v in graph.vertices:

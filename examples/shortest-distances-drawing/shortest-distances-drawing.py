@@ -1,4 +1,5 @@
 from collections import Counter
+from functools import lru_cache
 import json
 import random
 from optparse import OptionParser
@@ -15,18 +16,11 @@ def load_graph(filename):
     return G
 
 
-def find_largest_strongly_connected_component(G):
-    print("determining largest strongly connected component..")
-    nodes_cc = max(tqdm(nx.kosaraju_strongly_connected_components(G)), key=len)
-    Gcc = G.subgraph(nodes_cc)
-    return Gcc
-
-
 def find_approximate_central_node(G):
     print("finding approximate central node..")
 
     node_distances = Counter()
-    start_nodes = random.sample(G.nodes, 20)
+    start_nodes = random.sample(list(G.nodes), 20)
 
     for start_node_id in tqdm(start_nodes):
         lengths = Counter(nx.single_source_dijkstra_path_length(G, start_node_id))
@@ -36,6 +30,19 @@ def find_approximate_central_node(G):
     print("taking node with id {} as central node, with summed distance: {}".format(central_node, node_distances[central_node]))
     return central_node
 
+
+@lru_cache(maxsize=None)
+def get_lat_lon(lat, lon):
+    x, y, _, _ = utm.from_latlon(lat, lon)
+    return x, y
+
+@lru_cache(maxsize=None)
+def get_color_str(luminosity):
+    return f"hsl(233, 74%, {luminosity}%)"
+
+@lru_cache(maxsize=None)
+def get_color(luminosity):
+    return ImageColor.getrgb(get_color_str(luminosity))
 
 def draw_graph_on_map(G, lengths, output_filename, width=1600, height=1200):
     print("preparing to draw graph...")
@@ -48,13 +55,24 @@ def draw_graph_on_map(G, lengths, output_filename, width=1600, height=1200):
     for e in tqdm(G.edges):
         s, t = e
 
-        sx, sy, _, _ = utm.from_latlon(G.nodes[s]["lat"], G.nodes[s]["lon"])
-        tx, ty, _, _ = utm.from_latlon(G.nodes[t]["lat"], G.nodes[t]["lon"])
+        sx, sy = get_lat_lon(G.nodes[s]["lat"], G.nodes[s]["lon"])
+        tx, ty = get_lat_lon(G.nodes[t]["lat"], G.nodes[t]["lon"])
         sy, ty = -sy, -ty  # need to invert y coordinates
-        distance = max(lengths[s], lengths[t])
+
+        if (s in lengths) and (t in lengths):
+            distance = max(lengths[s], lengths[t])
+        elif s in lengths:
+            distance = lengths[s]
+        elif t in lengths:
+            distance = lengths[t]
+        else:
+            distance = 0
+
         if distance < float("inf"):
             max_distance = max(max_distance, distance)
+
         lines.append(((sx, sy), (tx, ty), distance))
+
         max_x, max_y = max(max_x, sx, tx), max(max_y, sy, ty)
         min_x, min_y = min(min_x, sx, tx), min(min_y, sy, ty)
 
@@ -77,11 +95,11 @@ def draw_graph_on_map(G, lengths, output_filename, width=1600, height=1200):
         # determine color
         distance = line_data[2]
         if distance < float("inf"):
-            luminosity = float(distance) / float(max_distance) * 100.0
+            luminosity = round(float(distance) / float(max_distance) * 100.0, 0)
         else:
-            luminosity = 100
+            luminosity = 100.0
 
-        color = ImageColor.getrgb(f"hsl(233, 74%, {luminosity}%)")
+        color = get_color(luminosity)
 
         # draw line
         draw.line(line, fill=color)
@@ -90,10 +108,13 @@ def draw_graph_on_map(G, lengths, output_filename, width=1600, height=1200):
     im.save(output_filename, "PNG")
 
 
-def travel_time(data):
+def travel_time(u, v, data):
     if not data["length"] or data["length"] == 0:
         return float("inf")
     return data["max_v"] / data["length"]
+
+def edge_length(u, v, data):
+    return data["length"] or float("inf")
 
 
 if __name__ == "__main__":
@@ -111,19 +132,18 @@ if __name__ == "__main__":
         exit(-1)
 
     G = load_graph(options.in_filename)
-    Gcc = find_largest_strongly_connected_component(G)
     if options.center:
-        start_node = find_approximate_central_node(Gcc)
+        start_node = find_approximate_central_node(G)
     else:
-        start_node = random.choice(list(Gcc))
+        start_node = random.choice(list(G))
 
     metric = None
     if options.metric == "travel-time":
         metric = travel_time
     elif options.metric == "length":
-        metric = "length"
+        metric = edge_length
     else:
         print("Did not recognize --metric/-m option. Provided {}. Must either be 'travel-time' or 'length'".format(options.metric))
 
-    lengths = nx.single_source_dijkstra_path_length(Gcc, start_node, cutoff=None, weight=travel_time)
-    draw_graph_on_map(Gcc, lengths, output_filename=options.out_filename)
+    lengths = nx.single_source_dijkstra_path_length(G, start_node, cutoff=None, weight=metric)
+    draw_graph_on_map(G, lengths, output_filename=options.out_filename)

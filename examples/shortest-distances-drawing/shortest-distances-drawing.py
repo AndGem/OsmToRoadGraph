@@ -1,4 +1,5 @@
 from collections import Counter
+from functools import lru_cache
 import json
 import random
 from optparse import OptionParser
@@ -30,6 +31,19 @@ def find_approximate_central_node(G):
     return central_node
 
 
+@lru_cache(maxsize=None)
+def get_lat_lon(lat, lon):
+    x, y, _, _ = utm.from_latlon(lat, lon)
+    return x, y
+
+@lru_cache(maxsize=None)
+def get_color_str(luminosity):
+    return f"hsl(233, 74%, {luminosity}%)"
+
+@lru_cache(maxsize=None)
+def get_color(luminosity):
+    return ImageColor.getrgb(get_color_str(luminosity))
+
 def draw_graph_on_map(G, lengths, output_filename, width=1600, height=1200):
     print("preparing to draw graph...")
     # convert to simple lines
@@ -41,9 +55,10 @@ def draw_graph_on_map(G, lengths, output_filename, width=1600, height=1200):
     for e in tqdm(G.edges):
         s, t = e
 
-        sx, sy, _, _ = utm.from_latlon(G.nodes[s]["lat"], G.nodes[s]["lon"])
-        tx, ty, _, _ = utm.from_latlon(G.nodes[t]["lat"], G.nodes[t]["lon"])
+        sx, sy = get_lat_lon(G.nodes[s]["lat"], G.nodes[s]["lon"])
+        tx, ty = get_lat_lon(G.nodes[t]["lat"], G.nodes[t]["lon"])
         sy, ty = -sy, -ty  # need to invert y coordinates
+
         if (s in lengths) and (t in lengths):
             distance = max(lengths[s], lengths[t])
         elif s in lengths:
@@ -55,7 +70,9 @@ def draw_graph_on_map(G, lengths, output_filename, width=1600, height=1200):
 
         if distance < float("inf"):
             max_distance = max(max_distance, distance)
+
         lines.append(((sx, sy), (tx, ty), distance))
+
         max_x, max_y = max(max_x, sx, tx), max(max_y, sy, ty)
         min_x, min_y = min(min_x, sx, tx), min(min_y, sy, ty)
 
@@ -78,11 +95,11 @@ def draw_graph_on_map(G, lengths, output_filename, width=1600, height=1200):
         # determine color
         distance = line_data[2]
         if distance < float("inf"):
-            luminosity = float(distance) / float(max_distance) * 100.0
+            luminosity = round(float(distance) / float(max_distance) * 100.0, 0)
         else:
-            luminosity = 100
+            luminosity = 100.0
 
-        color = ImageColor.getrgb(f"hsl(233, 74%, {luminosity}%)")
+        color = get_color(luminosity)
 
         # draw line
         draw.line(line, fill=color)

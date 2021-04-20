@@ -100,5 +100,8 @@ cover/
 .vscode/
 
 # OsmToRoadGraph
-*.pypgr*
+*.py*gr*
 *.bz2
+*.osm.json
+*.osm_contracted.json
+*.png

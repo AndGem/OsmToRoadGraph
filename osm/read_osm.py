@@ -10,7 +10,9 @@ from typing import Dict, List, Set, Tuple
 
 
 @timer.timer
-def read_file(osm_filename, configuration, verbose=True) -> Tuple[Dict[int, OSMNode], List[OSMWay]]:
+def read_file(
+    osm_filename, configuration, verbose=True
+) -> Tuple[Dict[int, OSMNode], List[OSMWay]]:
 
     parserHelper = WayParserHelper(configuration)
     decompressed_content = decompress_content(osm_filename)
@@ -27,7 +29,7 @@ def read_file(osm_filename, configuration, verbose=True) -> Tuple[Dict[int, OSMN
 def decompress_content(osm_filename):
     magic_bz2 = "\x42\x5a\x68"
 
-    with open(osm_filename, 'r', encoding='utf-8', errors='replace') as f:
+    with open(osm_filename, "r", encoding="utf-8", errors="replace") as f:
         content_begin = f.read(10)
 
     if content_begin.startswith(magic_bz2):

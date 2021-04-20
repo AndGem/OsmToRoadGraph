@@ -2,7 +2,18 @@ from typing import List, Optional
 
 
 class OSMWay:
-    __slots__ = ["osm_id", "nodes", "highway", "area", "max_speed_str", "max_speed_int", "direction", "forward", "backward", "name"]
+    __slots__ = [
+        "osm_id",
+        "nodes",
+        "highway",
+        "area",
+        "max_speed_str",
+        "max_speed_int",
+        "direction",
+        "forward",
+        "backward",
+        "name",
+    ]
 
     def __init__(self, osm_id: int) -> None:
         self.osm_id = osm_id

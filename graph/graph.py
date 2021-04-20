@@ -3,7 +3,6 @@ from typing import List, Set
 
 
 class Graph:
-
     def __init__(self) -> None:
         self.edges: List[Edge] = []
         self.vertices: List[Vertex] = []

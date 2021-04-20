@@ -6,7 +6,6 @@ from graph.contract_graph import ContractGraph
 
 
 class ContractGraphTest(unittest.TestCase):
-
     def test_contract_a_path_to_two_nodes_and_one_edge(self):
         g = self.create_graph(number_nodes=3)
 
@@ -37,15 +36,33 @@ class ContractGraphTest(unittest.TestCase):
     def test_contracting_stops_if_edge_is_different(self):
         g = self.create_graph(number_nodes=10)
 
-        g.add_edge(Edge(s=0, t=1, f=True, b=True, data=self.edge_data(length=2, name="abc")))
-        g.add_edge(Edge(s=1, t=2, f=True, b=True, data=self.edge_data(length=3, name="abc")))
-        g.add_edge(Edge(s=2, t=3, f=True, b=True, data=self.edge_data(length=5, name="def")))
-        g.add_edge(Edge(s=3, t=4, f=True, b=True, data=self.edge_data(length=7, name="def")))
-        g.add_edge(Edge(s=4, t=5, f=True, b=True, data=self.edge_data(length=11, name="ghi")))
-        g.add_edge(Edge(s=5, t=6, f=True, b=True, data=self.edge_data(length=13, name="ghi")))
-        g.add_edge(Edge(s=6, t=7, f=True, b=True, data=self.edge_data(length=17, name="jkl")))
-        g.add_edge(Edge(s=7, t=8, f=True, b=True, data=self.edge_data(length=23, name="mno")))
-        g.add_edge(Edge(s=8, t=9, f=True, b=True, data=self.edge_data(length=29, name="mno")))
+        g.add_edge(
+            Edge(s=0, t=1, f=True, b=True, data=self.edge_data(length=2, name="abc"))
+        )
+        g.add_edge(
+            Edge(s=1, t=2, f=True, b=True, data=self.edge_data(length=3, name="abc"))
+        )
+        g.add_edge(
+            Edge(s=2, t=3, f=True, b=True, data=self.edge_data(length=5, name="def"))
+        )
+        g.add_edge(
+            Edge(s=3, t=4, f=True, b=True, data=self.edge_data(length=7, name="def"))
+        )
+        g.add_edge(
+            Edge(s=4, t=5, f=True, b=True, data=self.edge_data(length=11, name="ghi"))
+        )
+        g.add_edge(
+            Edge(s=5, t=6, f=True, b=True, data=self.edge_data(length=13, name="ghi"))
+        )
+        g.add_edge(
+            Edge(s=6, t=7, f=True, b=True, data=self.edge_data(length=17, name="jkl"))
+        )
+        g.add_edge(
+            Edge(s=7, t=8, f=True, b=True, data=self.edge_data(length=23, name="mno"))
+        )
+        g.add_edge(
+            Edge(s=8, t=9, f=True, b=True, data=self.edge_data(length=29, name="mno"))
+        )
         # input: 0-1-2-3-4-5-6-7-8-9
         # expected outcome: 0-2-4-6-7-9
 
@@ -56,11 +73,11 @@ class ContractGraphTest(unittest.TestCase):
 
         result_edge_data = [e.data for e in contracted_graph.edges]
         expected_edge_data = [
-            self.edge_data(length=5, name="abc"), 
+            self.edge_data(length=5, name="abc"),
             self.edge_data(length=12, name="def"),
             self.edge_data(length=24, name="ghi"),
             self.edge_data(length=17, name="jkl"),
-            self.edge_data(length=52, name="mno")
+            self.edge_data(length=52, name="mno"),
         ]
         self.assertCountEqual(result_edge_data, expected_edge_data)
 
@@ -91,10 +108,24 @@ class ContractGraphTest(unittest.TestCase):
         g = self.create_graph(number_nodes=6)
 
         g.add_edge(Edge(s=0, t=1, f=True, b=True, data=self.edge_data(name="a")))
-        g.add_edge(Edge(s=1, t=2, f=True, b=True, data=self.edge_data(name="a", highway="b")))
-        g.add_edge(Edge(s=2, t=3, f=True, b=False, data=self.edge_data(name="a", highway="b")))
-        g.add_edge(Edge(s=3, t=4, f=True, b=True, data=self.edge_data(name="a", highway="b")))
-        g.add_edge(Edge(s=4, t=5, f=True, b=True, data=self.edge_data(name="a", highway="b", max_v=123)))
+        g.add_edge(
+            Edge(s=1, t=2, f=True, b=True, data=self.edge_data(name="a", highway="b"))
+        )
+        g.add_edge(
+            Edge(s=2, t=3, f=True, b=False, data=self.edge_data(name="a", highway="b"))
+        )
+        g.add_edge(
+            Edge(s=3, t=4, f=True, b=True, data=self.edge_data(name="a", highway="b"))
+        )
+        g.add_edge(
+            Edge(
+                s=4,
+                t=5,
+                f=True,
+                b=True,
+                data=self.edge_data(name="a", highway="b", max_v=123),
+            )
+        )
 
         contracted_graph = ContractGraph(g).contract()
 
@@ -107,7 +138,7 @@ class ContractGraphTest(unittest.TestCase):
             self.edge_data(name="a", highway="b"),
             self.edge_data(name="a", highway="b"),
             self.edge_data(name="a", highway="b"),
-            self.edge_data(name="a", highway="b", max_v=123)
+            self.edge_data(name="a", highway="b", max_v=123),
         ]
         self.assertCountEqual(result_edge_data, expected_edge_data)
 

@@ -41,19 +41,35 @@ def convert_osm_to_roadgraph(filename, network_type, options):
 
     if options.contract:
         contracted_graph = contract_graph.ContractGraph(graph).contract()
-        output.write_to_file(contracted_graph, out_file, "{}c".format(configuration.get_file_extension()))
+        output.write_to_file(
+            contracted_graph, out_file, "{}c".format(configuration.get_file_extension())
+        )
         if options.networkx_output:
             nx_graph = convert_graph.convert_to_networkx(contracted_graph)
             output.write_nx_to_file(nx_graph, f"{out_file}_contracted.json")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='OSMtoRoadGraph')
+    parser = argparse.ArgumentParser(description="OSMtoRoadGraph")
     parser.add_argument("-f", "--file", action="store", type=str, dest="filename")
-    parser.add_argument("-n", "--networkType", dest="network_type", action="store", default="p", choices=["p", "b", "c"], help="(p)edestrian, (b)icycle, (c)ar, [default: p]")
+    parser.add_argument(
+        "-n",
+        "--networkType",
+        dest="network_type",
+        action="store",
+        default="p",
+        choices=["p", "b", "c"],
+        help="(p)edestrian, (b)icycle, (c)ar, [default: p]",
+    )
     parser.add_argument("-l", "--nolcc", dest="lcc", action="store_true", default=False)
     parser.add_argument("-c", "--contract", dest="contract", action="store_true")
-    parser.add_argument("--networkx", dest="networkx_output", action="store_true", help="enable additional output of JSON format of networkx [note networkx needs to be installed for this to work].", default=False)
+    parser.add_argument(
+        "--networkx",
+        dest="networkx_output",
+        action="store_true",
+        help="enable additional output of JSON format of networkx [note networkx needs to be installed for this to work].",
+        default=False,
+    )
 
     options = parser.parse_args()
 
@@ -80,7 +96,9 @@ if __name__ == "__main__":
         try:
             import networkx as nx  # dummy import to see if it is installed
         except ImportError:
-            print("Error: networkx Library not found. Please install networkx if you want to use the --networkx option.")
+            print(
+                "Error: networkx Library not found. Please install networkx if you want to use the --networkx option."
+            )
             sys.exit(-1)
 
     convert_osm_to_roadgraph(filename, network_type, options)

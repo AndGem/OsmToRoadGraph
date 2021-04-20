@@ -5,7 +5,6 @@ from graph.graph_types import Edge, Vertex, EdgeData, VertexData
 
 
 class GraphTest(unittest.TestCase):
-
     def test_add_edge_adds_one_edge_test(self):
         g = Graph()
 
@@ -23,7 +22,12 @@ class GraphTest(unittest.TestCase):
     def test_add_edges_correct_in_out_neighbors_test(self):
         g = Graph()
 
-        v1, v2, v3, v4 = self._get_vertex(0), self._get_vertex(1), self._get_vertex(2), self._get_vertex(3)
+        v1, v2, v3, v4 = (
+            self._get_vertex(0),
+            self._get_vertex(1),
+            self._get_vertex(2),
+            self._get_vertex(3),
+        )
         e_forward = Edge(v1.id, v2.id, True, False, EdgeData(1, " ", 100, "Test"))
         e_backward = Edge(v2.id, v3.id, False, True, EdgeData(1, " ", 100, "Test"))
         e_nothing = Edge(v3.id, v4.id, False, False, EdgeData(1, " ", 100, "Test"))

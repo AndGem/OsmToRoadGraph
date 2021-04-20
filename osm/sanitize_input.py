@@ -43,7 +43,9 @@ def sanitize_input(ways, nodes):
         del ways[index]
 
     # determine nodes that do not appear in any of the ways
-    nodes_to_remove = [osm_id for osm_id in nodes.keys() if osm_id not in found_node_ids]
+    nodes_to_remove = [
+        osm_id for osm_id in nodes.keys() if osm_id not in found_node_ids
+    ]
     # remove these nodes
     for index in reversed(nodes_to_remove):
         del nodes[index]

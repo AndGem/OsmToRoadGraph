@@ -5,7 +5,6 @@ from graph.graph_types import Vertex, Edge, VertexData, EdgeData
 
 
 class GraphfactorTest(unittest.TestCase):
-
     def test_empty_input_test(self):
         g = gf.build_graph_from_vertices_edges([], [])
         self.assertTrue(len(g.vertices) == 0)

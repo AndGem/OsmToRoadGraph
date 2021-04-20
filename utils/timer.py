@@ -10,8 +10,13 @@ def timer(function: Callable) -> Callable:
 
         result = function(*args, **kwargs)
 
-        print("finished {} in {}s".format(function.__name__, round(time.time() - start_time, 2)))
+        print(
+            "finished {} in {}s".format(
+                function.__name__, round(time.time() - start_time, 2)
+            )
+        )
         print("")
 
         return result
+
     return wrapper

@@ -1,4 +1,3 @@
-
 class VertexData:
     __slots__ = ["lat", "lon"]
 
@@ -32,7 +31,12 @@ class EdgeData:
 
     def __eq__(self, other):
         if isinstance(other, EdgeData):
-            return self.length == other.length and self.highway == other.highway and self.max_v == other.max_v and self.name == other.name
+            return (
+                self.length == other.length
+                and self.highway == other.highway
+                and self.max_v == other.max_v
+                and self.name == other.name
+            )
         return False
 
     def __ne__(self, other):

@@ -2,6 +2,14 @@ from osm.osm_types import OSMWay
 
 
 class WayParserHelper:
+
+    ONEWAY_STR = "oneway"
+    MPH_STRINGS = ["mph", "mp/h"]
+    KMH_STRINGS = ["kph", "kp/h", "kmh", "km/h"]
+    WALK_STR = "walk"
+    NONE_STR = "none"
+    SIGNALS_STR = "signals"
+
     def __init__(self, config):
         self.config = config
 
@@ -16,10 +24,20 @@ class WayParserHelper:
         return True
 
     def parse_direction(self, way):
-        if way.direction == "oneway":
+        if way.direction == self.ONEWAY_STR:
             return True, False
 
         return True, True
+
+    def convert_str_to_number(self, s):
+        # remove all non-digts except ',' and '.'
+        cleaned_up = "".join(filter(lambda x: x.isdigit() or x == "," or x == ".", s))
+        # remove everything after first '.' or ','
+        if "." in cleaned_up:
+            cleaned_up = cleaned_up.split(".")[0]
+        if "," in cleaned_up:
+            cleaned_up = cleaned_up.split(",")[0]
+        return cleaned_up
 
     def parse_max_speed(self, osm_way: OSMWay) -> int:
         maximum_speed = osm_way.max_speed_str
@@ -35,22 +53,17 @@ class WayParserHelper:
         except ValueError:
             max_speed_str = maximum_speed.lower()
 
-            if "walk" in max_speed_str:
+            if self.WALK_STR in max_speed_str:
                 max_speed = self.config.walking_speed
-            elif "none" in max_speed_str:
+            elif self.NONE_STR in max_speed_str:
                 max_speed = self.config.max_highway_speed
-            elif "mph" in max_speed_str or "mp/h" in max_speed_str:
-                max_speed_kmh_str = "".join(c for c in max_speed_str if c.isdigit())
+            elif any([s in max_speed_str for s in self.MPH_STRINGS]):
+                max_speed_kmh_str = self.convert_str_to_number(max_speed_str)
                 max_speed = int(float(max_speed_kmh_str) * 1.609344)
-            elif (
-                "kmh" in max_speed_str
-                or "km/h" in max_speed_str
-                or "kph" in max_speed_str
-                or "kp/h" in max_speed_str
-            ):
-                max_speed = int("".join(c for c in max_speed_str if c.isdigit()))
+            elif any([s in max_speed_str for s in self.KMH_STRINGS]):
+                max_speed = int(self.convert_str_to_number(max_speed_str))
             else:
-                if "signals" in max_speed_str:
+                if self.SIGNALS_STR in max_speed_str:
                     #  according to https://wiki.openstreetmap.org/wiki/Key:maxspeed 'signals' indicates
                     #  that the max speed is shown by some sort of signalling. Here, we fallback to the default of the highway type.
                     pass

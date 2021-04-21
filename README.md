@@ -51,7 +51,7 @@ As an additional feature, and to make interaction easier, since version 0.5 OsmT
 
 ### Requirements
 
-- Python 3.6+/PyPy
+- Python 3.7+/PyPy
 - An OSM XML file
 - [Optional: [networkx](https://networkx.github.io/) as dependency: `pip3 install networkx`]
 

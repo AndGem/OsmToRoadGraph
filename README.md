@@ -1,4 +1,4 @@
-# OsmToRoadGraph v.0.6.0
+# OsmToRoadGraph v.0.6.0a
 
 [![Build Status](https://travis-ci.org/AndGem/OsmToRoadGraph.svg?branch=master)](https://travis-ci.org/AndGem/OsmToRoadGraph)
 ![Python application](https://github.com/AndGem/OsmToRoadGraph/workflows/Python%20application/badge.svg?branch=master)
@@ -25,9 +25,10 @@
 
 ## Updates
 
-**Changelog v.0.5.0 -> v.0.6.0:**
+**Changelog v.0.5.0 -> v.0.6.0a:**
 
 - [x] Added bz2 support for input files
+- [x] dropped Python 3.6< support
 
 ## Introduction
 
@@ -51,7 +52,7 @@ As an additional feature, and to make interaction easier, since version 0.5 OsmT
 
 ### Requirements
 
-- Python 3.6+/PyPy
+- Python 3.7+/PyPy
 - An OSM XML file
 - [Optional: [networkx](https://networkx.github.io/) as dependency: `pip3 install networkx`]
 

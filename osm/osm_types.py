@@ -1,40 +1,28 @@
+from dataclasses import dataclass, field
 from typing import List, Optional
 
 
+@dataclass
 class OSMWay:
-    __slots__ = [
-        "osm_id",
-        "nodes",
-        "highway",
-        "area",
-        "max_speed_str",
-        "max_speed_int",
-        "direction",
-        "forward",
-        "backward",
-        "name",
-    ]
-
-    def __init__(self, osm_id: int) -> None:
-        self.osm_id = osm_id
-        self.nodes: List[int] = []
-        self.highway: str = ""
-        self.area: Optional[str] = None
-        self.max_speed_str: Optional[str] = None
-        self.max_speed_int: int
-        self.direction: str = ""
-        self.forward = True
-        self.backward = True
-        self.name = ""
+    osm_id: int
+    nodes: List[int] = field(init=False, default_factory=list)
+    highway: str = field(init=False, default="")
+    area: Optional[str] = field(init=False, default=None)
+    max_speed_str: Optional[str] = field(init=False, default=None)
+    max_speed_int: int = field(init=False)
+    direction: str = field(init=False, default="")
+    forward: bool = field(init=False, default=True)
+    backward: bool = field(init=False, default=True)
+    name: str = field(init=False, default="")
 
     def add_node(self, osm_id: int) -> None:
         self.nodes.append(osm_id)
 
 
+@dataclass(frozen=True)
 class OSMNode:
     __slots__ = ["lat", "lon", "osm_id"]
 
-    def __init__(self, osm_id: int, lat: float, lon: float) -> None:
-        self.osm_id: int = osm_id
-        self.lat: float = lat
-        self.lon: float = lon
+    osm_id: int
+    lat: float
+    lon: float

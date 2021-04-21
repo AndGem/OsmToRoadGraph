@@ -19,13 +19,13 @@ class TestConvertGraphTest(unittest.TestCase):
     def test_converting_K4_graph(self):
         g = self.create_graph(number_nodes=4)
 
-        g.add_edge(Edge(s=0, t=1, f=True, b=True, data=self.edge_data()))
-        g.add_edge(Edge(s=1, t=2, f=True, b=True, data=self.edge_data()))
-        g.add_edge(Edge(s=2, t=3, f=True, b=True, data=self.edge_data()))
-        g.add_edge(Edge(s=3, t=0, f=True, b=True, data=self.edge_data()))
+        g.add_edge(Edge(s=0, t=1, forward=True, backward=True, data=self.edge_data()))
+        g.add_edge(Edge(s=1, t=2, forward=True, backward=True, data=self.edge_data()))
+        g.add_edge(Edge(s=2, t=3, forward=True, backward=True, data=self.edge_data()))
+        g.add_edge(Edge(s=3, t=0, forward=True, backward=True, data=self.edge_data()))
 
-        g.add_edge(Edge(s=1, t=3, f=True, b=True, data=self.edge_data()))
-        g.add_edge(Edge(s=0, t=2, f=True, b=True, data=self.edge_data()))
+        g.add_edge(Edge(s=1, t=3, forward=True, backward=True, data=self.edge_data()))
+        g.add_edge(Edge(s=0, t=2, forward=True, backward=True, data=self.edge_data()))
 
         nx_graph = convert_to_networkx(g)
 
@@ -36,7 +36,7 @@ class TestConvertGraphTest(unittest.TestCase):
         g = self.create_graph(number_nodes=2)
 
         edge_data = self.edge_data()
-        g.add_edge(Edge(s=0, t=1, f=True, b=True, data=edge_data))
+        g.add_edge(Edge(s=0, t=1, forward=True, backward=True, data=edge_data))
 
         nx_graph = convert_to_networkx(g)
 

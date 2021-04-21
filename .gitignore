@@ -102,6 +102,8 @@ cover/
 # OsmToRoadGraph
 *.py*gr*
 *.bz2
+*.osm
 *.osm.json
 *.osm_contracted.json
 *.png
+*.dat

@@ -1,4 +1,5 @@
 from typing import List, Optional
+from dataclasses import dataclass
 
 
 class OSMWay:
@@ -31,10 +32,10 @@ class OSMWay:
         self.nodes.append(osm_id)
 
 
+@dataclass(frozen=True)
 class OSMNode:
     __slots__ = ["lat", "lon", "osm_id"]
 
-    def __init__(self, osm_id: int, lat: float, lon: float) -> None:
-        self.osm_id: int = osm_id
-        self.lat: float = lat
-        self.lon: float = lon
+    osm_id: int
+    lat: float
+    lon: float

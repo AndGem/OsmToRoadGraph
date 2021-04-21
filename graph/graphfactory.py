@@ -61,16 +61,12 @@ def build_graph_from_vertices_edges(vertices: List[Vertex], edges: List[Edge]) -
     for v in vertices:
         g.add_node(Vertex(id_mapper[v.id], v.data))
 
-    # 2. add all edges that are valid
-    new_edges = [
-        # copy.deepcopy(e) for e in edges if e.s in vertex_ids and e.t in vertex_ids
-        replace(e, s=id_mapper[e.s], t=id_mapper[e.t])
-        for e in edges
-        if e.s in vertex_ids and e.t in vertex_ids
-    ]
+    # 2. create edges with proper node ids
+    valid_edges = [e for e in edges if e.s in vertex_ids and e.t in vertex_ids]
+    new_edges = [replace(e, s=id_mapper[e.s], t=id_mapper[e.t]) for e in valid_edges]
+
+    # 3. add those new edges to the graph
     for e in new_edges:
-        # e.s = id_mapper[e.s]
-        # e.t = id_mapper[e.t]
         g.add_edge(e)
 
     return g

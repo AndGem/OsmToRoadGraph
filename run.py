@@ -35,6 +35,7 @@ def convert_osm_to_roadgraph(filename, network_type, options):
         graph = algorithms.computeLCCGraph(graph)
 
     output.write_to_file(graph, out_file, configuration.get_file_extension())
+
     if options.networkx_output:
         nx_graph = convert_graph.convert_to_networkx(graph)
         output.write_nx_to_file(nx_graph, f"{out_file}.json")

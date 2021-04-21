@@ -1,4 +1,5 @@
 import argparse
+import importlib
 import os
 import sys
 
@@ -78,7 +79,7 @@ if __name__ == "__main__":
 
     if filename is None:
         parser.print_help()
-        exit()
+        sys.exit()
 
     if not os.path.isfile(filename):
         print("ERROR: provided filename {} does not point to a file!".format(filename))
@@ -94,9 +95,8 @@ if __name__ == "__main__":
         sys.exit()
 
     if options.networkx_output:
-        try:
-            import networkx as nx  # dummy import to see if it is installed
-        except ImportError:
+        networkx_spec = importlib.util.find_spec("networkx")
+        if networkx_spec is None:
             print(
                 "Error: networkx Library not found. Please install networkx if you want to use the --networkx option."
             )

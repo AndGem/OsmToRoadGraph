@@ -21,7 +21,7 @@ class OSMWay:
 
 @dataclass(frozen=True)
 class OSMNode:
-    # __slots__ = ["lat", "lon", "osm_id"]
+    __slots__ = ["lat", "lon", "osm_id"]
 
     osm_id: int
     lat: float

@@ -1,4 +1,4 @@
-import copy
+from dataclasses import replace
 
 from graph.graph import Graph
 from graph.graph_types import Vertex, Edge, VertexData, EdgeData
@@ -63,11 +63,14 @@ def build_graph_from_vertices_edges(vertices: List[Vertex], edges: List[Edge]) -
 
     # 2. add all edges that are valid
     new_edges = [
-        copy.deepcopy(e) for e in edges if e.s in vertex_ids and e.t in vertex_ids
+        # copy.deepcopy(e) for e in edges if e.s in vertex_ids and e.t in vertex_ids
+        replace(e, s=id_mapper[e.s], t=id_mapper[e.t])
+        for e in edges
+        if e.s in vertex_ids and e.t in vertex_ids
     ]
     for e in new_edges:
-        e.s = id_mapper[e.s]
-        e.t = id_mapper[e.t]
+        # e.s = id_mapper[e.s]
+        # e.t = id_mapper[e.t]
         g.add_edge(e)
 
     return g

@@ -1,5 +1,5 @@
-from copy import deepcopy
 from collections import deque, defaultdict
+from dataclasses import replace
 from typing import DefaultDict, List, Set, Tuple
 
 import graph.graphfactory as graphfactory
@@ -54,8 +54,9 @@ class ContractGraph:
                 if len(edges_to_merge) == 0:
                     continue
 
-                data = deepcopy(edges_to_merge[0].data)
-                data.length = sum([e.data.length for e in edges_to_merge])
+                sum_edge_lengths = sum([e.data.length for e in edges_to_merge])
+                data = replace(edges_to_merge[0].data, length=sum_edge_lengths)
+
                 if edges_to_merge[0].backward:
                     #  deduplication measure; if not for this for bidirectional edges, that are
                     #  removed between intersections, 2 new edges would be created

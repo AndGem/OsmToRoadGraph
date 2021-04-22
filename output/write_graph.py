@@ -1,6 +1,11 @@
 import codecs
 import json
 
+try:
+    import networkx as nx
+except ImportError:
+    pass
+
 
 def write_to_file(graph, filename_base, filename_ext):
     filename = "{}.{}".format(filename_base, filename_ext)
@@ -38,7 +43,6 @@ def write_to_file(graph, filename_base, filename_ext):
 
 
 def write_nx_to_file(nx_graph, filename):
-    import networkx as nx
 
     print("writing networkx output file: {}".format(filename))
     json_out = nx.adjacency_data(nx_graph)

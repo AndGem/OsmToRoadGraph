@@ -12,18 +12,25 @@ from typing import Dict, List, Tuple
 @timer.timer
 def build_graph_from_osm(nodes: Dict[int, OSMNode], ways: List[OSMWay]) -> Graph:
 
-    assert isinstance(nodes, dict)
-    assert isinstance(ways, list)
-
     g = Graph()
 
-    # 1. add all nodes and create mapping to 0 based index nodes
+    # 1. create mapping to 0 based index nodes
     node_ids = nodes.keys()
     id_mapper = dict(zip(node_ids, range(len(node_ids))))
+
+    # 2. add nodes and edges
+    _add_nodes(g, id_mapper, nodes)
+    _add_edges(g, id_mapper, ways)
+
+    return g
+
+
+def _add_nodes(g: Graph, id_mapper: Dict[int, int], nodes: Dict[int, OSMNode]) -> None:
     for n in nodes.values():
         g.add_node(Vertex(id_mapper[n.osm_id], data=VertexData(n.lat, n.lon)))
 
-    # 2. go through all ways and add edges accordingly
+
+def _add_edges(g: Graph, id_mapper: Dict[int, int], ways: List[OSMWay]) -> None:
     bidirectional_edges: Dict[Tuple[int, int], int] = dict()
     for w in ways:
         for i in range(len(w.nodes) - 1):
@@ -37,18 +44,16 @@ def build_graph_from_osm(nodes: Dict[int, OSMNode], ways: List[OSMWay]) -> Graph
             )
             edge = Edge(s_id, t_id, w.forward, w.backward, data=data)
             if w.forward and w.backward:
-                smaller = s_id if s_id < t_id else t_id
-                bigger = s_id if s_id > t_id else t_id
+                smaller, bigger = min(s_id, t_id), max(s_id, t_id)
                 if (smaller, bigger) in bidirectional_edges:
+                    print(f"found duplicated bidirectional edge {(smaller, bigger)}")
                     print(
-                        f"found duplicated bidirectional edge {(smaller, bigger)}.. (osm ids {w.osm_id} and {bidirectional_edges[(smaller, bigger)]})... skipping one"
+                        f"(osm ids {w.osm_id} and {bidirectional_edges[(smaller, bigger)]})... skipping one"
                     )
                     continue
                 bidirectional_edges[(smaller, bigger)] = w.osm_id
 
             g.add_edge(edge)
-
-    return g
 
 
 @timer.timer

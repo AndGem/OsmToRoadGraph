@@ -1,6 +1,10 @@
-def convert_to_networkx(graph):
+try:
     import networkx as nx
+except ImportError:
+    pass
 
+
+def convert_to_networkx(graph):
     out_graph = nx.DiGraph()
 
     for v in graph.vertices:

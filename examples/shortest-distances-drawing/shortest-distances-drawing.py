@@ -3,6 +3,7 @@ from functools import lru_cache
 import json
 import random
 from optparse import OptionParser
+import sys
 
 import networkx as nx
 from PIL import Image, ImageDraw, ImageColor
@@ -179,7 +180,7 @@ if __name__ == "__main__":
 
     if (options.in_filename is None) or (options.out_filename is None):
         parser.print_help()
-        exit(-1)
+        sys.exit(-1)
 
     G = load_graph(options.in_filename)
     if options.center:

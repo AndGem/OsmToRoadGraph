@@ -124,21 +124,23 @@ class ContractGraph:
             if len(next_out_edges) == 0:
                 # detected a dead end => stop
                 break
-            elif len(next_out_edges) > 1:
+
+            if len(next_out_edges) > 1:
                 # something is wrong.. this should have been filtered out by the intersection check
                 assert False
-            else:
-                next_out_edge = next_out_edges[0]
-                if self._is_not_same_edge(out_edge, next_out_edge):
-                    if next_node_id not in self.seen_start_nodes:
-                        #  found a new possible start node
-                        self.seen_start_nodes.add(next_node_id)
-                        self.start_nodes.append(next_node_id)
-                    #  break since we need to stop here
-                    break
-                else:
-                    out_edge = next_out_edge
-                    current_node_id = next_node_id
+
+            next_out_edge = next_out_edges[0]
+            if self._is_not_same_edge(out_edge, next_out_edge):
+                if next_node_id not in self.seen_start_nodes:
+                    # found a new possible start node
+                    self.seen_start_nodes.add(next_node_id)
+                    self.start_nodes.append(next_node_id)
+                # break since we need to stop here
+                break
+
+            out_edge = next_out_edge
+            current_node_id = next_node_id
+
         final_node_id = next_node_id
         return used_edges, final_node_id
 

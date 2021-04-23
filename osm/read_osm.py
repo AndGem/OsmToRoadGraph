@@ -10,9 +10,7 @@ from typing import Dict, List, Set, Tuple
 
 
 @timer.timer
-def read_file(
-    osm_filename, configuration, verbose=True
-) -> Tuple[Dict[int, OSMNode], List[OSMWay]]:
+def read_file(osm_filename, configuration) -> Tuple[Dict[int, OSMNode], List[OSMWay]]:
 
     parserHelper = WayParserHelper(configuration)
     decompressed_content = decompress_content(osm_filename)
@@ -49,7 +47,7 @@ def _read_ways(osm_file, configuration) -> Tuple[List[OSMWay], Set[int]]:
     w_handler = WayHandler(configuration)
 
     parser.setContentHandler(w_handler)
-    if type(osm_file) == PercentageFile:
+    if isinstance(osm_file, PercentageFile):
         parser.parse(osm_file)
     else:
         xml.sax.parseString(osm_file, w_handler)
@@ -63,7 +61,7 @@ def _read_nodes(osm_file, found_nodes) -> Dict[int, OSMNode]:
     n_handler = NodeHandler(found_nodes)
 
     parser.setContentHandler(n_handler)
-    if type(osm_file) == PercentageFile:
+    if isinstance(osm_file, PercentageFile):
         parser.parse(osm_file)
     else:
         xml.sax.parseString(osm_file, n_handler)

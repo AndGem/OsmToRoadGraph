@@ -25,10 +25,11 @@
 
 ## Updates
 
-**Changelog v.0.5.0 -> v.0.6.0a:**
+**Changelog v.0.5.0 -> v.0.6.0b:**
 
 - [x] Added bz2 support for input files
 - [x] dropped Python 3.6< support
+- [x] fixed minor issues with v.0.6.0a
 
 ## Introduction
 

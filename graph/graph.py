@@ -1,5 +1,5 @@
 from graph.graph_types import Edge, Vertex
-from typing import List, Set
+from typing import List
 
 
 class Graph:

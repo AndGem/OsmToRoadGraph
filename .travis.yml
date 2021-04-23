@@ -1,7 +1,7 @@
 language: python
 python:
   - "pypy3"
-  - "3.6"
+  - "3.7"
 # command to install dependencies
 install:
   - pip install codecov

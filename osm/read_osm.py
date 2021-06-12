@@ -4,6 +4,8 @@ import xml.sax
 from osm.osm_types import OSMNode, OSMWay
 from osm.way_parser_helper import WayParserHelper
 from osm.xml_handler import NodeHandler, WayHandler, PercentageFile
+from osm.xml_handler_et import NodeHandlerET
+from osm.xml_handler_lxml import NodeHandlerLXML
 import utils.timer as timer
 
 from typing import Dict, List, Set, Tuple
@@ -19,7 +21,7 @@ def read_file(osm_filename, configuration) -> Tuple[Dict[int, OSMNode], List[OSM
         nodes = _read_nodes(decompressed_content, found_node_ids)
     else:
         ways, found_node_ids = _read_ways(PercentageFile(osm_filename), parserHelper)
-        nodes = _read_nodes(PercentageFile(osm_filename), found_node_ids)
+        nodes = _read_nodes(osm_filename, found_node_ids)
 
     return nodes, ways
 
@@ -57,13 +59,25 @@ def _read_ways(osm_file, configuration) -> Tuple[List[OSMWay], Set[int]]:
 
 @timer.timer
 def _read_nodes(osm_file, found_nodes) -> Dict[int, OSMNode]:
-    parser = xml.sax.make_parser()
-    n_handler = NodeHandler(found_nodes)
+    val = 2 # TODO: modify to change parser
 
-    parser.setContentHandler(n_handler)
-    if isinstance(osm_file, PercentageFile):
-        parser.parse(osm_file)
-    else:
-        xml.sax.parseString(osm_file, n_handler)
+    if val == 0:
+        osm_file = PercentageFile(osm_file)
+        parser = xml.sax.make_parser()
+        n_handler = NodeHandler(found_nodes)
+
+        parser.setContentHandler(n_handler)
+        if isinstance(osm_file, PercentageFile):
+            parser.parse(osm_file)
+        else:
+            xml.sax.parseString(osm_file, n_handler)
+
+    elif val == 1:
+        osm_file = PercentageFile(osm_file)
+        n_handler = NodeHandlerET(found_nodes)
+        n_handler.parse(osm_file)
+    elif val == 2:
+        n_handler = NodeHandlerLXML(found_nodes)
+        n_handler.parse(osm_file)
 
     return n_handler.nodes

@@ -5,7 +5,6 @@ import unittest
 
 
 class IntegrationTest(unittest.TestCase):
-
     def test_case_0(self):
         var0 = 180.0
         var1 = 2118.01088

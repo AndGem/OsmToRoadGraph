@@ -1,7 +1,7 @@
 from collections import deque
 
-import graph.graphfactory as graphfactory
-import utils.timer as timer
+from graph import graphfactory
+from utils import timer
 
 from graph.graph import Graph
 from typing import Set

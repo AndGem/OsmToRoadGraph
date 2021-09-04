@@ -1,6 +1,6 @@
 class Configuration:
 
-    accepted_highways = dict()
+    accepted_highways = {}
     accepted_highways["pedestrian"] = set(
         [
             "primary",

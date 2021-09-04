@@ -4,14 +4,12 @@ import os
 import sys
 
 import configuration as config
-import graph.contract_graph as contract_graph
-import graph.convert_graph as convert_graph
-import graph.algorithms as algorithms
-import graph.graphfactory as graphfactory
 import osm.read_osm
 import osm.sanitize_input
 import output.write_graph as output
-import utils.timer as timer
+
+from graph import contract_graph, convert_graph, algorithms, graphfactory
+from utils import timer
 
 
 @timer.timer

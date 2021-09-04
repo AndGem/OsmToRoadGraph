@@ -2,8 +2,8 @@ from collections import deque, defaultdict
 from dataclasses import replace
 from typing import DefaultDict, List, Set, Tuple
 
-import graph.graphfactory as graphfactory
-import utils.timer as timer
+from graph import graphfactory
+from utils import timer
 
 from graph.graph import Graph
 from graph.graph_types import Vertex, Edge

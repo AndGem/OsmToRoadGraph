@@ -34,9 +34,9 @@ class WayParserHelper:
         cleaned_up = "".join(filter(lambda x: x.isdigit() or x == "," or x == ".", s))
         # remove everything after first '.' or ','
         if "." in cleaned_up:
-            cleaned_up = cleaned_up.split(".")[0]
+            cleaned_up = cleaned_up.split(".", maxsplit=1)[0]
         if "," in cleaned_up:
-            cleaned_up = cleaned_up.split(",")[0]
+            cleaned_up = cleaned_up.split(",", maxsplit=1)[0]
         return cleaned_up
 
     def parse_max_speed(self, osm_way: OSMWay) -> int:
@@ -57,10 +57,10 @@ class WayParserHelper:
                 max_speed = self.config.walking_speed
             elif self.NONE_STR in max_speed_str:
                 max_speed = self.config.max_highway_speed
-            elif any([s in max_speed_str for s in self.MPH_STRINGS]):
+            elif any(s in max_speed_str for s in self.MPH_STRINGS):
                 max_speed_kmh_str = self.convert_str_to_number(max_speed_str)
                 max_speed = int(float(max_speed_kmh_str) * 1.609344)
-            elif any([s in max_speed_str for s in self.KMH_STRINGS]):
+            elif any(s in max_speed_str for s in self.KMH_STRINGS):
                 max_speed = int(self.convert_str_to_number(max_speed_str))
             else:
                 if self.SIGNALS_STR in max_speed_str:

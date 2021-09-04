@@ -3,8 +3,7 @@ from dataclasses import replace
 from graph.graph import Graph
 from graph.graph_types import Vertex, Edge, VertexData, EdgeData
 from osm.osm_types import OSMNode, OSMWay
-import utils.geo_tools as geo_tools
-import utils.timer as timer
+from utils import geo_tools, timer
 
 from typing import Dict, List, Tuple
 
@@ -31,7 +30,7 @@ def _add_nodes(g: Graph, id_mapper: Dict[int, int], nodes: Dict[int, OSMNode]) -
 
 
 def _add_edges(g: Graph, id_mapper: Dict[int, int], ways: List[OSMWay]) -> None:
-    bidirectional_edges: Dict[Tuple[int, int], int] = dict()
+    bidirectional_edges: Dict[Tuple[int, int], int] = {}
     for w in ways:
         for i in range(len(w.nodes) - 1):
             s_id, t_id = id_mapper[w.nodes[i]], id_mapper[w.nodes[i + 1]]

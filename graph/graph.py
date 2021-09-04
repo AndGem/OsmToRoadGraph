@@ -22,8 +22,8 @@ class Graph:
 
     def add_node(self, vertex: Vertex) -> None:
         self.vertices.append(vertex)
-        self.outneighbors.append(list())
-        self.inneighbors.append(list())
+        self.outneighbors.append([])
+        self.inneighbors.append([])
 
     def get_node(self, node_id: int) -> Vertex:
         return self.vertices[node_id]

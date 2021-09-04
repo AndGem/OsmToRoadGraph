@@ -1,4 +1,4 @@
-import utils.timer as timer
+from utils import timer
 
 
 @timer.timer

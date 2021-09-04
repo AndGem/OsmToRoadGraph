@@ -4,7 +4,7 @@ import xml.sax
 from osm.osm_types import OSMNode, OSMWay
 from osm.way_parser_helper import WayParserHelper
 from osm.xml_handler import NodeHandler, WayHandler, PercentageFile
-import utils.timer as timer
+from utils import timer
 
 from typing import Dict, List, Set, Tuple
 

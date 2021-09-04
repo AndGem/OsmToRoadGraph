@@ -1,5 +1,7 @@
 # OsmToRoadGraph v.0.6.0b
 
+[![Build Status](https://github.com/AndGem/OsmToRoadGraph/actions/workflows/pythonapp.yml/badge.svg)]
+
 [![Build Status](https://travis-ci.org/AndGem/OsmToRoadGraph.svg?branch=master)](https://travis-ci.org/AndGem/OsmToRoadGraph)
 ![Python application](https://github.com/AndGem/OsmToRoadGraph/workflows/Python%20application/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/AndGem/OsmToRoadGraph/branch/master/graph/badge.svg)](https://codecov.io/gh/AndGem/OsmToRoadGraph)

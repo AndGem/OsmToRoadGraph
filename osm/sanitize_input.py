@@ -1,5 +1,6 @@
 from utils import timer
 
+
 @timer.timer
 def sanitize_input(ways, nodes):
     """

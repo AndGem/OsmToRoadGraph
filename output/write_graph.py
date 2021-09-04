@@ -19,7 +19,9 @@ def write_to_file(graph, filename_base, filename_ext):
 # edge_properties
 # ..."""
 
-    with open(filename, "w", encoding="utf-8") as f, codecs.open("{}_names".format(filename), "w", "utf-8") as f_names:
+    with open(filename, "w", encoding="utf-8") as f, codecs.open(
+        "{}_names".format(filename), "w", "utf-8"
+    ) as f_names:
 
         f.write("{}\n".format(file_header))
         f.write("{}\n".format(header))

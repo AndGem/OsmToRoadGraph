@@ -1,6 +1,6 @@
-# OsmToRoadGraph v.0.6.0b
+# OsmToRoadGraph v.0.6.0
 
-![Build Status](https://github.com/AndGem/OsmToRoadGraph/workflows/Python%20application/badge.svg?branch=master)
+![Build Status](https://github.com/AndGem/OsmToRoadGraph/workflows/Build%20Status/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/AndGem/OsmToRoadGraph/branch/master/graph/badge.svg)](https://codecov.io/gh/AndGem/OsmToRoadGraph)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -24,11 +24,12 @@
 
 ## Updates
 
-**Changelog v.0.5.0 -> v.0.6.0b:**
+**Changelog v.0.5.0 -> v.0.6.0c:**
 
 - [x] Added bz2 support for input files
-- [x] dropped Python 3.6< support
+- [x] dropped Python <=3.6 support
 - [x] fixed minor issues with v.0.6.0a
+- [x] improve code quality from v.0.6.0b
 
 ## Introduction
 

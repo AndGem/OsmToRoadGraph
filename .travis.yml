@@ -9,5 +9,5 @@ install:
   - pip install networkx
 # command to run tests
 script: 
-  - pytest --verbosity=3 --cov=./
+  - pytest --verbosity=3 --cov=./ --cov-report=xml
   - codecov

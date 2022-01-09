@@ -8,7 +8,7 @@ except ImportError:
 
 
 def write_to_file(graph, filename_base, filename_ext):
-    filename = "{}.{}".format(filename_base, filename_ext)
+    filename = f"{filename_base}.{filename_ext}"
     print(f"writing output file: {filename}")
 
     file_header = "# Road Graph File v.0.4"
@@ -45,7 +45,7 @@ def write_to_file(graph, filename_base, filename_ext):
 
 def write_nx_to_file(nx_graph, filename):
 
-    print("writing networkx output file: {}".format(filename))
+    print(f"writing networkx output file: {filename}")
     json_out = nx.adjacency_data(nx_graph)
 
     with open(filename, "w", encoding="utf-8") as f:

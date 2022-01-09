@@ -9,7 +9,7 @@ except ImportError:
 
 def write_to_file(graph, filename_base, filename_ext):
     filename = "{}.{}".format(filename_base, filename_ext)
-    print("writing output file: {}".format(filename))
+    print(f"writing output file: {filename}")
 
     file_header = "# Road Graph File v.0.4"
     header = """# number of nodes
@@ -20,22 +20,22 @@ def write_to_file(graph, filename_base, filename_ext):
 # ..."""
 
     with open(filename, "w", encoding="utf-8") as f, codecs.open(
-        "{}_names".format(filename), "w", "utf-8"
+        f"{filename}_names", "w", "utf-8"
     ) as f_names:
 
-        f.write("{}\n".format(file_header))
-        f.write("{}\n".format(header))
+        f.write(f"{file_header}\n")
+        f.write(f"{header}\n")
 
-        f.write("{}\n".format(len(graph.vertices)))
-        f.write("{}\n".format(len(graph.edges)))
+        f.write(f"{len(graph.vertices)}\n")
+        f.write(f"{len(graph.edges)}\n")
 
         # write node information
         for v in graph.vertices:
-            f.write("{}\n".format(v.description))
+            f.write(f"{v.description}\n")
 
         # write edge information
         for e in graph.edges:
-            f.write("{}\n".format(e.description))
+            f.write(f"{e.description}\n")
             f_names.write(e.data.name)
             f_names.write("\n")
 

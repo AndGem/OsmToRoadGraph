@@ -1,62 +1,56 @@
 class Configuration:
 
     accepted_highways = {}
-    accepted_highways["pedestrian"] = set(
-        [
-            "primary",
-            "secondary",
-            "tertiary",
-            "unclassified",
-            "residential",
-            "service",
-            "primary_link",
-            "secondary_link",
-            "tertiary_link",
-            "living_street",
-            "pedestrian",
-            "track",
-            "road",
-            "footway",
-            "steps",
-            "path",
-        ]
-    )
-    accepted_highways["bicycle"] = set(
-        [
-            "primary",
-            "secondary",
-            "tertiary",
-            "unclassified",
-            "residential",
-            "service",
-            "primary_link",
-            "secondary_link",
-            "tertiary_link",
-            "living_street",
-            "track",
-            "road",
-            "path",
-            "cycleway",
-        ]
-    )
-    accepted_highways["car"] = set(
-        [
-            "motorway",
-            "trunk",
-            "primary",
-            "secondary",
-            "tertiary",
-            "unclassified",
-            "residential",
-            "service",
-            "motorway_link",
-            "trunk_link",
-            "primary_link",
-            "secondary_link",
-            "tertiary_link",
-            "living_street",
-        ]
-    )
+    accepted_highways["pedestrian"] = {
+        "primary",
+        "secondary",
+        "tertiary",
+        "unclassified",
+        "residential",
+        "service",
+        "primary_link",
+        "secondary_link",
+        "tertiary_link",
+        "living_street",
+        "pedestrian",
+        "track",
+        "road",
+        "footway",
+        "steps",
+        "path",
+    }
+    accepted_highways["bicycle"] = {
+        "primary",
+        "secondary",
+        "tertiary",
+        "unclassified",
+        "residential",
+        "service",
+        "primary_link",
+        "secondary_link",
+        "tertiary_link",
+        "living_street",
+        "track",
+        "road",
+        "path",
+        "cycleway",
+    }
+    accepted_highways["car"] = {
+        "motorway",
+        "trunk",
+        "primary",
+        "secondary",
+        "tertiary",
+        "unclassified",
+        "residential",
+        "service",
+        "motorway_link",
+        "trunk_link",
+        "primary_link",
+        "secondary_link",
+        "tertiary_link",
+        "living_street",
+    }
 
     speed_limits = {
         "motorway": 120,

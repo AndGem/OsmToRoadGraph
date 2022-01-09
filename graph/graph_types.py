@@ -8,7 +8,7 @@ class VertexData:
     lon: float
 
     def __repr__(self) -> str:
-        return "{} {}".format(self.lat, self.lon)
+        return f"{self.lat} {self.lon}"
 
 
 @dataclass(frozen=True)
@@ -19,7 +19,7 @@ class Vertex:
 
     @property
     def description(self) -> str:
-        return "{} {}".format(self.id, self.data)
+        return f"{self.id} {self.data}"
 
 
 @dataclass(frozen=True)
@@ -31,7 +31,7 @@ class EdgeData:
     name: str
 
     def __repr__(self) -> str:
-        return "{} {} {}".format(self.length, self.highway, self.max_v)
+        return f"{self.length} {self.highway} {self.max_v}"
 
 
 @dataclass(frozen=True)
@@ -46,4 +46,4 @@ class Edge:
     @property
     def description(self) -> str:
         both_directions = "1" if self.forward and self.backward else "0"
-        return "{} {} {} {}".format(self.s, self.t, self.data, both_directions)
+        return f"{self.s} {self.t} {self.data} {both_directions}"

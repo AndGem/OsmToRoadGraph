@@ -29,10 +29,10 @@ class Graph:
         return self.vertices[node_id]
 
     def edge_description(self, edge_id):
-        return "{}".format(self.edges[edge_id].description)
+        return f"{self.edges[edge_id].description}"
 
     def edge_name(self, edge_id):
-        return "{}".format(self.edges[edge_id].name)
+        return f"{self.edges[edge_id].name}"
 
     def all_neighbors(self, node_id: int) -> List[int]:
         return list(

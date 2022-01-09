@@ -50,5 +50,5 @@ def sanitize_input(ways, nodes):
     for index in reversed(nodes_to_remove):
         del nodes[index]
 
-    print("removed {} nodes".format(nmb_nodes - len(nodes)))
-    print("removed {} ways".format(nmb_ways - len(ways)))
+    print(f"removed {nmb_nodes - len(nodes)} nodes")
+    print(f"removed {nmb_ways - len(ways)} ways")

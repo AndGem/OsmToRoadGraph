@@ -1,7 +1,7 @@
 class Configuration:
 
     accepted_highways = {}
-    accepted_highways["pedestrian"] = set(
+    accepted_highways["pedestrian"] = {
         [
             "primary",
             "secondary",
@@ -20,8 +20,8 @@ class Configuration:
             "steps",
             "path",
         ]
-    )
-    accepted_highways["bicycle"] = set(
+    }
+    accepted_highways["bicycle"] = {
         [
             "primary",
             "secondary",
@@ -38,8 +38,8 @@ class Configuration:
             "path",
             "cycleway",
         ]
-    )
-    accepted_highways["car"] = set(
+    }
+    accepted_highways["car"] = {
         [
             "motorway",
             "trunk",
@@ -56,7 +56,7 @@ class Configuration:
             "tertiary_link",
             "living_street",
         ]
-    )
+    }
 
     speed_limits = {
         "motorway": 120,

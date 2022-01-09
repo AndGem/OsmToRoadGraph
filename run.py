@@ -20,9 +20,9 @@ def convert_osm_to_roadgraph(filename, network_type, options):
     r_index = filename.rfind(".")
     out_file = filename[:r_index]
 
-    print("selected network type: {}".format(configuration.network_type))
-    print("accepted highway tags: {}".format(configuration.accepted_highways))
-    print("opening file: {}".format(filename))
+    print(f"selected network type: {configuration.network_type}")
+    print(f"accepted highway tags: {configuration.accepted_highways}")
+    print(f"opening file: {filename}")
 
     nodes, ways = osm.read_osm.read_file(filename, configuration)
 
@@ -42,7 +42,7 @@ def convert_osm_to_roadgraph(filename, network_type, options):
     if options.contract:
         contracted_graph = contract_graph.ContractGraph(graph).contract()
         output.write_to_file(
-            contracted_graph, out_file, "{}c".format(configuration.get_file_extension())
+            contracted_graph, out_file, f"{configuration.get_file_extension()}c"
         )
         if options.networkx_output:
             nx_graph = convert_graph.convert_to_networkx(contracted_graph)
@@ -80,7 +80,7 @@ if __name__ == "__main__":
         sys.exit()
 
     if not os.path.isfile(filename):
-        print("ERROR: provided filename {} does not point to a file!".format(filename))
+        print(f"ERROR: provided filename {filename} does not point to a file!")
         sys.exit()
 
     long_network_type = {"p": "pedestrian", "c": "car", "b": "bicycle"}

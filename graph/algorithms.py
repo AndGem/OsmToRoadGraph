@@ -8,7 +8,7 @@ from typing import Set
 
 
 def BFS(graph: Graph, s: int) -> Set[int]:
-    seen_nodes = set([s])
+    seen_nodes = {s}
     unvisited_nodes = deque([s])
 
     while len(unvisited_nodes) > 0:
@@ -40,10 +40,9 @@ def computeLCC(graph):
     lcc = max(found_nodes, key=len)
 
     print(
-        "\t LCC contains {} nodes (removed {} nodes)".format(
-            len(lcc), len(graph.vertices) - len(lcc)
-        )
+        f"\t LCC contains {len(lcc)} nodes (removed { len(graph.vertices) - len(lcc)} nodes)"
     )
+
     return lcc
 
 

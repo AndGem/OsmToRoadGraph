@@ -26,7 +26,7 @@ class PercentageFile:
 
         if self.percentage >= self.percentages[-1]:
             if self.percentages[-1] < 100:
-                print("{}%..".format(self.percentages[-1]), end="")
+                print(f"{self.percentages[-1]}%..", end="")
                 sys.stdout.flush()
             else:
                 print("100%")

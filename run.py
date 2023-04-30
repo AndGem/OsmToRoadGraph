@@ -14,7 +14,6 @@ from utils import timer
 
 @timer.timer
 def convert_osm_to_roadgraph(filename, network_type, options):
-
     configuration = config.Configuration(network_type)
 
     r_index = filename.rfind(".")
@@ -84,7 +83,7 @@ if __name__ == "__main__":
         sys.exit()
 
     long_network_type = {"p": "pedestrian", "c": "car", "b": "bicycle"}
-    if options.network_type in long_network_type.keys():
+    if options.network_type in long_network_type:
         network_type = long_network_type[options.network_type]
     elif options.network_type == long_network_type.values():
         network_type = options.network_type

@@ -2,7 +2,6 @@ from osm.osm_types import OSMWay
 
 
 class WayParserHelper:
-
     ONEWAY_STR = "oneway"
     MPH_STRINGS = ["mph", "mp/h"]
     KMH_STRINGS = ["kph", "kp/h", "kmh", "km/h"]

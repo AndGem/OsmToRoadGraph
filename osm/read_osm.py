@@ -11,7 +11,6 @@ from typing import Dict, List, Set, Tuple
 
 @timer.timer
 def read_file(osm_filename, configuration) -> Tuple[Dict[int, OSMNode], List[OSMWay]]:
-
     parserHelper = WayParserHelper(configuration)
     decompressed_content = decompress_content(osm_filename)
     if decompressed_content:

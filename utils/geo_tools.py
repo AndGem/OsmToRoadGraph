@@ -3,7 +3,6 @@ from math import acos, cos, pi, sin
 
 # from http://www.johndcook.com/blog/python_longitude_latitude/
 def distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-
     # Convert latitude and longitude to
     # spherical coordinates in radians.
     degrees_to_radians = pi / 180.0

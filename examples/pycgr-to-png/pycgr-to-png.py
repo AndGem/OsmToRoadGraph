@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from optparse import OptionParser
+import argparse
 import sys
 
 from PIL import Image, ImageDraw, ImageColor
@@ -111,9 +111,9 @@ def read_file(filename):
                     source_id,
                     target_id,
                     _,
-                    street_type,
+                    _,
                     max_speed,
-                    bidirectional,
+                    _,
                 ) = line.split(" ")
                 edges.append(Edge(int(source_id), int(target_id), int(max_speed)))
 
@@ -122,41 +122,36 @@ def read_file(filename):
 
 
 if __name__ == "__main__":
-    parser = OptionParser()
-    parser.add_option("-f", "--file", dest="in_filename", action="store", type="string")
-    parser.add_option("-o", "--out", dest="out_filename", action="store", type="string")
-    parser.add_option(
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-f", "--file", dest="in_filename", type=str)
+    parser.add_argument("-o", "--out", dest="out_filename", type=str)
+    parser.add_argument(
         "-t",
         "--text",
         dest="text",
-        action="store",
-        type="string",
+        type=str,
         default="",
         help="text drawn in lower left corner",
     )
-    parser.add_option(
+    parser.add_argument(
         "--width",
         dest="width",
-        action="store",
-        type="int",
+        type=int,
         default=1600,
         help="image width in px [default=1600]",
     )
-    parser.add_option(
+    parser.add_argument(
         "--height",
         dest="height",
-        action="store",
-        type="int",
+        type=int,
         default=1200,
         help="image height in px [default=1200]",
     )
-    (options, args) = parser.parse_args()
+    args = parser.parse_args()
 
-    if (options.in_filename is None) or (options.out_filename is None):
+    if (args.in_filename is None) or (args.out_filename is None):
         parser.print_help()
         sys.exit()
 
-    nodes, edges = read_file(options.in_filename)
-    draw_graph(
-        nodes, edges, options.width, options.height, options.text, options.out_filename
-    )
+    nodes, edges = read_file(args.in_filename)
+    draw_graph(nodes, edges, args.width, args.height, args.text, args.out_filename)

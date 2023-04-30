@@ -103,7 +103,7 @@ class WayHandler(ContentHandler):
                             self.current_way.highway = "pedestrian_indoor"
             except:
                 e = sys.exc_info()[0]
-                print("Error while parsing: {}".format(e))
+                print(f"Error while parsing: {e}")
 
     def endElement(self, name: str) -> None:
         if name == "way":

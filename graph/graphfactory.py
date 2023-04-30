@@ -10,7 +10,6 @@ from typing import Dict, List, Tuple
 
 @timer.timer
 def build_graph_from_osm(nodes: Dict[int, OSMNode], ways: List[OSMWay]) -> Graph:
-
     g = Graph()
 
     # 1. create mapping to 0 based index nodes

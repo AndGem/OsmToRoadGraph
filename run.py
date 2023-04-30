@@ -84,7 +84,7 @@ if __name__ == "__main__":
         sys.exit()
 
     long_network_type = {"p": "pedestrian", "c": "car", "b": "bicycle"}
-    if options.network_type in long_network_type.keys():
+    if options.network_type in long_network_type:
         network_type = long_network_type[options.network_type]
     elif options.network_type == long_network_type.values():
         network_type = options.network_type

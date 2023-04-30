@@ -54,7 +54,7 @@ class ContractGraph:
                 if len(edges_to_merge) == 0:
                     continue
 
-                sum_edge_lengths = sum([e.data.length for e in edges_to_merge])
+                sum_edge_lengths = sum(e.data.length for e in edges_to_merge)
                 data = replace(edges_to_merge[0].data, length=sum_edge_lengths)
 
                 if edges_to_merge[0].backward:

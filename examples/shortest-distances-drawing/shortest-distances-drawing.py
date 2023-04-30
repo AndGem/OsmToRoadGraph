@@ -1,8 +1,8 @@
+import argparse
 from collections import Counter
 from functools import lru_cache
 import json
 import random
-from optparse import OptionParser
 import sys
 
 import networkx as nx
@@ -12,9 +12,10 @@ import utm
 
 
 def load_graph(filename):
-    json_data = json.load(open(filename, "r"))
-    G = nx.adjacency_graph(json_data)
-    return G
+    with open(filename, "r", encoding="utf-8") as f:
+        json_data = json.load(f)
+        G = nx.adjacency_graph(json_data)
+        return G
 
 
 def find_approximate_central_node(G):
@@ -29,9 +30,7 @@ def find_approximate_central_node(G):
 
     central_node = min(node_distances, key=node_distances.get)
     print(
-        "taking node with id {} as central node, with summed distance: {}".format(
-            central_node, node_distances[central_node]
-        )
+        f"taking node with id {central_node} as central node, with summed distance: {node_distances[central_node]}"
     )
     return central_node
 
@@ -112,95 +111,81 @@ def draw_graph_on_map(G, lengths, output_filename, width=1600, height=1200):
         # draw line
         draw.line(line, fill=color)
 
-    print("saving output file: {}".format(output_filename))
+    print(f"saving output file: {output_filename}")
     im.save(output_filename, "PNG")
 
 
-def travel_time(u, v, data):
+def travel_time(_u, _v, data):
     if not data["length"] or data["length"] == 0:
         return float("inf")
     return data["max_v"] / data["length"]
 
 
-def edge_length(u, v, data):
+def edge_length(_u, _v, data):
     return data["length"] or float("inf")
 
 
 if __name__ == "__main__":
-    parser = OptionParser()
-    parser.add_option(
-        "-f",
-        "--file",
-        dest="in_filename",
-        action="store",
-        type="string",
-        help="input networkx JSON file",
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-f", "--file", dest="in_filename", type=str, help="input networkx JSON file"
     )
-    parser.add_option(
-        "-o",
-        "--out",
-        dest="out_filename",
-        action="store",
-        type="string",
-        help="output png file",
+    parser.add_argument(
+        "-o", "--out", dest="out_filename", type=str, help="output png file"
     )
-    parser.add_option(
+    parser.add_argument(
         "-c",
         "--center",
         dest="center",
         action="store_true",
         help="set this option to compute the shortest distances from an approximate center node [default: random node]",
     )
-    parser.add_option(
+    parser.add_argument(
         "-m",
         "--metric",
         dest="metric",
-        action="store",
-        type="string",
+        type=str,
         default="travel-time",
-        help="metric for the shortest path algorithm. Either  'length' or 'travel-time' [default: travel-time]",
+        choices=["length", "travel-time"],
+        help="metric for the shortest path algorithm. Either 'length' or 'travel-time' [default: travel-time]",
     )
-    parser.add_option(
+    parser.add_argument(
         "--width",
         dest="width",
-        action="store",
-        type="int",
+        type=int,
         default=1600,
         help="image width in px [default=1600]",
     )
-    parser.add_option(
+    parser.add_argument(
         "--height",
         dest="height",
-        action="store",
-        type="int",
+        type=int,
         default=1200,
         help="image height in px [default=1200]",
     )
-    (options, args) = parser.parse_args()
+    args = parser.parse_args()
 
-    if (options.in_filename is None) or (options.out_filename is None):
+    if (args.in_filename is None) or (args.out_filename is None):
         parser.print_help()
         sys.exit(-1)
 
-    G = load_graph(options.in_filename)
-    if options.center:
+    G = load_graph(args.in_filename)
+    if args.center:
         start_node = find_approximate_central_node(G)
     else:
         start_node = random.choice(list(G))
 
     metric = None
-    if options.metric == "travel-time":
+    if args.metric == "travel-time":
         metric = travel_time
-    elif options.metric == "length":
+    elif args.metric == "length":
         metric = edge_length
     else:
         print(
-            "Did not recognize --metric/-m option. Provided {}. Must either be 'travel-time' or 'length'".format(
-                options.metric
-            )
+            f"Did not recognize --metric/-m option. Provided {args.metric}. Must either be 'travel-time' or 'length'"
         )
 
     lengths = nx.single_source_dijkstra_path_length(
         G, start_node, cutoff=None, weight=metric
     )
-    draw_graph_on_map(G, lengths, output_filename=options.out_filename)
+    draw_graph_on_map(G, lengths, output_filename=args.out_filename)

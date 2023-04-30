@@ -22,7 +22,6 @@ def write_to_file(graph, filename_base, filename_ext):
     with open(filename, "w", encoding="utf-8") as f, codecs.open(
         f"{filename}_names", "w", "utf-8"
     ) as f_names:
-
         f.write(f"{file_header}\n")
         f.write(f"{header}\n")
 
@@ -44,7 +43,6 @@ def write_to_file(graph, filename_base, filename_ext):
 
 
 def write_nx_to_file(nx_graph, filename):
-
     print(f"writing networkx output file: {filename}")
     json_out = nx.adjacency_data(nx_graph)
 

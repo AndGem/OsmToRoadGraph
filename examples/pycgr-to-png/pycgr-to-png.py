@@ -154,6 +154,4 @@ if __name__ == "__main__":
         sys.exit()
 
     nodes, edges = read_file(args.in_filename)
-    draw_graph(
-        nodes, edges, args.width, args.height, args.text, args.out_filename
-    )
+    draw_graph(nodes, edges, args.width, args.height, args.text, args.out_filename)

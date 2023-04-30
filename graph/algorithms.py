@@ -24,7 +24,6 @@ def BFS(graph: Graph, s: int) -> Set[int]:
 
 @timer.timer
 def computeLCC(graph):
-
     # repeatedly run BFS searches until all vertices have been reached
     total_nodes = set(range(len(graph.vertices)))
     found_nodes = []

@@ -14,7 +14,6 @@ from utils import timer
 
 @timer.timer
 def convert_osm_to_roadgraph(filename, network_type, options):
-
     configuration = config.Configuration(network_type)
 
     r_index = filename.rfind(".")

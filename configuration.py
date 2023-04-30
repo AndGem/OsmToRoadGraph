@@ -1,5 +1,4 @@
 class Configuration:
-
     accepted_highways = {}
     accepted_highways["pedestrian"] = {
         "primary",

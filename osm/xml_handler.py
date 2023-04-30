@@ -76,22 +76,33 @@ class WayHandler(ContentHandler):
                 if name == "nd":
                     node_id = int(attrs["ref"])
                     self.current_way.add_node(node_id)
+
                 elif name == "tag":
-                    attr_key = attrs["k"]
-                    attr_value = attrs["v"]
-                    attribute_map = {
-                        "highway": "highway",
-                        "area": "area",
-                        "maxspeed": "max_speed_str",
-                        "oneway": "direction",
-                        "name": "name",
-                        "junction": "direction",
-                        "indoor": "pedestrian_indoor",
-                    }
-                    if attr_key in attribute_map:
-                        attr_name = attribute_map[attr_key]
-                        setattr(self.current_way, attr_name, attr_value)
-            except Exception as e:
+                    if attrs["k"] == "highway":
+                        self.current_way.highway = attrs["v"]
+                    elif attrs["k"] == "area":
+                        self.current_way.area = attrs["v"]
+                    elif attrs["k"] == "maxspeed":
+                        self.current_way.max_speed_str = str(attrs["v"])
+                    elif attrs["k"] == "oneway":
+                        if attrs["v"] == "yes":
+                            self.current_way.direction = "oneway"
+                    elif attrs["k"] == "name":
+                        try:
+                            self.current_way.name = intern(attrs["v"])
+                        except TypeError:
+                            self.current_way.name = attrs["v"]
+                    elif attrs["k"] == "junction":
+                        if attrs["v"] == "roundabout":
+                            self.current_way.direction = "oneway"
+                    elif attrs["k"] == "indoor":
+                        # this is not an ideal solution since it sets the pedestrian flag irrespective of the real value in osm data
+                        # but aims to cover the simple indoor tagging approach: https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging
+                        # more info: https://help.openstreetmap.org/questions/61025/pragmatic-single-level-indoor-paths
+                        if attrs["v"] == "corridor":
+                            self.current_way.highway = "pedestrian_indoor"
+            except:
+                e = sys.exc_info()[0]
                 print(f"Error while parsing: {e}")
 
     def endElement(self, name: str) -> None:

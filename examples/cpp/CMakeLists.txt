@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 2.6)
+ 
+Project(dijkstra)
+
+set(Boost_USE_MULTITHREADED ON)
+FIND_PACKAGE(Boost 1.38 COMPONENTS program_options required)
+ 
+INCLUDE_DIRECTORIES(${INCLUDE_DIRECTORIES} ${Boost_INCLUDE_DIRS})
+LINK_DIRECTORIES(${LINK_DIRECTORIES} ${Boost_LIBRARY_DIRS})
+ 
+ADD_EXECUTABLE(dijkstra main.cpp)
+
+set_target_properties(dijkstra PROPERTIES
+    CXX_STANDARD 11
+    CXX_STANDARD_REQUIRED ON
+    CXX_EXTENSIONS OFF
+)
+

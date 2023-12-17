@@ -1,20 +1,20 @@
+from osm.osm_types import OSMNode, OSMWay
 from utils import timer
+
+from typing import Dict, List, Tuple
 
 
 @timer.timer
-def sanitize_input(ways, nodes):
+def sanitize_input(ways: List[OSMWay], nodes: Dict[int, OSMNode]):
     """
     This function removes all
-        - nodes not used in any of the Ways, and
-        - ways that contain one or more vertices not in nodes
+        - nodes not used in any of the OSMWays, and
+        - ways that contain one or more OSMNodes not in nodes
 
     :rtype : list of Ways, list of Vertices
-    :param ways: list of input Ways
-    :param nodes: list of input Vertices
-    :return: Filtered list of Ways and Nodes
+    :param ways: list of input OSMWays
+    :param nodes: list of input OSMNodes
     """
-    assert isinstance(ways, list)
-    assert isinstance(nodes, dict)
 
     def remove_adjacent_duplicates(nodes):
         for i in range(len(nodes) - 1, 0, -1):

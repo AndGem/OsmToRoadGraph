@@ -9,6 +9,7 @@ from output import write_graph as output
 from graph import contract_graph, convert_graph, algorithms, graphfactory
 from utils import timer
 
+
 @timer.timer
 def convert_osm_to_roadgraph(filename, network_type, options):
     configuration = config.Configuration(network_type)
@@ -48,10 +49,14 @@ def convert_osm_to_roadgraph(filename, network_type, options):
             nx_graph = convert_graph.convert_to_networkx(contracted_graph)
             output.write_nx_to_file(nx_graph, f"{out_file}_contracted.json")
 
+
 def validate_networkx():
     networkx_spec = importlib.util.find_spec("networkx")
     if networkx_spec is None:
-        raise ImportError("Networkx library not found. Please install networkx if you want to use the --networkx option.")
+        raise ImportError(
+            "Networkx library not found. Please install networkx if you want to use the --networkx option."
+        )
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="OSMtoRoadGraph")
@@ -85,7 +90,9 @@ if __name__ == "__main__":
 
     try:
         if not os.path.isfile(filename):
-            raise FileNotFoundError(f"Provided filename {filename} does not point to a file!")
+            raise FileNotFoundError(
+                f"Provided filename {filename} does not point to a file!"
+            )
         network_type = config.Configuration.validate_network_type(options.network_type)
     except FileNotFoundError as e:
         print(f"ERROR: {e}")

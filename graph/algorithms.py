@@ -4,18 +4,20 @@ from graph import graphfactory
 from utils import timer
 
 from graph.graph import Graph
-from typing import Set
+from typing import Deque, Set
 
 
 def BFS(graph: Graph, s: int) -> Set[int]:
-    seen_nodes = {s}
-    unvisited_nodes = deque([s])
+    seen_nodes: Set[int] = {s}
+    unvisited_nodes: Deque[int] = deque([s])
 
-    while len(unvisited_nodes) > 0:
-        node_id = unvisited_nodes.popleft()
-        unseen_nodes = list(
-            filter(lambda n: n not in seen_nodes, graph.all_neighbors(node_id))
-        )
+    while unvisited_nodes:
+        current_node = unvisited_nodes.popleft()
+        unseen_nodes = [
+            neighbor
+            for neighbor in graph.all_neighbors(current_node)
+            if neighbor not in seen_nodes
+        ]
         seen_nodes.update(unseen_nodes)
         unvisited_nodes.extend(unseen_nodes)
 

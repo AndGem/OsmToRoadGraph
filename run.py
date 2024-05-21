@@ -93,7 +93,7 @@ if __name__ == "__main__":
             raise FileNotFoundError(
                 f"Provided filename {filename} does not point to a file!"
             )
-        
+
         long_network_type = {"p": "pedestrian", "c": "car", "b": "bicycle"}
         if options.network_type in long_network_type:
             network_type = long_network_type[options.network_type]

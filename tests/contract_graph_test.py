@@ -161,9 +161,7 @@ class ContractGraphTest(unittest.TestCase):
     def test_no_contraction_if_each_edge_is_different(self):
         g = self.create_graph(number_nodes=6)
 
-        g.add_edge(
-            Edge(s=0, t=1, forward=True, backward=True, data=self.edge_data(name="a"))
-        )
+        g.add_edge(Edge(s=0, t=1, forward=True, backward=True, data=self.edge_data(name="a")))
         g.add_edge(
             Edge(
                 s=1,

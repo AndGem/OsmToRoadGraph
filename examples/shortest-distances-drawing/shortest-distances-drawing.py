@@ -29,9 +29,7 @@ def find_approximate_central_node(G):
         node_distances += lengths
 
     central_node = min(node_distances, key=node_distances.get)
-    print(
-        f"taking node with id {central_node} as central node, with summed distance: {node_distances[central_node]}"
-    )
+    print(f"taking node with id {central_node} as central node, with summed distance: {node_distances[central_node]}")
     return central_node
 
 
@@ -127,12 +125,8 @@ def edge_length(_u, _v, data):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-f", "--file", dest="in_filename", type=str, help="input networkx JSON file"
-    )
-    parser.add_argument(
-        "-o", "--out", dest="out_filename", type=str, help="output png file"
-    )
+    parser.add_argument("-f", "--file", dest="in_filename", type=str, help="input networkx JSON file")
+    parser.add_argument("-o", "--out", dest="out_filename", type=str, help="output png file")
     parser.add_argument(
         "-c",
         "--center",
@@ -181,11 +175,7 @@ if __name__ == "__main__":
     elif args.metric == "length":
         metric = edge_length
     else:
-        print(
-            f"Did not recognize --metric/-m option. Provided {args.metric}. Must either be 'travel-time' or 'length'"
-        )
+        print(f"Did not recognize --metric/-m option. Provided {args.metric}. Must either be 'travel-time' or 'length'")
 
-    lengths = nx.single_source_dijkstra_path_length(
-        G, start_node, cutoff=None, weight=metric
-    )
+    lengths = nx.single_source_dijkstra_path_length(G, start_node, cutoff=None, weight=metric)
     draw_graph_on_map(G, lengths, output_filename=args.out_filename)

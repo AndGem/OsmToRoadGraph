@@ -52,9 +52,7 @@ class NodeHandler(ContentHandler):
             if osm_id not in self.found_nodes:
                 return
 
-            self.nodes[osm_id] = OSMNode(
-                osm_id, float(attrs["lat"]), float(attrs["lon"])
-            )
+            self.nodes[osm_id] = OSMNode(osm_id, float(attrs["lat"]), float(attrs["lon"]))
 
 
 class WayHandler(ContentHandler):
@@ -115,9 +113,7 @@ class WayHandler(ContentHandler):
 
             self.found_nodes.update(self.current_way.nodes)
 
-            self.current_way.max_speed_int = self.parser_helper.parse_max_speed(
-                self.current_way
-            )
+            self.current_way.max_speed_int = self.parser_helper.parse_max_speed(self.current_way)
             (
                 self.current_way.forward,
                 self.current_way.backward,

@@ -13,11 +13,7 @@ def BFS(graph: Graph, s: int) -> Set[int]:
 
     while unvisited_nodes:
         current_node = unvisited_nodes.popleft()
-        unseen_nodes = [
-            neighbor
-            for neighbor in graph.all_neighbors(current_node)
-            if neighbor not in seen_nodes
-        ]
+        unseen_nodes = [neighbor for neighbor in graph.all_neighbors(current_node) if neighbor not in seen_nodes]
         seen_nodes.update(unseen_nodes)
         unvisited_nodes.extend(unseen_nodes)
 
@@ -40,9 +36,7 @@ def computeLCC(graph):
     # determine largest connected components
     lcc = max(found_nodes, key=len)
 
-    print(
-        f"\t LCC contains {len(lcc)} nodes (removed { len(graph.vertices) - len(lcc)} nodes)"
-    )
+    print(f"\t LCC contains {len(lcc)} nodes (removed { len(graph.vertices) - len(lcc)} nodes)")
 
     return lcc
 

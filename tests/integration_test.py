@@ -36,12 +36,12 @@ class IntegrationTest(unittest.TestCase):
         self.assertEqual(0, returncode)
 
     def _get_nmb_nodes_edges(self, path):
-        f = open(path)
-        line = f.readline()
-        while "#" in line:
+        with open(path) as f:
             line = f.readline()
+            while "#" in line:
+                line = f.readline()
 
-        nmb_nodes = int(line)
-        line = f.readline()
-        nmb_edges = int(line)
-        return nmb_nodes, nmb_edges
+            nmb_nodes = int(line)
+            line = f.readline()
+            nmb_edges = int(line)
+            return nmb_nodes, nmb_edges

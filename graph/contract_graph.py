@@ -1,12 +1,11 @@
-from collections import deque, defaultdict
+from collections import defaultdict, deque
 from dataclasses import replace
 from typing import DefaultDict, List, Set, Tuple
 
 from graph import graphfactory
-from utils import timer
-
 from graph.graph import Graph
-from graph.graph_types import Vertex, Edge
+from graph.graph_types import Edge, Vertex
+from utils import timer
 
 
 class ContractGraph:
@@ -47,9 +46,7 @@ class ContractGraph:
             for first_out_edge in out_edges:
                 start_node_id = node_id
 
-                edges_to_merge, final_node_id = self._find_edges_to_merge(
-                    start_node_id, first_out_edge
-                )
+                edges_to_merge, final_node_id = self._find_edges_to_merge(start_node_id, first_out_edge)
 
                 if len(edges_to_merge) == 0:
                     continue
@@ -60,16 +57,8 @@ class ContractGraph:
                 if edges_to_merge[0].backward:
                     #  deduplication measure; if not for this for bidirectional edges, that are
                     #  removed between intersections, 2 new edges would be created
-                    smaller_node_id = (
-                        start_node_id
-                        if start_node_id < final_node_id
-                        else final_node_id
-                    )
-                    bigger_node_id = (
-                        start_node_id
-                        if start_node_id > final_node_id
-                        else final_node_id
-                    )
+                    smaller_node_id = start_node_id if start_node_id < final_node_id else final_node_id
+                    bigger_node_id = start_node_id if start_node_id > final_node_id else final_node_id
                     if (smaller_node_id, bigger_node_id) in bidirectional_edges:
                         # already added this edge skip it
                         continue
@@ -92,9 +81,7 @@ class ContractGraph:
                 new_edges.add(merged_edge)
         return new_edges
 
-    def _find_edges_to_merge(
-        self, start_node_id: int, first_out_edge: Edge
-    ) -> Tuple[List[Edge], int]:
+    def _find_edges_to_merge(self, start_node_id: int, first_out_edge: Edge) -> Tuple[List[Edge], int]:
         # walk from start_node along first_out_edge until:
         #  i) another intersection node is found
         #  ii) an edge is encountered on the way that is different (different name, max_speed, ...)
@@ -127,7 +114,7 @@ class ContractGraph:
 
             if len(next_out_edges) > 1:
                 # something is wrong.. this should have been filtered out by the intersection check
-                assert False
+                raise AssertionError()
 
             next_out_edge = next_out_edges[0]
             if self._is_not_same_edge(out_edge, next_out_edge):

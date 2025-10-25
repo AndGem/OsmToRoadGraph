@@ -4,9 +4,9 @@ import os
 import sys
 
 import configuration as config
+from graph import algorithms, contract_graph, convert_graph, graphfactory
 from osm import read_osm, sanitize_input
 from output import write_graph as output
-from graph import contract_graph, convert_graph, algorithms, graphfactory
 from utils import timer
 
 
@@ -42,9 +42,7 @@ def convert_osm_to_roadgraph(filename, network_type, options):
 
     if options.contract:
         contracted_graph = contract_graph.ContractGraph(graph).contract()
-        output.write_to_file(
-            contracted_graph, out_file, f"{configuration.get_file_extension()}c"
-        )
+        output.write_to_file(contracted_graph, out_file, f"{configuration.get_file_extension()}c")
         if options.networkx_output:
             nx_graph = convert_graph.convert_to_networkx(contracted_graph)
             output.write_nx_to_file(nx_graph, f"{out_file}_contracted.json")
@@ -90,9 +88,7 @@ if __name__ == "__main__":
 
     try:
         if not os.path.isfile(filename):
-            raise FileNotFoundError(
-                f"Provided filename {filename} does not point to a file!"
-            )
+            raise FileNotFoundError(f"Provided filename {filename} does not point to a file!")
 
         long_network_type = {"p": "pedestrian", "c": "car", "b": "bicycle"}
         if options.network_type in long_network_type:

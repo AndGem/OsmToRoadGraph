@@ -1,10 +1,10 @@
 import os
 import sys
-from typing import Optional, Set, List, Dict
-from xml.sax.xmlreader import AttributesImpl
+from typing import Dict, List, Optional, Set
 from xml.sax.handler import ContentHandler
+from xml.sax.xmlreader import AttributesImpl
 
-from osm.osm_types import OSMWay, OSMNode
+from osm.osm_types import OSMNode, OSMWay
 from osm.way_parser_helper import WayParserHelper
 
 intern = sys.intern
@@ -52,9 +52,7 @@ class NodeHandler(ContentHandler):
             if osm_id not in self.found_nodes:
                 return
 
-            self.nodes[osm_id] = OSMNode(
-                osm_id, float(attrs["lat"]), float(attrs["lon"])
-            )
+            self.nodes[osm_id] = OSMNode(osm_id, float(attrs["lat"]), float(attrs["lon"]))
 
 
 class WayHandler(ContentHandler):
@@ -115,9 +113,7 @@ class WayHandler(ContentHandler):
 
             self.found_nodes.update(self.current_way.nodes)
 
-            self.current_way.max_speed_int = self.parser_helper.parse_max_speed(
-                self.current_way
-            )
+            self.current_way.max_speed_int = self.parser_helper.parse_max_speed(self.current_way)
             (
                 self.current_way.forward,
                 self.current_way.backward,

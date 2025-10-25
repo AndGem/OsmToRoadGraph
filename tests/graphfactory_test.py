@@ -1,7 +1,7 @@
 import unittest
 
 import graph.graphfactory as gf
-from graph.graph_types import Vertex, Edge, VertexData, EdgeData
+from graph.graph_types import Edge, EdgeData, Vertex, VertexData
 
 
 class GraphfactorTest(unittest.TestCase):

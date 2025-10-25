@@ -1,10 +1,9 @@
 import codecs
+import contextlib
 import json
 
-try:
+with contextlib.suppress(ImportError):
     import networkx as nx
-except ImportError:
-    pass
 
 
 def write_to_file(graph, filename_base, filename_ext):
@@ -19,9 +18,7 @@ def write_to_file(graph, filename_base, filename_ext):
 # edge_properties
 # ..."""
 
-    with open(filename, "w", encoding="utf-8") as f, codecs.open(
-        f"{filename}_names", "w", "utf-8"
-    ) as f_names:
+    with open(filename, "w", encoding="utf-8") as f, codecs.open(f"{filename}_names", "w", "utf-8") as f_names:
         f.write(f"{file_header}\n")
         f.write(f"{header}\n")
 

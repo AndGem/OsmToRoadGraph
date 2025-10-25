@@ -1,10 +1,10 @@
-from dataclasses import dataclass
-from enum import Enum
 import argparse
 import sys
+from dataclasses import dataclass
+from enum import Enum
 
-from PIL import Image, ImageDraw, ImageColor
 import utm
+from PIL import Image, ImageColor, ImageDraw
 
 
 @dataclass

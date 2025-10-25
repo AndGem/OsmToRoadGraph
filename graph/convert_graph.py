@@ -1,7 +1,7 @@
-try:
+import contextlib
+
+with contextlib.suppress(ImportError):
     import networkx as nx
-except ImportError:
-    pass
 
 
 def convert_to_networkx(graph):

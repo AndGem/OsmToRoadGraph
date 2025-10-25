@@ -1,10 +1,9 @@
 from collections import deque
+from typing import Deque, Set
 
 from graph import graphfactory
-from utils import timer
-
 from graph.graph import Graph
-from typing import Deque, Set
+from utils import timer
 
 
 def BFS(graph: Graph, s: int) -> Set[int]:
@@ -13,11 +12,7 @@ def BFS(graph: Graph, s: int) -> Set[int]:
 
     while unvisited_nodes:
         current_node = unvisited_nodes.popleft()
-        unseen_nodes = [
-            neighbor
-            for neighbor in graph.all_neighbors(current_node)
-            if neighbor not in seen_nodes
-        ]
+        unseen_nodes = [neighbor for neighbor in graph.all_neighbors(current_node) if neighbor not in seen_nodes]
         seen_nodes.update(unseen_nodes)
         unvisited_nodes.extend(unseen_nodes)
 
@@ -40,14 +35,12 @@ def computeLCC(graph):
     # determine largest connected components
     lcc = max(found_nodes, key=len)
 
-    print(
-        f"\t LCC contains {len(lcc)} nodes (removed { len(graph.vertices) - len(lcc)} nodes)"
-    )
+    print(f"\t LCC contains {len(lcc)} nodes (removed { len(graph.vertices) - len(lcc)} nodes)")
 
     return lcc
 
 
 def computeLCCGraph(graph: Graph) -> Graph:
     lcc = computeLCC(graph)
-    new_nodes = [graph.vertices[id] for id in lcc]
+    new_nodes = [graph.vertices[vertex_id] for vertex_id in lcc]
     return graphfactory.build_graph_from_vertices_edges(new_nodes, graph.edges)

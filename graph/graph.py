@@ -1,5 +1,6 @@
-from graph.graph_types import Edge, Vertex
 from typing import List
+
+from graph.graph_types import Edge, Vertex
 
 
 class Graph:
@@ -35,6 +36,4 @@ class Graph:
         return f"{self.edges[edge_id].name}"
 
     def all_neighbors(self, node_id: int) -> List[int]:
-        return list(
-            set(self.outneighbors[node_id]).union(set(self.inneighbors[node_id]))
-        )
+        return list(set(self.outneighbors[node_id]).union(set(self.inneighbors[node_id])))

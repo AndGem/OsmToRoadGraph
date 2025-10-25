@@ -1,10 +1,10 @@
-# OsmToRoadGraph v.0.6.0
+# OsmToRoadGraph v.0.7.0
 
 ![Build Status](https://github.com/AndGem/OsmToRoadGraph/workflows/Build%20Status/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/AndGem/OsmToRoadGraph/branch/master/graph/badge.svg)](https://codecov.io/gh/AndGem/OsmToRoadGraph)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-- [OsmToRoadGraph v.0.6.0](#osmtoroadgraph-v060)
+- [OsmToRoadGraph v.0.7.0](#osmtoroadgraph-v060)
   - [Updates](#updates)
   - [Introduction](#introduction)
     - [Motivation](#motivation)
@@ -24,12 +24,12 @@
 
 ## Updates
 
-**Changelog v.0.5.0 -> v.0.6.0c:**
 
-- [x] Added bz2 support for input files
-- [x] dropped Python <=3.6 support
-- [x] fixed minor issues with v.0.6.0a
-- [x] improve code quality from v.0.6.0b
+**Changelog v.0.6.0c -> v.0.7.0:**
+
+- [x] Upgraded to Python 3.13 requirement
+- [x] pyproject.toml added
+- [x] minor code improvements
 
 ## Introduction
 
@@ -53,7 +53,7 @@ As an additional feature, and to make interaction easier, since version 0.5 OsmT
 
 ### Requirements
 
-- Python 3.7+/PyPy
+- Python 3.13+/PyPy
 - An OSM XML file
 - [Optional: [networkx](https://networkx.github.io/) as dependency: `pip3 install networkx`]
 

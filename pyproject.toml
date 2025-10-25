@@ -1,0 +1,23 @@
+[project]
+name = "OsmToRoadGraph"
+version = "0.6.0"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest"]
+[tool.black]
+line-length = 120
+target-version = ['py311']
+
+[tool.ruff.lint]
+select = ["I", "F", "SIM", "E", "A", "ARG", "B", "C4", "SIM", "TC", "RET", "TID", "Q"]
+ignore = ["E501"]
+fixable = ["ALL"]
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "ruff>=0.12.5",
+]

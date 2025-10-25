@@ -2,17 +2,17 @@ import random
 import string
 import unittest
 
-from graph.graph import Graph
-from graph.graph_types import Edge, Vertex, EdgeData, VertexData
 from graph.convert_graph import convert_to_networkx
+from graph.graph import Graph
+from graph.graph_types import Edge, EdgeData, Vertex, VertexData
 
 
 def random_string(length=8):
     return "".join(random.choice(string.ascii_lowercase) for i in range(length))
 
 
-def random_uint(max=1000):
-    return random.randint(1, max)
+def random_uint(max_val=1000):
+    return random.randint(1, max_val)
 
 
 class TestConvertGraphTest(unittest.TestCase):

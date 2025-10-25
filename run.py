@@ -4,9 +4,9 @@ import os
 import sys
 
 import configuration as config
+from graph import algorithms, contract_graph, convert_graph, graphfactory
 from osm import read_osm, sanitize_input
 from output import write_graph as output
-from graph import contract_graph, convert_graph, algorithms, graphfactory
 from utils import timer
 
 

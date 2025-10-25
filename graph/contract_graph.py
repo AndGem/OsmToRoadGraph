@@ -1,12 +1,11 @@
-from collections import deque, defaultdict
+from collections import defaultdict, deque
 from dataclasses import replace
 from typing import DefaultDict, List, Set, Tuple
 
 from graph import graphfactory
-from utils import timer
-
 from graph.graph import Graph
-from graph.graph_types import Vertex, Edge
+from graph.graph_types import Edge, Vertex
+from utils import timer
 
 
 class ContractGraph:
@@ -115,7 +114,7 @@ class ContractGraph:
 
             if len(next_out_edges) > 1:
                 # something is wrong.. this should have been filtered out by the intersection check
-                assert False
+                raise AssertionError()
 
             next_out_edge = next_out_edges[0]
             if self._is_not_same_edge(out_edge, next_out_edge):

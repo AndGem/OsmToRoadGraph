@@ -1,7 +1,7 @@
 import unittest
 
 from graph.graph import Graph
-from graph.graph_types import Edge, Vertex, EdgeData, VertexData
+from graph.graph_types import Edge, EdgeData, Vertex, VertexData
 
 
 class GraphTest(unittest.TestCase):

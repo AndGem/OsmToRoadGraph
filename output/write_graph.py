@@ -1,10 +1,9 @@
 import codecs
+import contextlib
 import json
 
-try:
+with contextlib.suppress(ImportError):
     import networkx as nx
-except ImportError:
-    pass
 
 
 def write_to_file(graph, filename_base, filename_ext):

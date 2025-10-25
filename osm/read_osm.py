@@ -1,12 +1,11 @@
 import bz2
 import xml.sax
+from typing import Dict, List, Set, Tuple
 
 from osm.osm_types import OSMNode, OSMWay
 from osm.way_parser_helper import WayParserHelper
-from osm.xml_handler import NodeHandler, WayHandler, PercentageFile
+from osm.xml_handler import NodeHandler, PercentageFile, WayHandler
 from utils import timer
-
-from typing import Dict, List, Set, Tuple
 
 
 @timer.timer
@@ -31,10 +30,10 @@ def decompress_content(osm_filename):
 
     if content_begin.startswith(magic_bz2):
         print("identified bz2 compressed file.. decompressing")
-        f = bz2.open(osm_filename, "rb")
-        content = f.read()
-        print("done!")
-        return content
+        with bz2.open(osm_filename, "rb") as f:
+            content = f.read()
+            print("done!")
+            return content
 
     print("no compression recognized!")
     return None

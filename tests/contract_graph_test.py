@@ -1,8 +1,8 @@
 import unittest
 
-from graph.graph import Graph
-from graph.graph_types import Edge, Vertex, EdgeData, VertexData
 from graph.contract_graph import ContractGraph
+from graph.graph import Graph
+from graph.graph_types import Edge, EdgeData, Vertex, VertexData
 
 
 class ContractGraphTest(unittest.TestCase):

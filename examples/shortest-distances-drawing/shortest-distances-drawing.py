@@ -1,21 +1,20 @@
 import argparse
-from collections import Counter
-from functools import lru_cache
 import json
 import random
 import sys
+from collections import Counter
+from functools import lru_cache
 
 import networkx as nx
-from PIL import Image, ImageDraw, ImageColor
-from tqdm import tqdm
 import utm
+from PIL import Image, ImageColor, ImageDraw
+from tqdm import tqdm
 
 
 def load_graph(filename):
     with open(filename, "r", encoding="utf-8") as f:
         json_data = json.load(f)
-        G = nx.adjacency_graph(json_data)
-        return G
+        return nx.adjacency_graph(json_data)
 
 
 def find_approximate_central_node(G):

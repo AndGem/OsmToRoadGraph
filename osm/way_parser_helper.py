@@ -46,8 +46,7 @@ class WayParserHelper:
             return self.config.speed_limits[highway]
 
         try:
-            max_speed = int(maximum_speed)
-            return max_speed
+            return int(maximum_speed)
 
         except ValueError:
             max_speed_str = maximum_speed.lower()

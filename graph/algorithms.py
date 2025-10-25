@@ -1,10 +1,9 @@
 from collections import deque
+from typing import Deque, Set
 
 from graph import graphfactory
-from utils import timer
-
 from graph.graph import Graph
-from typing import Deque, Set
+from utils import timer
 
 
 def BFS(graph: Graph, s: int) -> Set[int]:
@@ -43,5 +42,5 @@ def computeLCC(graph):
 
 def computeLCCGraph(graph: Graph) -> Graph:
     lcc = computeLCC(graph)
-    new_nodes = [graph.vertices[id] for id in lcc]
+    new_nodes = [graph.vertices[vertex_id] for vertex_id in lcc]
     return graphfactory.build_graph_from_vertices_edges(new_nodes, graph.edges)

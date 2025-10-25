@@ -1,11 +1,10 @@
 from dataclasses import replace
+from typing import Dict, List, Tuple
 
 from graph.graph import Graph
-from graph.graph_types import Vertex, Edge, VertexData, EdgeData
+from graph.graph_types import Edge, EdgeData, Vertex, VertexData
 from osm.osm_types import OSMNode, OSMWay
 from utils import geo_tools, timer
-
-from typing import Dict, List, Tuple
 
 
 @timer.timer
@@ -14,7 +13,7 @@ def build_graph_from_osm(nodes: Dict[int, OSMNode], ways: List[OSMWay]) -> Graph
 
     # 1. create mapping to 0 based index nodes
     node_ids = nodes.keys()
-    id_mapper = dict(zip(node_ids, range(len(node_ids))))
+    id_mapper = dict(zip(node_ids, range(len(node_ids)), strict=True))
 
     # 2. add nodes and edges
     _add_nodes(g, id_mapper, nodes)
@@ -53,8 +52,8 @@ def build_graph_from_vertices_edges(vertices: List[Vertex], edges: List[Edge]) -
     g = Graph()
 
     # 1. add all nodes and create mapping to 0 based index nodes
-    vertex_ids = set(v.id for v in vertices)
-    id_mapper = dict(zip(vertex_ids, range(len(vertex_ids))))
+    vertex_ids = {v.id for v in vertices}
+    id_mapper = dict(zip(vertex_ids, range(len(vertex_ids)), strict=True))
     for v in vertices:
         g.add_node(Vertex(id_mapper[v.id], v.data))
 

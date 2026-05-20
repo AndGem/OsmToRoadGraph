@@ -1,22 +1,21 @@
-from math import acos, cos, pi, sin
+from math import asin, cos, radians, sin, sqrt
+
+# radius kept identical to the previous implementation so edge lengths
+# stay comparable across versions (~6373 km, see johndcook.com reference)
+EARTH_RADIUS_M = 6373000
 
 
-# from http://www.johndcook.com/blog/python_longitude_latitude/
 def distance(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
-    # Convert latitude and longitude to
-    # spherical coordinates in radians.
-    degrees_to_radians = pi / 180.0
+    """Great-circle distance between two points, in meters.
 
-    # phi = 90 - latitude
-    phi1 = (90.0 - lat1) * degrees_to_radians
-    phi2 = (90.0 - lat2) * degrees_to_radians
+    Uses the haversine formula. Unlike the spherical law of cosines, it
+    stays numerically stable for the very short distances between adjacent
+    OSM nodes, which is the dominant case for this tool.
+    """
+    phi1, phi2 = radians(lat1), radians(lat2)
+    d_phi = radians(lat2 - lat1)
+    d_lambda = radians(lon2 - lon1)
 
-    # theta = longitude
-    theta1 = lon1 * degrees_to_radians
-    theta2 = lon2 * degrees_to_radians
+    a = sin(d_phi / 2.0) ** 2 + cos(phi1) * cos(phi2) * sin(d_lambda / 2.0) ** 2
 
-    cos_val = sin(phi1) * sin(phi2) * cos(theta1 - theta2) + cos(phi1) * cos(phi2)
-    cos_val = min(1, cos_val)
-    arc_val = acos(cos_val)
-
-    return arc_val * 6373000  # distance in meters
+    return 2.0 * EARTH_RADIUS_M * asin(sqrt(a))

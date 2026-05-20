@@ -1,3 +1,4 @@
+import importlib.util
 import random
 import string
 import unittest
@@ -5,6 +6,8 @@ import unittest
 from graph.convert_graph import convert_to_networkx
 from graph.graph import Graph
 from graph.graph_types import Edge, EdgeData, Vertex, VertexData
+
+networkx_available = importlib.util.find_spec("networkx") is not None
 
 
 def random_string(length=8):
@@ -15,6 +18,7 @@ def random_uint(max_val=1000):
     return random.randint(1, max_val)
 
 
+@unittest.skipUnless(networkx_available, "networkx is an optional dependency and is not installed")
 class TestConvertGraphTest(unittest.TestCase):
     def test_converting_K4_graph(self):
         g = self.create_graph(number_nodes=4)

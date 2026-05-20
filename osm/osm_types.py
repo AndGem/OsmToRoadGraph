@@ -9,7 +9,7 @@ class OSMWay:
     highway: str = field(init=False, default="")
     area: Optional[str] = field(init=False, default=None)
     max_speed_str: Optional[str] = field(init=False, default=None)
-    max_speed_int: int = field(init=False)
+    max_speed_int: int = field(init=False, default=0)
     direction: str = field(init=False, default="")
     forward: bool = field(init=False, default=True)
     backward: bool = field(init=False, default=True)

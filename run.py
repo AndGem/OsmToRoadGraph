@@ -86,24 +86,11 @@ if __name__ == "__main__":
         parser.print_help()
         sys.exit()
 
-    try:
-        if not os.path.isfile(filename):
-            raise FileNotFoundError(f"Provided filename {filename} does not point to a file!")
+    if not os.path.isfile(filename):
+        print(f"ERROR: Provided filename {filename} does not point to a file!")
+        sys.exit(1)
 
-        long_network_type = {"p": "pedestrian", "c": "car", "b": "bicycle"}
-        if options.network_type in long_network_type:
-            network_type = long_network_type[options.network_type]
-        elif options.network_type == long_network_type.values():
-            network_type = options.network_type
-        else:
-            print("ERROR: network type improperly set")
-            sys.exit(1)
-    except FileNotFoundError as e:
-        print(f"ERROR: {e}")
-        sys.exit(1)
-    except ValueError as e:
-        print(f"ERROR: {e}")
-        sys.exit(1)
+    network_type = {"p": "pedestrian", "c": "car", "b": "bicycle"}[options.network_type]
 
     try:
         convert_osm_to_roadgraph(filename, network_type, options)

@@ -1,4 +1,3 @@
-import codecs
 import contextlib
 import json
 
@@ -18,7 +17,10 @@ def write_to_file(graph, filename_base, filename_ext):
 # edge_properties
 # ..."""
 
-    with open(filename, "w", encoding="utf-8") as f, codecs.open(f"{filename}_names", "w", "utf-8") as f_names:
+    with (
+        open(filename, "w", encoding="utf-8") as f,
+        open(f"{filename}_names", "w", encoding="utf-8") as f_names,
+    ):
         f.write(f"{file_header}\n")
         f.write(f"{header}\n")
 
@@ -34,9 +36,6 @@ def write_to_file(graph, filename_base, filename_ext):
             f.write(f"{e.description}\n")
             f_names.write(e.data.name)
             f_names.write("\n")
-
-    f.close()
-    f_names.close()
 
 
 def write_nx_to_file(nx_graph, filename):

@@ -99,8 +99,7 @@ class WayHandler(ContentHandler):
                         # more info: https://help.openstreetmap.org/questions/61025/pragmatic-single-level-indoor-paths
                         if attrs["v"] == "corridor":
                             self.current_way.highway = "pedestrian_indoor"
-            except:
-                e = sys.exc_info()[0]
+            except Exception as e:
                 print(f"Error while parsing: {e}")
 
     def endElement(self, name: str) -> None:

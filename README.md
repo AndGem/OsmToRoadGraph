@@ -55,7 +55,7 @@ As an additional feature, and to make interaction easier, since version 0.5 OsmT
 
 - Python 3.13+/PyPy
 - An OSM XML file
-- [Optional: [networkx](https://networkx.github.io/) as dependency: `pip3 install networkx`]
+- Optional: [networkx](https://networkx.github.io/) — only required for the `--networkx` JSON output. Install it via the optional dependency: `pip3 install OsmToRoadGraph[networkx]` (or directly: `pip3 install networkx`).
 
 ### Older Versions
 

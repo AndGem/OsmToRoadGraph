@@ -6,18 +6,20 @@ requires-python = ">=3.13"
 dependencies = []
 
 [project.optional-dependencies]
-dev = ["pytest"]
-[tool.black]
-line-length = 120
-target-version = ['py311']
-
-[tool.ruff.lint]
-select = ["I", "F", "SIM", "E", "A", "ARG", "B", "C4", "SIM", "TC", "RET", "TID", "Q"]
-ignore = ["E501"]
-fixable = ["ALL"]
+networkx = ["networkx"]
 
 [dependency-groups]
 dev = [
-    "black>=25.1.0",
+    "mypy",
+    "pytest",
     "ruff>=0.12.5",
 ]
+
+[tool.ruff]
+line-length = 120
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["I", "F", "SIM", "E", "A", "ARG", "B", "C4", "TC", "RET", "TID", "Q"]
+ignore = ["E501"]
+fixable = ["ALL"]

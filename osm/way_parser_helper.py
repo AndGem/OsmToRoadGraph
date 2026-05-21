@@ -17,10 +17,7 @@ class WayParserHelper:
         if way.area == "yes":
             return False
 
-        if way.highway not in self.config.accepted_highways[self.config.network_type]:
-            return False
-
-        return True
+        return way.highway in self.config.accepted_highways[self.config.network_type]
 
     def parse_direction(self, way):
         if way.direction == self.ONEWAY_STR:

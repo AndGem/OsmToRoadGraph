@@ -98,10 +98,7 @@ def draw_graph_on_map(G, lengths, output_filename, width=1600, height=1200):
 
         # determine color
         distance = line_data[2]
-        if distance < float("inf"):
-            luminosity = round(float(distance) / float(max_distance) * 100.0, 0)
-        else:
-            luminosity = 100.0
+        luminosity = round(float(distance) / float(max_distance) * 100.0, 0) if distance < float("inf") else 100.0
 
         color = get_color(luminosity)
 
@@ -163,10 +160,7 @@ if __name__ == "__main__":
         sys.exit(-1)
 
     G = load_graph(args.in_filename)
-    if args.center:
-        start_node = find_approximate_central_node(G)
-    else:
-        start_node = random.choice(list(G))
+    start_node = find_approximate_central_node(G) if args.center else random.choice(list(G))
 
     metric = None
     if args.metric == "travel-time":

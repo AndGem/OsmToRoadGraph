@@ -14,7 +14,9 @@ class PercentageFile:
     def __init__(self, filename: str) -> None:
         self.size = os.stat(filename)[6]
         self.delivered = 0
-        self.f = open(filename, encoding="utf-8")
+        # the handle is owned for the lifetime of this wrapper and released
+        # in close(); a context manager does not fit this streaming use
+        self.f = open(filename, encoding="utf-8")  # noqa: SIM115
         self.percentages = [1000] + [100 - 10 * x for x in range(0, 11)]
 
     def read(self, size: Optional[int] = None) -> str:
@@ -93,12 +95,11 @@ class WayHandler(ContentHandler):
                     elif attrs["k"] == "junction":
                         if attrs["v"] == "roundabout":
                             self.current_way.direction = "oneway"
-                    elif attrs["k"] == "indoor":
-                        # this is not an ideal solution since it sets the pedestrian flag irrespective of the real value in osm data
-                        # but aims to cover the simple indoor tagging approach: https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging
-                        # more info: https://help.openstreetmap.org/questions/61025/pragmatic-single-level-indoor-paths
-                        if attrs["v"] == "corridor":
-                            self.current_way.highway = "pedestrian_indoor"
+                    # this is not an ideal solution since it sets the pedestrian flag irrespective of the real value in osm data
+                    # but aims to cover the simple indoor tagging approach: https://wiki.openstreetmap.org/wiki/Simple_Indoor_Tagging
+                    # more info: https://help.openstreetmap.org/questions/61025/pragmatic-single-level-indoor-paths
+                    elif attrs["k"] == "indoor" and attrs["v"] == "corridor":
+                        self.current_way.highway = "pedestrian_indoor"
             except Exception as e:
                 print(f"Error while parsing: {e}")
 

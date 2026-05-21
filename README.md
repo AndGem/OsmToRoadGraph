@@ -1,10 +1,10 @@
-# OsmToRoadGraph v.0.7.0
+# OsmToRoadGraph v.0.8.0
 
 ![Build Status](https://github.com/AndGem/OsmToRoadGraph/workflows/Build%20Status/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/AndGem/OsmToRoadGraph/branch/master/graph/badge.svg)](https://codecov.io/gh/AndGem/OsmToRoadGraph)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-- [OsmToRoadGraph v.0.7.0](#osmtoroadgraph-v060)
+- [OsmToRoadGraph v.0.8.0](#osmtoroadgraph-v080)
   - [Updates](#updates)
   - [Introduction](#introduction)
     - [Motivation](#motivation)
@@ -23,6 +23,17 @@
     - [Research](#research)
 
 ## Updates
+
+
+**Changelog v.0.7.0 -> v.0.8.0:**
+
+- [x] switched edge length computation to the haversine formula for numerical stability over short distances
+- [x] fixed a broken network-type selection branch in `run.py`
+- [x] fixed a missing default for `OSMWay.max_speed_int`
+- [x] removed a bare `except` and a redundant file `close()` call
+- [x] `networkx` is now installable as an optional extra: `pip install OsmToRoadGraph[networkx]`
+- [x] test suite now runs cleanly with or without the optional `networkx` dependency
+- [x] tooling cleanup: replaced black with `ruff format`, consolidated dev dependencies, CI now lints with ruff
 
 
 **Changelog v.0.6.0c -> v.0.7.0:**

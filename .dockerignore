@@ -1,0 +1,9 @@
+.git
+*.pyc
+__pycache__
+data
+cover
+*.html
+*.dat
+venv
+!data/karlsruhe_small.osm
